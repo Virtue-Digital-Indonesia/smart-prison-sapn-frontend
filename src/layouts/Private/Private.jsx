@@ -1,3 +1,6 @@
+// COMPONENT
+import AppBar from 'components/AppBar/AppBar'
+
 // MUIS
 import { Stack } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -12,9 +15,8 @@ const Private = ({children}) => {
     <Stack className={`${classes.root} no-zoom`}>
       <CssBaseline/>
 
-      <Stack>
-        LAYOUT
-      </Stack>
+      {/* APP BAR */}
+      <AppBar/>
 
       <Stack component='main'>
         {children}
