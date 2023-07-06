@@ -7,16 +7,16 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 2px 4px #00000014',
     flexDirection: 'row',
   },
-  menuContainer : {
-    '& .MuiMenu-list' : {
+  menuContainer: {
+    '& .MuiMenu-list': {
       paddingTop: 0,
-      paddingBottom: 0
+      paddingBottom: 0,
     },
-    '& 	.MuiMenu-paper' : {
+    '& 	.MuiMenu-paper': {
       boxShadow: 'unset',
-      border: '1px solid #e4eaec'
-    }
-  }
+      border: '1px solid #e4eaec',
+    },
+  },
 }))
 
 export default useStyles
