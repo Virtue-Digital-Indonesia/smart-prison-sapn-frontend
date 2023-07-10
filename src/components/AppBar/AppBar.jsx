@@ -36,7 +36,7 @@ const AppBar = () => {
   const [profileMenuAnchor, setProfileMenuAnchor] = useState(null)
 
   return (
-    <Stack className={`zoom ${classes.root}`}>
+    <Stack className={classes.root}>
       {/* COMPANY LOGO */}
       <Stack
         width='90px'
