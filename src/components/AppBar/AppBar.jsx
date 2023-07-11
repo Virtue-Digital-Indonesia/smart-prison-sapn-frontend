@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 // ASSETS
 import companyLogo from 'assets/logos/sapn-logo.png'
@@ -6,6 +6,9 @@ import personLogo from 'assets/logos/person.jpg'
 
 // COLORS
 import { colors } from 'constants/colors'
+
+// CONTEXTS
+import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 
 // STYLES
 import useStyles from './appBaruseStyles'
@@ -24,6 +27,7 @@ import {
 
 // MUI ICONS
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import MenuIcon from '@mui/icons-material/Menu'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -32,6 +36,9 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 const AppBar = () => {
   const classes = useStyles()
 
+  const { isDrawerExpanded, setIsDrawerExpanded } =
+    useContext(PrivateLayoutContext)
+
   const [notificationmMenuAnchor, setNotificationMenuAnchor] = useState(null)
   const [profileMenuAnchor, setProfileMenuAnchor] = useState(null)
 
@@ -39,12 +46,25 @@ const AppBar = () => {
     <Stack className={classes.root}>
       {/* COMPANY LOGO */}
       <Stack
-        width='90px'
-        alignItems='center'
+        width={isDrawerExpanded ? '315px' : '90px'}
+        alignItems={isDrawerExpanded ? 'flex-start' : 'center'}
         justifyContent='center'
         position='relative'
+        sx={{ transition: 'width 0.5s' }}
       >
-        <Box component='img' src={companyLogo} sx={{ height: '32px' }} />
+        <Stack
+          direction=' row'
+          alignItems='center'
+          paddingLeft='28px'
+          width='100%'
+        >
+          <Box component='img' src={companyLogo} sx={{ height: '32px' }} />
+          {isDrawerExpanded && (
+            <Typography marginLeft='6px' sx={{ fontSize: '18px' }}>
+              Ditjenpas
+            </Typography>
+          )}
+        </Stack>
       </Stack>
 
       {/* APP BAR MENU */}
@@ -56,8 +76,11 @@ const AppBar = () => {
         width='100%'
       >
         {/* EXPAND ICON */}
-        <IconButton disableRipple>
-          <MenuIcon />
+        <IconButton
+          disableRipple
+          onClick={() => setIsDrawerExpanded((prev) => !prev)}
+        >
+          {isDrawerExpanded ? <ArrowBackIcon /> : <MenuIcon />}
         </IconButton>
 
         {/* NOTIFICATION & PROFILE */}

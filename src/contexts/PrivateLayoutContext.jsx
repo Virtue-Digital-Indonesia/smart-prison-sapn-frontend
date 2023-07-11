@@ -4,13 +4,14 @@ const PrivateLayoutContext = createContext()
 
 const PrivateLayoutContextProvider = (props) => {
   // DRAWER
-  const [ isDrawerExpanded, setIsDrawerExpanded ] = useState(true) // BOOLEAN
+  const [isDrawerExpanded, setIsDrawerExpanded] = useState(false) // BOOLEAN
 
   return (
     <PrivateLayoutContext.Provider
       value={{
         // DRAWER
-        isDrawerExpanded, setIsDrawerExpanded,
+        isDrawerExpanded,
+        setIsDrawerExpanded,
       }}
     >
       {props.children}
