@@ -82,7 +82,7 @@ const GlobalStyles = () => {
 
         // ZOOM
         '@media only screen and (max-height: 820px)': {
-          'body': {
+          body: {
             zoom: zoomValue,
           },
           '.zoom': {
