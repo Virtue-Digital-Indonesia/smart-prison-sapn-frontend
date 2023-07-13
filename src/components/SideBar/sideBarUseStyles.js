@@ -1,3 +1,6 @@
+// CONSTANTS
+import { colors } from 'constants/colors'
+
 // MUI STYLES
 import { makeStyles } from '@mui/styles'
 

@@ -10,4 +10,5 @@ export const colors = {
   brown: '#263238', // BROWN (SIDE BAR BG)
   backgroundBrown: '#21292e', // DARK BROWN
   info: '#62a8ea', // BLUE
+  sideBarHover: '#37474f', // LIGT GRAY
 }
