@@ -61,7 +61,7 @@ const Camera = (props) => {
         {/* LEFT SECTION */}
         {cameraList.map((item, index) => (
           <Grid
-            item xs={2} sm={10} md={4}
+            item xs={4} sm={6} md={3.7} lg={4.1} xl={4}
             key={index}
             className={classes.container}
           >

@@ -4,7 +4,18 @@ import { makeStyles } from '@mui/styles'
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '30px 0 0 0',
-    maxHeight: 720,
+    [theme.breakpoints.up('lg')]: {
+      height: '83%',
+    },
+    [theme.breakpoints.down('lg')]: {
+      height: '77%',
+    },
+    [theme.breakpoints.down('md')]: {
+      height: '70%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: '65%',
+    },
     overflow: 'auto',
     flexGrow: 1,
   },
@@ -19,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
   camera: {
     padding: '20px 30px',
-    maxWidth: '520px',
     backgroundColor: 'white',
   },
   cameraTitle: {
@@ -42,9 +52,11 @@ const useStyles = makeStyles((theme) => ({
   perkelahian: {
     backgroundColor: 'white',
     boxShadow: '0 4px 10px -10px',
-    minWidth: 270,
+    minWidth: 250,
     width: '20%',
-    top: 201,
+    height: '70%',
+    maxHeight: 460,
+    top: 177,
     right: 40,
     position: 'absolute'
   },

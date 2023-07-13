@@ -24,9 +24,6 @@ const Home = () => {
 
       {/* CAMERAS */}
       <Camera cameraFilter={cameraFilter}/>
-
-      {/* FOOTER */}
-      {/*<Footer/> */}
     </Box>
   )
 }
