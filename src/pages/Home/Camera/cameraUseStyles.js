@@ -3,10 +3,9 @@ import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: '30px 0px',
-    maxHeight: 690,
+    margin: '30px 0 0 0',
+    maxHeight: 720,
     overflow: 'auto',
-    width: '100%',
     flexGrow: 1,
   },
   container: {
@@ -42,7 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
   perkelahian: {
     backgroundColor: 'white',
-    width: 270,
+    boxShadow: '0 4px 10px -10px',
+    minWidth: 270,
+    width: '20%',
     top: 201,
     right: 40,
     position: 'absolute'

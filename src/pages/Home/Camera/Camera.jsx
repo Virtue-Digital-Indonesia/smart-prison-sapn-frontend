@@ -1,5 +1,9 @@
 import {useState} from 'react'
 
+
+//COMPONENTS
+import Footer from 'components/Footer/Footer'
+
 // MUIS
 import {
   Box, Divider, Grid, Stack,
@@ -52,11 +56,12 @@ const Camera = (props) => {
   const [cameraList, setCameraList] = useState(initialCameraList)
 
   return (
-    <Box sx={{ flexGrow: 1 }} className={classes.root}>
+    <Box className={classes.root}>
       <Grid container>
+        {/* LEFT SECTION */}
         {cameraList.map((item, index) => (
           <Grid
-            item xs={2} sm={10} md={4.5}
+            item xs={2} sm={10} md={4}
             key={index}
             className={classes.container}
           >
@@ -75,6 +80,8 @@ const Camera = (props) => {
           </Grid>
         ))}
       </Grid>
+
+      {/* RIGH SECTION */}
       <Stack className={classes.perkelahian}>
         <Stack className={classes.perkelahianTitle}>
           <Typography className={classes.cameraTitle}>
@@ -85,6 +92,9 @@ const Camera = (props) => {
         <Stack className={classes.perkelahianBottom}>
         </Stack>
       </Stack>
+
+      {/* FOOTER */}
+      <Footer/>
     </Box>
   )
 }

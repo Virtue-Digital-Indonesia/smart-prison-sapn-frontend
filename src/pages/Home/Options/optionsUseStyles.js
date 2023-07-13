@@ -9,8 +9,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '5px 5px 0 0',
     backgroundColor: 'white',
     boxShadow: '0 4px 10px -10px',
-    maxWidth: 1640,
-    width: '100%'
+    maxWidth: 1700,
   },
   optionsList: {
     padding: '10px 30px',

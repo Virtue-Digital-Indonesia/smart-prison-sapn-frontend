@@ -26,7 +26,7 @@ const Home = () => {
       <Camera cameraFilter={cameraFilter}/>
 
       {/* FOOTER */}
-      <Footer/>
+      {/*<Footer/> */}
     </Box>
   )
 }
