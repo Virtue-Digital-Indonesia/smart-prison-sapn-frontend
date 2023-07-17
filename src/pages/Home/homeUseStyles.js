@@ -3,8 +3,9 @@ import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    // height: '100%',
     width: '100%',
-    height: '100vh',
+    backgroundColor: '#f1f4f5',
   },
 }))
 

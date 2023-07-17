@@ -19,10 +19,24 @@ const Private = ({ children }) => {
       {/* APP BAR */}
       <AppBar />
 
-      <Stack direction='row' height='100%' width='100%'>
+      <Stack direction='row' flex={1} width='100%'>
         {/* SIDE BAR */}
         <Sidebar />
-        <Stack component='main' className='zoom'>
+        <Stack
+          component='main'
+          className='zoom'
+          width='100%'
+          sx={{
+            overflowY: 'scroll',
+
+            '@media only screen and (max-height: 820px)': {
+              height: '109vh',
+            },
+            '@media only screen and (min-height: 820px)': {
+              height: '93vh',
+            },
+          }}
+        >
           {children}
         </Stack>
       </Stack>
