@@ -2,42 +2,20 @@
 import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: '30px 0 0 0',
-    [theme.breakpoints.up('lg')]: {
-      height: '83%',
-    },
-    [theme.breakpoints.down('lg')]: {
-      height: '77%',
-    },
-    [theme.breakpoints.down('md')]: {
-      height: '70%',
-    },
-    [theme.breakpoints.down('sm')]: {
-      height: '65%',
-    },
-    overflow: 'auto',
-    flexGrow: 1,
-  },
   container: {
-    margin: '0 0 30px 40px',
     boxShadow: '0 4px 10px -10px',
     backgroundColor: 'white',
 
     '&:hover': {
-      cursor: 'pointer'
-    }
-  },
-  camera: {
-    padding: '20px 30px',
-    backgroundColor: 'white',
+      cursor: 'pointer',
+    },
   },
   cameraTitle: {
     fontSize: '20px',
     fontWeight: 400,
   },
   cameraType: {
-    color: '#76838f'
+    color: '#76838f',
   },
   cameraScreen: {
     backgroundColor: 'white',
@@ -47,18 +25,17 @@ const useStyles = makeStyles((theme) => ({
 
     '&:hover': {
       backgroundColor: 'grey',
-    }
+    },
   },
   perkelahian: {
     backgroundColor: 'white',
     boxShadow: '0 4px 10px -10px',
-    minWidth: 250,
-    width: '20%',
+    width: '250px',
     height: '70%',
     maxHeight: 460,
-    top: 177,
-    right: 40,
-    position: 'absolute'
+    top: 190,
+    right: 45,
+    position: 'absolute',
   },
   perkelahianTitle: {
     padding: '20px 30px',

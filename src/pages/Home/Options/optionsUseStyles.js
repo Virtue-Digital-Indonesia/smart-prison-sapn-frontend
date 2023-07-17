@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '5px 5px 0 0',
     backgroundColor: 'white',
     boxShadow: '0 4px 10px -10px',
-    maxWidth: 1700,
   },
   optionsList: {
     padding: '10px 30px',
@@ -17,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '5px 5px 0 0',
 
     '&:hover': {
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   title: {
     fontSize: '20px',
     fontWeight: 400,
-  }
+  },
 }))
 
 export default useStyles

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 
 //COMPONENTS
 import Camera from './Camera/Camera'
@@ -15,15 +15,14 @@ const Home = () => {
   const classes = useStyles()
 
   const [cameraFilter, setCameraFilter] = useState('Semua')
-  console.log(cameraFilter)
 
   return (
     <Box className={classes.root}>
       {/* OPTIONS */}
-      <Options setCameraFilter={setCameraFilter}/>
+      <Options setCameraFilter={setCameraFilter} />
 
       {/* CAMERAS */}
-      <Camera cameraFilter={cameraFilter}/>
+      <Camera cameraFilter={cameraFilter} />
     </Box>
   )
 }

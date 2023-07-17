@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
   copyright: {
     fontSize: 14,
     fontWeight: 400,
-    paddingTop: 15,
+    padding: '15px 0px',
     color: theme.palette.text.secondary,
     background: 'transparent',
     textAlign: 'center',
