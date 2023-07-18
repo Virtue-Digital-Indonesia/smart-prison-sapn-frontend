@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 // ASSETS
 import IconSholat from 'assets/images/icons/sholat.png'
+import IconPerkelahian from 'assets/images/icons/fighting.png'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
@@ -106,7 +107,7 @@ const CameraDetail = () => {
           {/* ICON */}
           <Box
             component='img'
-            src={IconSholat}
+            src={initialCameraList[0].type === 'Sholat' ? IconSholat : IconPerkelahian}
             alt=''
             className={classes.icon}
           />
