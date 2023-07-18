@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
@@ -12,6 +13,7 @@ import useStyles from './cameraUseStyles'
 
 const Camera = (props) => {
   const classes = useStyles()
+  const navigate = useNavigate()
 
   const { cameraFilter } = props
 
@@ -60,6 +62,12 @@ const Camera = (props) => {
 
   const [cameraList, setCameraList] = useState(initialCameraList)
 
+  const handleCameraNameClick = (inputParams) => {
+    navigate(
+      `/camera/detail/${inputParams}`
+    )
+  }
+
   return (
     <Stack>
       <Stack direction='row' spacing={4} padding='20px 40px'>
@@ -90,7 +98,7 @@ const Camera = (props) => {
                     className={classes.container}
                   >
                     <Stack
-                      onClick={() => alert('ok')}
+                      onClick={() => handleCameraNameClick(item.id)}
                       padding='20px 30px'
                       sx={{
                         ':hover': {
