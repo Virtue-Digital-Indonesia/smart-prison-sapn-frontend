@@ -85,6 +85,7 @@ const CameraDetail = () => {
             <Button
               variant='contained'
               className={classes.button}
+              disableElevation
               onClick={() => handleButtonClick()}
             >
               Kembali
