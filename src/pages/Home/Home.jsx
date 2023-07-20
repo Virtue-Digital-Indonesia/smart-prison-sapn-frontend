@@ -3,7 +3,6 @@ import { useState } from 'react'
 //COMPONENTS
 import Camera from './Camera/Camera'
 import Options from './Options/Options'
-import Footer from 'components/Footer/Footer'
 
 // MUIS
 import Box from '@mui/material/Box'

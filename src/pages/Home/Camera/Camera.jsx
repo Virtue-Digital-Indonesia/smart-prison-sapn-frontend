@@ -46,7 +46,7 @@ const Camera = (props) => {
           <Stack flex={1}>
             <Grid container spacing={3.5}>
               {cameraList.map((item, index) => (
-                <Grid item extraSmall={12} small={6} medium={4}>
+                <Grid key={index} item extraSmall={12} small={6} medium={4}>
                   <Stack
                     width='100%'
                     maxWidth={{
