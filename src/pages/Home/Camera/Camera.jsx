@@ -4,8 +4,11 @@ import { useNavigate } from 'react-router-dom'
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 
+// DATA DUMMY
+import { cameraData } from 'pages/DataDummy'
+
 // MUIS
-import { Box, Divider, Grid, Stack, Typography } from '@mui/material'
+import { Divider, Grid, Stack, Typography } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/system'
 
 // STYLES
@@ -17,50 +20,7 @@ const Camera = (props) => {
 
   const { cameraFilter } = props
 
-  const initialCameraList = [
-    {
-      title: 'SP-NG-KMFD-04',
-      type: 'Sholat',
-      id: 1,
-    },
-    {
-      title: 'SP-NG-KMFD-05',
-      type: 'Sholat',
-      id: 2,
-    },
-    {
-      title: 'SP-NG-KMFD-06',
-      type: 'Sholat',
-      id: 3,
-    },
-    {
-      title: 'SP-NG-KAMMAKS-50',
-      type: 'Sholat',
-      id: 4,
-    },
-    {
-      title: 'SP-NG-KMFD-04',
-      type: 'Perkelahian',
-      id: 5,
-    },
-    {
-      title: 'SP-NG-KMFD-05',
-      type: 'Perkelahian',
-      id: 6,
-    },
-    {
-      title: 'SP-NG-KMFD-06',
-      type: 'Perkelahian',
-      id: 7,
-    },
-    {
-      title: 'SP-NG-KAMMAKS-50',
-      type: 'Perkelahian',
-      id: 8,
-    },
-  ]
-
-  const [cameraList, setCameraList] = useState(initialCameraList)
+  const [cameraList, setCameraList] = useState(cameraData)
 
   const handleCameraNameClick = (inputParams) => {
     navigate(
@@ -86,7 +46,7 @@ const Camera = (props) => {
           <Stack flex={1}>
             <Grid container spacing={3.5}>
               {cameraList.map((item, index) => (
-                <Grid item extraSmall={12} small={6} medium={4}>
+                <Grid key={index} item extraSmall={12} small={6} medium={4}>
                   <Stack
                     width='100%'
                     maxWidth={{
