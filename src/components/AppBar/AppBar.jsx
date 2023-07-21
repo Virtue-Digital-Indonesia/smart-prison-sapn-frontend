@@ -53,7 +53,7 @@ const AppBar = () => {
         sx={{ transition: 'width 0.5s' }}
       >
         <Stack
-          direction=' row'
+          direction='row'
           alignItems='center'
           paddingLeft='28px'
           width='100%'

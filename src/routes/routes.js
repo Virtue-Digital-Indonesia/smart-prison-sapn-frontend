@@ -3,6 +3,7 @@ import SignIn from 'pages/SignIn/SignIn'
 import Home from 'pages/Home/Home'
 import CameraDetail from 'pages/CameraDetail/CameraDetail'
 import ValueSetting from 'pages/ValueSetting/ValueSetting'
+import AllCamera from 'pages/AllCamera/AllCamera'
 
 const routes = [
   // AUTHENTICATION
@@ -26,6 +27,11 @@ const routes = [
   {
     path: '/value-setting',
     element: <ValueSetting />,
+    routeType: 'private',
+  },
+  {
+    path: '/all-camera',
+    element: <AllCamera />,
     routeType: 'private',
   },
 ]
