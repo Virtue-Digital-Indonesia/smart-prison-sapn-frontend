@@ -23,6 +23,7 @@ const Private = ({ children }) => {
         {/* SIDE BAR */}
         <Sidebar />
         <Stack
+          position='relative'
           component='main'
           className='zoom'
           width='100%'

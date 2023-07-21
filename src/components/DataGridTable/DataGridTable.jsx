@@ -64,7 +64,7 @@ const DataGridTable = (props) => {
   }
 
   const getSortIcon = (field) => {
-    const currentSortModel = dataGridApiRef.current.getSortModel()
+    const currentSortModel = dataGridApiRef?.current?.getSortModel()
 
     let selectedIcon = <SortIcon className={classes.columnUnsortedIconAsc} />
     if (currentSortModel[0]) {
@@ -180,49 +180,47 @@ const DataGridTable = (props) => {
   }, [])
 
   return (
-    <Box flex={1}>
-      <CustomDataGridPro
-        // BASE
-        columns={selectedColumnList}
-        rows={rows}
-        headerHeight={38}
-        // PAGINATION
-        page={page}
-        pageSize={pageSize}
-        onPageSizeChange={handleChangeRowsPerPage}
-        onPageChange={(page, details) => setPage(page)}
-        paginationMode='server'
-        rowCount={total}
-        // SORT
-        sortModel={sortModel}
-        onSortModelChange={handleSortModelChange}
-        apiRef={dataGridApiRef}
-        // GROUP BY ROW
-        treeData={selectedGroupBy?.value ? true : false}
-        getTreeDataPath={getTreeDataPath}
-        groupingColDef={groupingColDef}
-        defaultGroupingExpansionDepth={-1}
-        // SELECTION
-        // onCellClick={(params, event, details) =>
-        //   handleCellClick(params, event, details)
-        // }
-        // onColumnHeaderClick={(params, event, details) =>
-        //   handleColumnHeaderClick(params, event, details)
-        // }
-        selectionModel={selectionModel}
-        // SETTINGS
-        initialState={{
-          pinnedColumns: {
-            right: ['actions'],
-          },
-        }}
-        columnGroupingModel={columnGroupingModel}
-        getRowClassName={(params) =>
-          params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-        }
-        {...otherProps}
-      />
-    </Box>
+    <CustomDataGridPro
+      // BASE
+      columns={selectedColumnList}
+      rows={rows}
+      headerHeight={38}
+      // PAGINATION
+      page={page}
+      pageSize={pageSize}
+      onPageSizeChange={handleChangeRowsPerPage}
+      onPageChange={(page, details) => setPage(page)}
+      paginationMode='server'
+      rowCount={total}
+      // SORT
+      sortModel={sortModel}
+      onSortModelChange={handleSortModelChange}
+      apiRef={dataGridApiRef}
+      // GROUP BY ROW
+      treeData={selectedGroupBy?.value ? true : false}
+      getTreeDataPath={getTreeDataPath}
+      groupingColDef={groupingColDef}
+      defaultGroupingExpansionDepth={-1}
+      // SELECTION
+      // onCellClick={(params, event, details) =>
+      //   handleCellClick(params, event, details)
+      // }
+      // onColumnHeaderClick={(params, event, details) =>
+      //   handleColumnHeaderClick(params, event, details)
+      // }
+      selectionModel={selectionModel}
+      // SETTINGS
+      initialState={{
+        pinnedColumns: {
+          right: ['actions'],
+        },
+      }}
+      columnGroupingModel={columnGroupingModel}
+      getRowClassName={(params) =>
+        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+      }
+      {...otherProps}
+    />
   )
 }
 

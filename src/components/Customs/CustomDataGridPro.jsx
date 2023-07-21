@@ -11,7 +11,7 @@ const CustomDataGridPro = styled(
     className,
     checkboxSelection = false,
     pagination = true,
-    headerHeight = 38,
+    headerHeight = 48,
     pageSize = 10,
     componentsProps,
     rowHeight = 52,
@@ -24,7 +24,7 @@ const CustomDataGridPro = styled(
       columnGroupingModel={columnGroupingModel}
       checkboxSelection={checkboxSelection}
       rowHeight={rowHeight}
-      headerHeight={headerHeight}
+      columnHeaderHeight={headerHeight}
       pagination={pagination}
       rowsPerPageOptions={[10, 25, 50, 100]}
       disableColumnMenu
@@ -49,7 +49,7 @@ const CustomDataGridPro = styled(
   )
 )(({ theme }) => ({
   border: 'none',
-  fontSize: 13,
+  fontSize: 16,
   color: 'black',
 
   // STRIPPED ROW
