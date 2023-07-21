@@ -12,14 +12,17 @@ import theme from 'constants/theme'
 import { AllPagesContextProvider } from 'contexts/AllPagesContext'
 
 // MUIS
-import { 
+import {
   createTheme,
-  StyledEngineProvider, 
-  ThemeProvider, 
+  StyledEngineProvider,
+  ThemeProvider,
 } from '@mui/material/styles'
+import { LicenseInfo } from '@mui/x-license-pro'
 
 // STYLES
 import './index.css'
+
+LicenseInfo.setLicenseKey(process.env.REACT_APP_DATA_GRID_PREMIUM_LICENSE)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -27,8 +30,8 @@ root.render(
     <StyledEngineProvider injectFirst>
       <AllPagesContextProvider>
         <BrowserRouter>
-          <GlobalStyles/>
-          <App/>
+          <GlobalStyles />
+          <App />
         </BrowserRouter>
       </AllPagesContextProvider>
     </StyledEngineProvider>

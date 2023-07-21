@@ -39,7 +39,7 @@ const CollapseSideBar = () => {
           }}
         />
       ),
-      path: '/pengaturan-nilai',
+      path: '/value-setting',
     },
     {
       title: 'Kamera',

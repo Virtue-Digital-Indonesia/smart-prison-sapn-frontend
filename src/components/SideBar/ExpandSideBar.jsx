@@ -28,7 +28,7 @@ const ExpandSideBar = () => {
     {
       title: 'Pengaturan Nilai',
       icon: <DriveFileRenameOutlineOutlinedIcon />,
-      path: '/pengaturan-nilai',
+      path: '/value-setting',
     },
     {
       title: 'Kamera',
@@ -72,6 +72,7 @@ const ExpandSideBar = () => {
 
           {/* BERANDA */}
           <Stack
+            onClick={() => navigate('/')}
             direction='row'
             padding='0px 30px'
             height='38px'
