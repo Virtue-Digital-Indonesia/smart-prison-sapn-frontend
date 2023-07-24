@@ -16,6 +16,7 @@ const CustomDataGridPro = styled(
     componentsProps,
     rowHeight = 52,
     columnGroupingModel,
+    page,
     ...props
   }) => (
     <DataGridPro
@@ -26,23 +27,9 @@ const CustomDataGridPro = styled(
       rowHeight={rowHeight}
       columnHeaderHeight={headerHeight}
       pagination={pagination}
-      rowsPerPageOptions={[10, 25, 50, 100]}
+      pageSizeOptions={[10, 25, 50, 100]}
       disableColumnMenu
-      pageSize={pageSize}
-      componentsProps={{
-        ...componentsProps,
-        pagination: {
-          SelectProps: {
-            MenuProps: {
-              sx: {
-                '& .MuiMenuItem-root': {
-                  fontSize: 13,
-                },
-              },
-            },
-          },
-        },
-      }}
+      paginationModel={{ pageSize: pageSize, page: page }}
       {...props}
       className={className}
     />

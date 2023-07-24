@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import CustomDataGridPro from 'components/Customs/CustomDataGridPro'
 
 // MUIS
-import { Box, Typography, IconButton, Stack } from '@mui/material'
+import { Typography, IconButton } from '@mui/material'
 import { useGridApiRef } from '@mui/x-data-grid-pro'
 
 // MUI ICONS
@@ -53,8 +53,8 @@ const DataGridTable = (props) => {
   const [sortModel, setSortModel] = useState([])
 
   const handleChangeRowsPerPage = (newPageSize) => {
-    setPageSize(newPageSize)
-    setPage(0)
+    setPageSize(newPageSize.pageSize)
+    setPage(newPageSize.page)
   }
 
   const handleSortModelChange = (model, details) => {
@@ -188,8 +188,8 @@ const DataGridTable = (props) => {
       // PAGINATION
       page={page}
       pageSize={pageSize}
-      onPageSizeChange={handleChangeRowsPerPage}
-      onPageChange={(page, details) => setPage(page)}
+      onPaginationModelChange={handleChangeRowsPerPage}
+      // onPageChange={(page, details) => console.log(page)}
       paginationMode='server'
       rowCount={total}
       // SORT

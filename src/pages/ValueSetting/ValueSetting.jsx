@@ -1,10 +1,24 @@
 import { useState } from 'react'
+
 // MUIS
-import { Button, Stack, Typography, TextField } from '@mui/material'
+import {
+  Button,
+  Stack,
+  Typography,
+  TextField,
+  Menu,
+  MenuItem,
+} from '@mui/material'
+
+// MUI ICONS
+import SettingsIcon from '@mui/icons-material/Settings'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import EditNoteIcon from '@mui/icons-material/EditNote'
 
 // COMPONENTS
 import DataGridTable from 'components/DataGridTable/DataGridTable'
 import Footer from 'components/Footer/Footer'
+import Header from './Header/Header'
 
 // STYLES
 import useStyles from './valueSettingUseStyles'
@@ -75,7 +89,18 @@ const ValueSetting = () => {
       isFilterShown: true,
       isSortShown: false,
       renderCell: (params) => (
-        <Button onClick={() => alert('Hello World')}>Tes</Button>
+        <Button
+          className='no-zoom'
+          startIcon={<SettingsIcon />}
+          endIcon={<ArrowDropDownIcon />}
+          variant='contained'
+          onClick={(e) => setAnchorEditButton(e.currentTarget)}
+          sx={{
+            backgroundColor: '#f2a654',
+            ':hover': { backgroundColor: '#c99154' },
+          }}
+          disableRipple
+        />
       ),
     },
   ]
@@ -196,18 +221,17 @@ const ValueSetting = () => {
 
   const [order, setOrder] = useState(null)
   const [orderBy, setOrderBy] = useState(null)
-  const [totalRow, setTotalRow] = useState(0)
+  const [totalRow, setTotalRow] = useState(initialTableData.length)
   const [pageNumber, setPageNumber] = useState(0)
-  const [pageSize, setPageSize] = useState(100)
+  const [pageSize, setPageSize] = useState(10)
   const [tableData, setTableData] = useState(initialTableData)
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
+  const [anchorEditButton, setAnchorEditButton] = useState(null)
 
   return (
     <Stack className={classes.root}>
       {/* HEADER */}
-      <Stack height='100px' width='100%'>
-        HEader
-      </Stack>
+      <Header />
 
       {/* TABLE */}
       <Stack className={classes.tableContainer}>
@@ -230,7 +254,11 @@ const ValueSetting = () => {
         </Stack>
 
         {/* DATA GRID */}
-        <Stack height='85%' padding='0px 30px 30px 30px'>
+        <Stack
+          minHeight={'34.7vw'}
+          height={tableData * 52 + 48}
+          padding='0px 30px 30px 30px'
+        >
           <DataGridTable
             // BASE
             initialColumns={initialColumns}
@@ -253,14 +281,33 @@ const ValueSetting = () => {
           />
         </Stack>
 
-        {/* <DataGrid
-          rows={tableData}
-          columns={initialColumns}
-          // checkboxSelection
-          // disableRowSelectionOnClick
-          columnGroupingModel={columnGroupingModel}
-          experimentalFeatures={{ columnGrouping: true }}
-        /> */}
+        <Menu
+          anchorEl={anchorEditButton}
+          open={Boolean(anchorEditButton)}
+          onClose={() => setAnchorEditButton(null)}
+          className='no-zoom'
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          sx={{
+            '@media only screen and (max-height: 820px)': {
+              '& .MuiMenuItem-root': { zoom: 0.85 },
+            },
+            '& .MuiList-root': {
+              paddingTop: 0,
+              paddingBottom: 0,
+            },
+          }}
+        >
+          <MenuItem onClick={() => setAnchorEditButton(null)}>
+            <Button startIcon={<EditNoteIcon />}>Edit</Button>
+          </MenuItem>
+        </Menu>
       </Stack>
 
       {/* FOOTER */}
