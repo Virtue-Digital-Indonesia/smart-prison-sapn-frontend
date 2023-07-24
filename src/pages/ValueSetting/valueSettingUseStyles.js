@@ -6,14 +6,12 @@ import { colors } from 'constants/colors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%',
     width: '100%',
     backgroundColor: '#f1f4f5',
     padding: '30px 30px 0px 30px',
     position: 'relative',
   },
   tableContainer: {
-    height: '80%',
     backgroundColor: 'white',
     borderRadius: 4,
     position: 'relative',
