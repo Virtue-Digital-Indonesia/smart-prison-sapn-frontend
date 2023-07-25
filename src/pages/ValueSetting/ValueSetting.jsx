@@ -281,6 +281,7 @@ const ValueSetting = () => {
           />
         </Stack>
 
+        {/* MENU ITEM */}
         <Menu
           anchorEl={anchorEditButton}
           open={Boolean(anchorEditButton)}
@@ -302,10 +303,36 @@ const ValueSetting = () => {
               paddingTop: 0,
               paddingBottom: 0,
             },
+            '& .MuiButtonBase-root': {
+              paddingRight: 1,
+              paddingLeft: 1,
+            },
           }}
         >
-          <MenuItem onClick={() => setAnchorEditButton(null)}>
-            <Button startIcon={<EditNoteIcon />}>Edit</Button>
+          <MenuItem
+            sx={{
+              backgroundColor: 'white',
+              ':hover': { backgroundColor: 'white' },
+            }}
+            onClick={() => setAnchorEditButton(null)}
+          >
+            <Stack
+              width={84}
+              height={40}
+              sx={{
+                backgroundColor: '#e4eaec',
+                color: '#76838f',
+                ':hover': { backgroundColor: '#f3f7f9' },
+              }}
+              borderRadius='4px'
+              direction='row'
+              alignItems='center'
+              justifyContent='center'
+              spacing={1}
+            >
+              <EditNoteIcon />
+              <Typography>Edit</Typography>
+            </Stack>
           </MenuItem>
         </Menu>
       </Stack>
