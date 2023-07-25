@@ -1,19 +1,18 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // MUIS
 import {
-  Button,
-  Stack,
-  Typography,
-  TextField,
-  Menu,
-  MenuItem,
+  Button, Stack, Menu, MenuItem,
+  TextField, Typography
 } from '@mui/material'
 
 // MUI ICONS
 import SettingsIcon from '@mui/icons-material/Settings'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import EditNoteIcon from '@mui/icons-material/EditNote'
+import ClearIcon from '@mui/icons-material/Clear'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 
 // COMPONENTS
 import DataGridTable from 'components/DataGridTable/DataGridTable'
@@ -21,32 +20,31 @@ import Footer from 'components/Footer/Footer'
 import Header from './Header/Header'
 
 // STYLES
-import useStyles from './valueSettingUseStyles'
+import useStyles from './cameraUseStyles'
 
-const ValueSetting = () => {
+// DATA DUMMY
+import { cameraData } from 'pages/DataDummy'
+
+// ROUTES
+import { cameraRoutes } from './cameraRoutes'
+
+const Camera = () => {
   const classes = useStyles()
+  const navigate = useNavigate()
 
   const initialColumns = [
     {
       field: 'id',
-      headerName: 'ID',
-      minWidth: 15,
+      headerName: 'No',
+      flex: 1,
+      maxWidth: 100,
       hide: false,
       isFilterShown: false,
       isSortShown: true,
     },
     {
-      field: 'sholat',
-      headerName: 'Sholat',
-      flex: 1,
-      minWidth: 110,
-      hide: false,
-      isFilterShown: true,
-      isSortShown: true,
-    },
-    {
-      field: 'takbir',
-      headerName: 'Takbir',
+      field: 'title',
+      headerName: 'Nama Kamera',
       flex: 1,
       minWidth: 270,
       hide: false,
@@ -54,8 +52,8 @@ const ValueSetting = () => {
       isSortShown: true,
     },
     {
-      field: 'sedekap',
-      headerName: 'Sedekap',
+      field: 'ip',
+      headerName: 'IP',
       flex: 1,
       minWidth: 110,
       hide: false,
@@ -63,17 +61,26 @@ const ValueSetting = () => {
       isSortShown: true,
     },
     {
-      field: 'duduk',
-      headerName: 'Duduk',
+      field: 'port',
+      headerName: 'Port',
       flex: 1,
-      minWidth: 200,
+      minWidth: 60,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
     },
     {
-      field: 'nilai',
-      headerName: 'Nilai',
+      field: 'type',
+      headerName: 'Perkelahian/Sholat',
+      flex: 1,
+      minWidth: 100,
+      hide: false,
+      isFilterShown: true,
+      isSortShown: true,
+    },
+    {
+      field: 'creation_date',
+      headerName: 'Dibuat Pada',
       flex: 1,
       minWidth: 200,
       hide: false,
@@ -84,167 +91,42 @@ const ValueSetting = () => {
       field: 'opsi',
       headerName: 'Opsi',
       flex: 1,
-      minWidth: 200,
+      minWidth: 100,
       hide: false,
       isFilterShown: true,
       isSortShown: false,
       renderCell: (params) => (
         <Button
-          className='no-zoom'
+          className={`no-zoom ${classes.settingButton}`}
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
           onClick={(e) => setAnchorEditButton(e.currentTarget)}
-          sx={{
-            backgroundColor: '#f2a654',
-            borderColor: '#f2a654',
-            color: '#ffffff',
-            padding: '9px 8px 9px 22px',
-
-            ':hover': {
-              backgroundColor: '#f2a65490',
-              borderColor: '#f2a65490',
-            },
-          }}
-          disableRipple
-        />
+        >
+        </Button>
       ),
     },
   ]
-
-  const initialTableData = [
-    {
-      id: 1,
-      sholat: 'Subuh',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 2,
-      sholat: 'Dzuhur',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 3,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 4,
-      sholat: 'Subuh',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 5,
-      sholat: 'Dzuhur',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 6,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 7,
-      sholat: 'Subuh',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 8,
-      sholat: 'Dzuhur',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 9,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 10,
-      sholat: 'Dzuhur',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 11,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 12,
-      sholat: 'Dzuhur',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 13,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-  ]
-
-  const columnGroupingModel = [
-    {
-      groupId: 'Gerakan',
-      children: [{ field: 'takbir' }, { field: 'sedekap' }, { field: 'duduk' }],
-    },
-  ]
-
+  
   const [order, setOrder] = useState(null)
   const [orderBy, setOrderBy] = useState(null)
-  const [totalRow, setTotalRow] = useState(initialTableData.length)
+  const [totalRow, setTotalRow] = useState(0)
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
-  const [tableData, setTableData] = useState(initialTableData)
+  const [tableData, setTableData] = useState(cameraData)
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
   const [anchorEditButton, setAnchorEditButton] = useState(null)
 
   return (
     <Stack className={classes.root}>
       {/* HEADER */}
-      <Header />
+      <Header breadcrumbList={[cameraRoutes[0], cameraRoutes[1]]} />
 
       {/* TABLE */}
       <Stack className={classes.tableContainer}>
         {/* TITLE */}
         <Stack className={classes.titleTableContainer}>
           <Typography fontSize={18} sx={{ color: 'white' }}>
-            Daftar Data Nilai Sholat
+            Daftar Data Kamera
           </Typography>
         </Stack>
 
@@ -253,7 +135,7 @@ const ValueSetting = () => {
           direction='row'
           width='100%'
           justifyContent='flex-end'
-          marginTop='20px'
+          margin='20px 0 10px'
           paddingRight='30px'
         >
           <TextField variant='outlined' placeholder='Search..' size='small' />
@@ -263,7 +145,7 @@ const ValueSetting = () => {
         <Stack
           minHeight={'34.7vw'}
           height={tableData * 52 + 48}
-          padding='0px 30px 30px 30px'
+          padding='0px 30px 30px'
         >
           <DataGridTable
             // BASE
@@ -282,8 +164,6 @@ const ValueSetting = () => {
             setOrder={setOrder}
             orderBy={orderBy}
             setOrderBy={setOrderBy}
-            // COLUMN GROUPING MODEL
-            columnGroupingModel={columnGroupingModel}
           />
         </Stack>
 
@@ -302,16 +182,25 @@ const ValueSetting = () => {
           }}
           sx={{
             '@media only screen and (max-height: 820px)': {
-              '& .MuiMenuItem-root': { zoom: 0.85 },
+              '& .MuiMenuItem-root': {
+                zoom: 0.85, padding: '2.5px 5px',
+                '&:first-child' : {paddingBottom: 0, paddingTop: '7px'},
+                '&:last-child' : {paddingTop: 0, paddingBottom: '7px'},
+              },
             },
             '& .MuiList-root': {
-              paddingTop: 0,
-              paddingBottom: 0,
+              padding: 0
             },
           }}
         >
           <MenuItem onClick={() => setAnchorEditButton(null)}>
-            <Button startIcon={<EditNoteIcon />}>Edit</Button>
+            <Button className={classes.menuButton} startIcon={<EditNoteIcon />}>Edit</Button>
+          </MenuItem>
+          <MenuItem onClick={() => setAnchorEditButton(null)}>
+            <Button className={classes.menuButton} startIcon={<ClearIcon />}>Hapus</Button>
+          </MenuItem>
+          <MenuItem onClick={() => setAnchorEditButton(null)}>
+            <Button className={classes.menuButton} startIcon={<PlayArrowIcon />}>Restart Service</Button>
           </MenuItem>
         </Menu>
       </Stack>
@@ -322,4 +211,4 @@ const ValueSetting = () => {
   )
 }
 
-export default ValueSetting
+export default Camera

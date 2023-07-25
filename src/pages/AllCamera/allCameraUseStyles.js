@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f1f4f5',
   },
   pageTitle: {
-    fontSize: '40px',
+    fontSize: '35px',
     fontWeight: 500,
     padding: '20px 40px 0',
   },
