@@ -17,7 +17,7 @@ const Header = () => {
       width='100%'
       justifyContent='space-between'
       alignItems='center'
-      padding='0px 30px 30px 30px'
+      padding='0px 40px 24px'
     >
       <Stack>
         {/* TITLE */}
@@ -42,11 +42,19 @@ const Header = () => {
       </Stack>
 
       <Button
-        variant='contained'
+        variant='outlined'
+        size='large'
         sx={{
+          color: '#ffffff',
           backgroundColor: colors.info,
+          borderColor: colors.info,
           textTransform: 'none',
           borderRadius: '100px',
+
+          '&:hover': {
+            backgroundColor: '#7eb7ed',
+            borderColor: '#7eb7ed',
+          }
         }}
         startIcon={<AddIcon />}
       >

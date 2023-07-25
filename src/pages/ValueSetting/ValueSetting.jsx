@@ -93,11 +93,17 @@ const ValueSetting = () => {
           className='no-zoom'
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
-          variant='contained'
           onClick={(e) => setAnchorEditButton(e.currentTarget)}
           sx={{
             backgroundColor: '#f2a654',
-            ':hover': { backgroundColor: '#c99154' },
+            borderColor: '#f2a654',
+            color: '#ffffff',
+            padding: '9px 8px 9px 22px',
+
+            ':hover': {
+              backgroundColor: '#f2a65490',
+              borderColor: '#f2a65490',
+            },
           }}
           disableRipple
         />

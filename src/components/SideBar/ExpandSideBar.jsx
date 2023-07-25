@@ -33,10 +33,10 @@ const ExpandSideBar = () => {
     {
       title: 'Kamera',
       icon: <VideoCameraFrontIcon />,
-      path: '/kamera',
+      path: '/camera',
     },
     {
-      title: 'All Camera',
+      title: 'Semua Kamera',
       icon: <CircleOutlinedIcon />,
       path: '/all-camera',
     },

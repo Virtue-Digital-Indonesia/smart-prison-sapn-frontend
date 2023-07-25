@@ -51,10 +51,10 @@ const CollapseSideBar = () => {
           }}
         />
       ),
-      path: '/kamera',
+      path: '/camera',
     },
     {
-      title: 'All Camera',
+      title: 'Semua Kamera',
       icon: (
         <CircleOutlinedIcon
           className='sideBarIcon'
