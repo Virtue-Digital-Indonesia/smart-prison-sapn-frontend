@@ -11,11 +11,12 @@ const CustomDataGridPro = styled(
     className,
     checkboxSelection = false,
     pagination = true,
-    headerHeight = 38,
+    headerHeight = 48,
     pageSize = 10,
     componentsProps,
     rowHeight = 52,
     columnGroupingModel,
+    page,
     ...props
   }) => (
     <DataGridPro
@@ -24,32 +25,18 @@ const CustomDataGridPro = styled(
       columnGroupingModel={columnGroupingModel}
       checkboxSelection={checkboxSelection}
       rowHeight={rowHeight}
-      headerHeight={headerHeight}
+      columnHeaderHeight={headerHeight}
       pagination={pagination}
-      rowsPerPageOptions={[10, 25, 50, 100]}
+      pageSizeOptions={[10, 25, 50, 100]}
       disableColumnMenu
-      pageSize={pageSize}
-      componentsProps={{
-        ...componentsProps,
-        pagination: {
-          SelectProps: {
-            MenuProps: {
-              sx: {
-                '& .MuiMenuItem-root': {
-                  fontSize: 13,
-                },
-              },
-            },
-          },
-        },
-      }}
+      paginationModel={{ pageSize: pageSize, page: page }}
       {...props}
       className={className}
     />
   )
 )(({ theme }) => ({
   border: 'none',
-  fontSize: 13,
+  fontSize: 16,
   color: 'black',
 
   // STRIPPED ROW

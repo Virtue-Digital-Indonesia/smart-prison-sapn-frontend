@@ -1,17 +1,36 @@
 import { useState } from 'react'
+
 // MUIS
-import { Button, Stack } from '@mui/material'
+import {
+  Button,
+  Stack,
+  Typography,
+  TextField,
+  Menu,
+  MenuItem,
+} from '@mui/material'
+
+// MUI ICONS
+import SettingsIcon from '@mui/icons-material/Settings'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import EditNoteIcon from '@mui/icons-material/EditNote'
 
 // COMPONENTS
 import DataGridTable from 'components/DataGridTable/DataGridTable'
+import Footer from 'components/Footer/Footer'
+import Header from './Header/Header'
+
+// STYLES
+import useStyles from './valueSettingUseStyles'
 
 const ValueSetting = () => {
+  const classes = useStyles()
+
   const initialColumns = [
     {
       field: 'id',
       headerName: 'ID',
-      flex: 1,
-      minWidth: 110,
+      minWidth: 15,
       hide: false,
       isFilterShown: false,
       isSortShown: true,
@@ -70,7 +89,18 @@ const ValueSetting = () => {
       isFilterShown: true,
       isSortShown: false,
       renderCell: (params) => (
-        <Button onClick={() => alert('Hello World')}>Tes</Button>
+        <Button
+          className='no-zoom'
+          startIcon={<SettingsIcon />}
+          endIcon={<ArrowDropDownIcon />}
+          variant='contained'
+          onClick={(e) => setAnchorEditButton(e.currentTarget)}
+          sx={{
+            backgroundColor: '#f2a654',
+            ':hover': { backgroundColor: '#c99154' },
+          }}
+          disableRipple
+        />
       ),
     },
   ]
@@ -100,6 +130,86 @@ const ValueSetting = () => {
       duduk: 10,
       nilai: 10,
     },
+    {
+      id: 4,
+      sholat: 'Subuh',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 5,
+      sholat: 'Dzuhur',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 6,
+      sholat: 'Ashar',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 7,
+      sholat: 'Subuh',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 8,
+      sholat: 'Dzuhur',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 9,
+      sholat: 'Ashar',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 10,
+      sholat: 'Dzuhur',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 11,
+      sholat: 'Ashar',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 12,
+      sholat: 'Dzuhur',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
+    {
+      id: 13,
+      sholat: 'Ashar',
+      takbir: 10,
+      sedekap: 10,
+      duduk: 10,
+      nilai: 10,
+    },
   ]
 
   const columnGroupingModel = [
@@ -111,35 +221,124 @@ const ValueSetting = () => {
 
   const [order, setOrder] = useState(null)
   const [orderBy, setOrderBy] = useState(null)
-  const [totalRow, setTotalRow] = useState(0)
+  const [totalRow, setTotalRow] = useState(initialTableData.length)
   const [pageNumber, setPageNumber] = useState(0)
-  const [pageSize, setPageSize] = useState(100)
+  const [pageSize, setPageSize] = useState(10)
   const [tableData, setTableData] = useState(initialTableData)
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
+  const [anchorEditButton, setAnchorEditButton] = useState(null)
 
   return (
-    <Stack width='100%' height='100%' padding='100px'>
+    <Stack className={classes.root}>
+      {/* HEADER */}
+      <Header />
+
       {/* TABLE */}
-      <DataGridTable
-        // BASE
-        initialColumns={initialColumns}
-        selectedColumnList={selectedColumnList}
-        setSelectedColumnList={setSelectedColumnList}
-        rows={tableData}
-        // PAGINATION
-        total={totalRow}
-        page={pageNumber}
-        setPage={setPageNumber}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        // ORDER
-        order={order}
-        setOrder={setOrder}
-        orderBy={orderBy}
-        setOrderBy={setOrderBy}
-        // COLUMN GROUPING MODEL
-        columnGroupingModel={columnGroupingModel}
-      />
+      <Stack className={classes.tableContainer}>
+        {/* TITLE */}
+        <Stack className={classes.titleTableContainer}>
+          <Typography fontSize={18} sx={{ color: 'white' }}>
+            Daftar Data Nilai Sholat
+          </Typography>
+        </Stack>
+
+        {/* SEARCH BAR */}
+        <Stack
+          direction='row'
+          width='100%'
+          justifyContent='flex-end'
+          marginTop='20px'
+          paddingRight='30px'
+        >
+          <TextField variant='outlined' placeholder='Search..' size='small' />
+        </Stack>
+
+        {/* DATA GRID */}
+        <Stack
+          minHeight={'34.7vw'}
+          height={tableData * 52 + 48}
+          padding='0px 30px 30px 30px'
+        >
+          <DataGridTable
+            // BASE
+            initialColumns={initialColumns}
+            selectedColumnList={selectedColumnList}
+            setSelectedColumnList={setSelectedColumnList}
+            rows={tableData}
+            // PAGINATION
+            total={totalRow}
+            page={pageNumber}
+            setPage={setPageNumber}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            // ORDER
+            order={order}
+            setOrder={setOrder}
+            orderBy={orderBy}
+            setOrderBy={setOrderBy}
+            // COLUMN GROUPING MODEL
+            columnGroupingModel={columnGroupingModel}
+          />
+        </Stack>
+
+        {/* MENU ITEM */}
+        <Menu
+          anchorEl={anchorEditButton}
+          open={Boolean(anchorEditButton)}
+          onClose={() => setAnchorEditButton(null)}
+          className='no-zoom'
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          sx={{
+            '@media only screen and (max-height: 820px)': {
+              '& .MuiMenuItem-root': { zoom: 0.85 },
+            },
+            '& .MuiList-root': {
+              paddingTop: 0,
+              paddingBottom: 0,
+            },
+            '& .MuiButtonBase-root': {
+              paddingRight: 1,
+              paddingLeft: 1,
+            },
+          }}
+        >
+          <MenuItem
+            sx={{
+              backgroundColor: 'white',
+              ':hover': { backgroundColor: 'white' },
+            }}
+            onClick={() => setAnchorEditButton(null)}
+          >
+            <Stack
+              width={84}
+              height={40}
+              sx={{
+                backgroundColor: '#e4eaec',
+                color: '#76838f',
+                ':hover': { backgroundColor: '#f3f7f9' },
+              }}
+              borderRadius='4px'
+              direction='row'
+              alignItems='center'
+              justifyContent='center'
+              spacing={1}
+            >
+              <EditNoteIcon />
+              <Typography>Edit</Typography>
+            </Stack>
+          </MenuItem>
+        </Menu>
+      </Stack>
+
+      {/* FOOTER */}
+      <Footer />
     </Stack>
   )
 }
