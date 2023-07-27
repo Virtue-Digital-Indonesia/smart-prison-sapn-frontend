@@ -64,6 +64,18 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     marginBottom: 16,
   },
+  portForm: {
+    /* Chrome, Safari, Edge, Opera */
+    '& input::-webkit-outer-spin-button, input::-webkit-inner-spin-button': {
+      '-webkit-appearance': 'none',
+      margin: 0,
+    },
+
+    /* Firefox */
+    '& input[type=number]': {
+      '-moz-appearance': 'textfield',
+    },
+  },
   saveButton: {
     color: '#ffffff',
     backgroundColor: '#62a8ea',

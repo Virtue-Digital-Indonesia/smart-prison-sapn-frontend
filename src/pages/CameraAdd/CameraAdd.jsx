@@ -90,6 +90,7 @@ const CameraAdd = () => {
 
   const handleResetButtonClick = () => {
     setFormObject(initialFormObject)
+    setType(null)
   }
 
   return (
@@ -163,10 +164,11 @@ const CameraAdd = () => {
             >
               <OutlinedInput
                 label=''
-                type='text'
+                type='number'
                 name='port'
                 value={formObject.port}
                 placeholder='Port'
+                className={classes.portForm}
                 onChange={handleFormObjectChange}
               />
             </FormControl>
@@ -212,7 +214,8 @@ const CameraAdd = () => {
             >
               <OutlinedInput
                 label=''
-                type='text'
+                type='number'
+                inputProps={{max: 1, step: 0.01}}
                 name='treshold'
                 value={formObject.treshold}
                 placeholder='Treshold Perkelahian'
