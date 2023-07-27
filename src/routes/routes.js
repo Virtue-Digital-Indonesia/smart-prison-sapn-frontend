@@ -5,7 +5,6 @@ import CameraDetail from 'pages/CameraDetail/CameraDetail'
 import ValueSetting from 'pages/ValueSetting/ValueSetting'
 import Camera from 'pages/Camera/Camera'
 import CameraAdd  from 'pages/CameraAdd/CameraAdd'
-import CameraEdit  from 'pages/CameraEdit/CameraEdit'
 import AllCamera from 'pages/AllCamera/AllCamera'
 
 const routes = [
@@ -38,13 +37,13 @@ const routes = [
     routeType: 'private',
   },
   {
-    path: '/camera/add',
+    path: '/camera/add-camera',
     element: <CameraAdd />,
     routeType: 'private',
   },
   {
     path: '/camera/edit/:id',
-    element: <CameraEdit />,
+    element: <CameraAdd />,
     routeType: 'private',
   },
   {

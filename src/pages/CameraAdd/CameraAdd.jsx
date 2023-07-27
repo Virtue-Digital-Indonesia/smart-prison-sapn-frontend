@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 // ASSETS
 import IconSholat from 'assets/images/icons/sholat.png'
@@ -11,8 +11,7 @@ import Header from './Header/Header'
 
 // MUIS
 import {
-  Autocomplete, Box, Button, FormControl,
-  InputLabel,  ListItem, ListItemText,
+  Autocomplete, Button, FormControl, ListItem, ListItemText,
   OutlinedInput, Stack, TextField, Typography } from '@mui/material/'
 
 // STYLES
@@ -27,7 +26,7 @@ import { cameraRoutes } from 'pages/Camera/cameraRoutes'
 const CameraAdd = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-
+  const location = useLocation()
 
   const initialFormObject = {
     // BASIC DETAILS
@@ -93,10 +92,21 @@ const CameraAdd = () => {
     setType(null)
   }
 
+  let breadcrumbList, pageTitle
+
+  if(location.pathname.includes('add-camera')){
+    breadcrumbList = [cameraRoutes[0], cameraRoutes[1], cameraRoutes[3]]
+    pageTitle = 'Tambah Data Kamera Baru'
+  }
+  else{ 
+    breadcrumbList = [cameraRoutes[0], cameraRoutes[1], cameraRoutes[2]]
+    pageTitle = 'Edit Kamera'
+  }
+
   return (
     <Stack className={classes.root}>
       {/* HEADER */}
-      <Header breadcrumbList={[cameraRoutes[0], cameraRoutes[1], cameraRoutes[3]]} />
+      <Header breadcrumbList={breadcrumbList} />
 
       {/* EDIT CAMERA */}
       <Stack className={classes.container}>
@@ -105,7 +115,7 @@ const CameraAdd = () => {
             width='100%'
             alignItems='flex-start'
           >
-            <Typography className={classes.title}>Tambah Data Kamera Baru</Typography>
+            <Typography className={classes.title}>{pageTitle}</Typography>
             <Typography className={classes.subtitle}>** Isi kolom di bawah dengan benar</Typography>
           </Stack>
         </Stack>

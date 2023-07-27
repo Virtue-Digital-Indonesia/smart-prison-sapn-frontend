@@ -19,7 +19,7 @@ const Header = (props) => {
 
   const handleAddButtonClick = () => {
     navigate(
-      '/camera/add'
+      '/camera/add-camera'
     )
   }
 
