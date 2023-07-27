@@ -67,13 +67,21 @@ const CameraAdd = () => {
     else{
       newValue = newVal
     }
-    
+
     setFormObject((current) => ({
       ...current,
       type: newValue,
     }))
 
+    if(newValue !== 'Perkelahian'){
+      setFormObject((current) => ({
+        ...current,
+        treshold: '',
+      }))
+    }
+
     setType(newValue)
+    console.log(formObject)
   }
 
   const handleSaveButtonClick = () => {
