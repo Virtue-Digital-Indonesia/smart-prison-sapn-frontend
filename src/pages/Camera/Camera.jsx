@@ -116,6 +116,13 @@ const Camera = () => {
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
   const [anchorEditButton, setAnchorEditButton] = useState(null)
 
+  const handleEditButtonClick = () => {
+    navigate(
+      '/camera/edit/1'
+      //`/camera/edit/${inputParams.id}`
+    )
+  }
+
   return (
     <Stack className={classes.root}>
       {/* HEADER */}
@@ -184,7 +191,7 @@ const Camera = () => {
             '@media only screen and (max-height: 820px)': {
               '& .MuiMenuItem-root': {
                 zoom: 0.85, padding: '2.5px 5px',
-                '&:first-child' : {paddingBottom: 0, paddingTop: '7px'},
+                '&:first-of-type' : {paddingBottom: 0, paddingTop: '7px'},
                 '&:last-child' : {paddingTop: 0, paddingBottom: '7px'},
               },
             },
@@ -193,13 +200,31 @@ const Camera = () => {
             },
           }}
         >
-          <MenuItem onClick={() => setAnchorEditButton(null)}>
+          <MenuItem
+            sx={{
+              backgroundColor: 'white',
+              ':hover': { backgroundColor: 'white' },
+            }}
+            onClick={() => handleEditButtonClick()}
+          >
             <Button className={classes.menuButton} startIcon={<EditNoteIcon />}>Edit</Button>
           </MenuItem>
-          <MenuItem onClick={() => setAnchorEditButton(null)}>
+          <MenuItem
+            sx={{
+              backgroundColor: 'white',
+              ':hover': { backgroundColor: 'white' },
+            }}
+            onClick={() => setAnchorEditButton(null)}
+          >
             <Button className={classes.menuButton} startIcon={<ClearIcon />}>Hapus</Button>
           </MenuItem>
-          <MenuItem onClick={() => setAnchorEditButton(null)}>
+          <MenuItem
+            sx={{
+              backgroundColor: 'white',
+              ':hover': { backgroundColor: 'white' },
+            }}
+            onClick={() => setAnchorEditButton(null)}
+          >
             <Button className={classes.menuButton} startIcon={<PlayArrowIcon />}>Restart Service</Button>
           </MenuItem>
         </Menu>

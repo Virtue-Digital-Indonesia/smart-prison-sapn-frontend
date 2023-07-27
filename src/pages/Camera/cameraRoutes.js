@@ -12,8 +12,7 @@ export const cameraRoutes = [
     text: 'Edit Kamera',
   },
   {
-    path: 'view-address',
-    text: 'View Address',
-  },
-]
+    path: 'add-camera',
+    text: 'Tambah Kamera',
+  },]
   
