@@ -1,6 +1,7 @@
 // COMPONENT
 import AppBar from 'components/AppBar/AppBar'
 import Sidebar from 'components/SideBar/Sidebar'
+import ThemeReplacementWidget from 'components/ThemeReplacementWidget/ThemeReplacementWidget'
 
 // MUIS
 import { Stack } from '@mui/material'
@@ -39,6 +40,9 @@ const Private = ({ children }) => {
           }}
         >
           {children}
+
+          {/* THEME REPLACEMENT WIDGET */}
+          <ThemeReplacementWidget />
         </Stack>
       </Stack>
     </Stack>
