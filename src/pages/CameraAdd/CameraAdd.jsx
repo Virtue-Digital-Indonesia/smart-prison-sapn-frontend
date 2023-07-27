@@ -165,6 +165,7 @@ const CameraAdd = () => {
               <OutlinedInput
                 label=''
                 type='number'
+                inputProps={{min: 0}}
                 name='port'
                 value={formObject.port}
                 placeholder='Port'
@@ -215,7 +216,7 @@ const CameraAdd = () => {
               <OutlinedInput
                 label=''
                 type='number'
-                inputProps={{max: 1, step: 0.01}}
+                inputProps={{min: 0, max: 1, step: 0.01}}
                 name='treshold'
                 value={formObject.treshold}
                 placeholder='Treshold Perkelahian'
