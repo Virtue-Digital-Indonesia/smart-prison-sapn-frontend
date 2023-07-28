@@ -2,10 +2,11 @@ import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 // MUIS
-import { Box, Breadcrumbs, Button, Stack, Typography } from '@mui/material'
+import { Breadcrumbs, Button, Stack, Typography } from '@mui/material'
 
 // MUI ICONS
 import ArrowBackIcon from '@mui/icons-material/ChevronLeft'
+
 // STYLES
 import useStyles from './headerUseStyles'
 
@@ -53,7 +54,7 @@ const Header = (props) => {
         </Breadcrumbs>
       </Stack>
 
-      {/* ADD CAMERA BUTTON */}
+      {/* BACK BUTTON */}
       <Button
         variant='outlined'
         startIcon={<ArrowBackIcon />}
