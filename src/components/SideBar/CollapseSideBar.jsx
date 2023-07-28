@@ -1,7 +1,11 @@
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // CONSTANTS
 import { colors } from 'constants/colors'
+
+// CONTEXTS
+import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 
 // MUIS
 import { Stack, IconButton } from '@mui/material'
@@ -15,6 +19,7 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined'
 
 const CollapseSideBar = () => {
   const navigate = useNavigate()
+  const { appTheme } = useContext(PrivateLayoutContext)
 
   const sideBarItems = [
     {
@@ -132,7 +137,8 @@ const CollapseSideBar = () => {
         alignItems='center'
         justifyContent={'center'}
         sx={{
-          backgroundColor: colors.backgroundBrown,
+          backgroundColor:
+            appTheme.sideBar === 'dark' ? colors.backgroundBrown : '#e4eaec',
           color: colors.textSecondary,
         }}
       >

@@ -1,5 +1,8 @@
 import { useState } from 'react'
 
+// COMPONENTS
+import SideBarSkins from './SideBarSkins'
+
 // CONSTANTS
 import { colors } from 'constants/colors'
 
@@ -21,6 +24,7 @@ const ThemeReplacementWidget = () => {
         right: 0,
         transform: isWidgetExpanded ? 'translateX(0px)' : 'translateX(260px)',
         transition: 'transform 0.5s',
+        alignItems: 'flex-end',
       }}
     >
       {/* HEADER */}
@@ -33,6 +37,7 @@ const ThemeReplacementWidget = () => {
           borderBottomLeftRadius: '4px',
         }}
         direction='row'
+        border='1px solid #00000014'
       >
         {/* ICON */}
         <Stack
@@ -66,6 +71,9 @@ const ThemeReplacementWidget = () => {
           </Tabs>
         </Stack>
       </Stack>
+
+      {/* CONTENT */}
+      <SideBarSkins />
     </Stack>
   )
 }

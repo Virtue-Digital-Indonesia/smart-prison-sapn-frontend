@@ -14,14 +14,17 @@ import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 import { Stack } from '@mui/material'
 
 const Sidebar = () => {
-  const { isDrawerExpanded } = useContext(PrivateLayoutContext)
+  const { isDrawerExpanded, appTheme } = useContext(PrivateLayoutContext)
 
   return (
     <Stack
       width={isDrawerExpanded ? '260px' : '90px'}
       overflow='visible'
       height='100%'
-      sx={{ backgroundColor: colors.brown, transition: 'width 0.5s' }}
+      sx={{
+        backgroundColor: appTheme.sideBar === 'dark' ? colors.brown : 'white',
+        transition: 'width 0.5s',
+      }}
     >
       {isDrawerExpanded ? <ExpandSideBar /> : <CollapseSideBar />}
     </Stack>
