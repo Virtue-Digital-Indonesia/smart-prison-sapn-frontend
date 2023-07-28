@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // MUIS
 import {
@@ -25,6 +26,7 @@ import useStyles from './valueSettingUseStyles'
 
 const ValueSetting = () => {
   const classes = useStyles()
+  const navigate = useNavigate()
 
   const initialColumns = [
     {
@@ -335,6 +337,10 @@ const ValueSetting = () => {
               alignItems='center'
               justifyContent='center'
               spacing={1}
+              onClick={() => navigate(
+                '/value-setting/edit/1'
+                //`/value-setting/edit/${inputParams.id}`
+              )}
             >
               <EditNoteIcon />
               <Typography>Edit</Typography>

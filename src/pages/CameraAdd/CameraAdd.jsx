@@ -1,10 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-// ASSETS
-import IconSholat from 'assets/images/icons/sholat.png'
-import IconPerkelahian from 'assets/images/icons/fighting.png'
-
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 import Header from './Header/Header'

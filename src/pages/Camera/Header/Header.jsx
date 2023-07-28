@@ -2,7 +2,7 @@ import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 // MUIS
-import { Box, Breadcrumbs, Button, Stack, Typography } from '@mui/material'
+import { Breadcrumbs, Button, Stack, Typography } from '@mui/material'
 
 // MUI ICONS
 import AddIcon from '@mui/icons-material/Add'

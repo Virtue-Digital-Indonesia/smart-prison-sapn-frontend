@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
   },
   breadcrumbsActive: {
+    fontSize: 16,
     color: colors.textPrimary,
     cursor: 'default',
   },
