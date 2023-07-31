@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 // COMPONENTS
 import SideBarSkins from './SideBarSkins'
+import NavbarSkins from './NavbarSkins'
 
 // CONSTANTS
 import { colors } from 'constants/colors'
@@ -15,6 +16,12 @@ import SettingsIcon from '@mui/icons-material/Settings'
 const ThemeReplacementWidget = () => {
   const [tabValue, setTabValue] = useState(0)
   const [isWidgetExpanded, setIsWidgetExpanded] = useState(false)
+
+  const getTabContent = () => {
+    if (tabValue === 0) return <SideBarSkins />
+    else if (tabValue === 1) return <NavbarSkins />
+  }
+
   return (
     <Stack
       sx={{
@@ -73,7 +80,7 @@ const ThemeReplacementWidget = () => {
       </Stack>
 
       {/* CONTENT */}
-      <SideBarSkins />
+      {getTabContent()}
     </Stack>
   )
 }

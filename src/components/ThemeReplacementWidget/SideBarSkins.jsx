@@ -46,6 +46,8 @@ const SideBarSkins = () => {
       >
         <FormControlLabel
           value='dark'
+          label='dark'
+          sx={{ color: colors.textPrimary }}
           control={
             <Radio
               size='small'
@@ -57,10 +59,11 @@ const SideBarSkins = () => {
               }}
             />
           }
-          label='dark'
         />
         <FormControlLabel
           value='light'
+          label='light'
+          sx={{ color: colors.textPrimary }}
           control={
             <Radio
               size='small'
@@ -72,7 +75,6 @@ const SideBarSkins = () => {
               }}
             />
           }
-          label='light'
         />
       </RadioGroup>
 

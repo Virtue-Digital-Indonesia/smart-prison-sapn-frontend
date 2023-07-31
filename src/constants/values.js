@@ -6,5 +6,5 @@ export const values = {
 export const intialAppTheme = {
   sideBar: 'dark',
   navBarInverse: false,
-  navbarColor: 'white',
+  navbarColor: '#fff',
 }
