@@ -5,6 +5,7 @@ import { colors } from 'constants/colors'
 
 // CONTEXTS
 import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
+import { intialAppTheme } from 'constants/values'
 
 // MUIS
 import {
@@ -81,6 +82,10 @@ const SideBarSkins = () => {
           textTransform: 'none',
           marginTop: '20px',
           ':hover': { backgroundColor: colors.info, color: 'white' },
+        }}
+        onClick={() => {
+          setAppTheme(intialAppTheme)
+          setSapnThemeToLocalStorage(intialAppTheme)
         }}
       >
         Reset

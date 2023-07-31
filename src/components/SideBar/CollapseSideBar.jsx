@@ -95,10 +95,11 @@ const CollapseSideBar = () => {
                 display: 'flex',
               },
               ':hover .sideBarIconContainer': {
-                backgroundColor: colors.sideBarHover,
+                backgroundColor:
+                  appTheme.sideBar === 'dark' ? colors.sideBarHover : '#e4eaec',
               },
               ':hover .sideBarIcon': {
-                color: 'white',
+                color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
               },
             }}
           >
@@ -119,8 +120,9 @@ const CollapseSideBar = () => {
               className='sideBarTooltip'
               sx={{
                 display: 'none',
-                backgroundColor: colors.sideBarHover,
-                color: 'white',
+                backgroundColor:
+                  appTheme.sideBar === 'dark' ? colors.sideBarHover : '#e4eaec',
+                color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
               }}
             >
               {item.title}

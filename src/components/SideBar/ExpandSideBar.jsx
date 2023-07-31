@@ -22,7 +22,7 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 const ExpandSideBar = () => {
   const textColor = colors.textPrimary
   const navigate = useNavigate()
-  const { isDrawerExpanded } = useContext(PrivateLayoutContext)
+  const { isDrawerExpanded, appTheme } = useContext(PrivateLayoutContext)
 
   const menuItems = [
     {
@@ -81,7 +81,8 @@ const ExpandSideBar = () => {
               color: textColor,
               cursor: 'pointer',
               ':hover': {
-                backgroundColor: '#2a363c',
+                backgroundColor:
+                  appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
               },
             }}
             spacing={2}
@@ -114,7 +115,8 @@ const ExpandSideBar = () => {
                 color: textColor,
                 cursor: 'pointer',
                 ':hover': {
-                  backgroundColor: '#2a363c',
+                  backgroundColor:
+                    appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
                 },
               }}
               spacing={2}
@@ -146,8 +148,12 @@ const ExpandSideBar = () => {
                 width='70px'
                 height='25px'
                 sx={{
-                  backgroundColor: 'black',
-                  color: colors.white,
+                  backgroundColor:
+                    appTheme.sideBar === 'dark' ? 'black' : '#d5dee1',
+                  color:
+                    appTheme.sideBar === 'dark'
+                      ? colors.white
+                      : colors.textPrimary,
                 }}
                 justifyContent='center'
                 alignItems='center'
@@ -166,9 +172,15 @@ const ExpandSideBar = () => {
                 color={colors.textPrimary}
                 position='relative'
                 sx={{
-                  ':hover': { backgroundColor: '#1e2427' },
+                  ':hover': {
+                    backgroundColor:
+                      appTheme.sideBar === 'dark' ? '#1e2427' : '#d5dee1',
+                  },
                   cursor: 'pointer',
-                  backgroundColor: colors.backgroundBrown,
+                  backgroundColor:
+                    appTheme.sideBar === 'dark'
+                      ? colors.backgroundBrown
+                      : '#e4eaec',
                 }}
               >
                 {item.icon}
