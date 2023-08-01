@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Breadcrumbs, Button, Stack, Typography } from '@mui/material'
 
 // MUI ICONS
-import AddIcon from '@mui/icons-material/Add'
+import ArrowBackIcon from '@mui/icons-material/ChevronLeft'
 
 // STYLES
 import useStyles from './headerUseStyles'
@@ -17,10 +17,8 @@ const Header = (props) => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const handleAddButtonClick = () => {
-    navigate(
-      '/camera/add-camera'
-    )
+  const handleBackButtonClick = () => {
+    navigate('/camera')
   }
 
   return (
@@ -56,15 +54,15 @@ const Header = (props) => {
         </Breadcrumbs>
       </Stack>
 
-      {/* ADD CAMERA BUTTON */}
+      {/* BACK BUTTON */}
       <Button
         variant='outlined'
-        startIcon={<AddIcon />}
+        startIcon={<ArrowBackIcon />}
         size='large'
         className={classes.buttonOutlined}
-        onClick={() => handleAddButtonClick()}
+        onClick={() => handleBackButtonClick()}
       >
-        Tambah Data
+        Kembali
       </Button>
     </Stack>
   )

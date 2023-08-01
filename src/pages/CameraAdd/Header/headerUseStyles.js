@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonOutlined: {
     color: '#ffffff',
-    backgroundColor: '#62a8ea',
-    borderColor: '#62a8ea',
+    backgroundColor: '#f96868',
+    borderColor: '#f96868',
     borderRadius: 100,
     textTransform: 'none',
 
     '&:hover': {
-      backgroundColor: '#7eb7ed',
-      borderColor: '#7eb7ed',
+      backgroundColor: '#f9686890',
+      borderColor: '#f9686890',
     }
   },
 }))

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 // CONSTANT
 import { colors } from 'constants/colors'
@@ -7,10 +7,22 @@ import { colors } from 'constants/colors'
 import { Stack, Typography, Breadcrumbs, Button } from '@mui/material'
 
 // MUI ICONS
-import AddIcon from '@mui/icons-material/Add'
+import ArrowBackIcon from '@mui/icons-material/ChevronLeft'
+
 
 const Header = () => {
+  const location = useLocation()
   const navigate = useNavigate()
+
+  let breadcrumbLast
+
+  if(location.pathname.includes('add-value')){
+    breadcrumbLast = 'Tambah Data'
+  }
+  else{ 
+    breadcrumbLast = 'Edit Data'
+  }
+
   return (
     <Stack
       direction='row'
@@ -37,29 +49,41 @@ const Header = () => {
           >
             Beranda
           </Typography>
-          <Typography>Pengaturan Nilai Sholat</Typography>
+          <Typography
+            onClick={() => navigate('/value-setting')}
+            fontSize={14}
+            sx={{
+              color: colors.info,
+              cursor: 'pointer',
+              ':hover': { textDecoration: 'underline' },
+            }}
+          >
+            Pengaturan Nilai Sholat
+          </Typography>
+          <Typography>{ breadcrumbLast }</Typography>
         </Breadcrumbs>
       </Stack>
 
+      {/* BACK BUTTON */}
       <Button
         variant='outlined'
+        startIcon={<ArrowBackIcon />}
         size='large'
         sx={{
           color: '#ffffff',
-          backgroundColor: colors.info,
-          borderColor: colors.info,
+          backgroundColor: '#f96868',
+          borderColor: '#f96868',
+          borderRadius: 100,
           textTransform: 'none',
-          borderRadius: '100px',
 
           '&:hover': {
-            backgroundColor: '#7eb7ed',
-            borderColor: '#7eb7ed',
+            backgroundColor: '#f9686890',
+            borderColor: '#f9686890',
           }
         }}
-        startIcon={<AddIcon />}
-        onClick={() => navigate('/value-setting/add-value')}
+        onClick={() => navigate('/value-setting')}
       >
-        Tambah Data
+        Kembali
       </Button>
     </Stack>
   )

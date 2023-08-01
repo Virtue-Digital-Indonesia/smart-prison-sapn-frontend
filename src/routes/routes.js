@@ -3,7 +3,9 @@ import SignIn from 'pages/SignIn/SignIn'
 import Home from 'pages/Home/Home'
 import CameraDetail from 'pages/CameraDetail/CameraDetail'
 import ValueSetting from 'pages/ValueSetting/ValueSetting'
+import ValueSettingAction from 'pages/ValueSettingAction/ValueSettingAction'
 import Camera from 'pages/Camera/Camera'
+import CameraAdd  from 'pages/CameraAdd/CameraAdd'
 import AllCamera from 'pages/AllCamera/AllCamera'
 
 const routes = [
@@ -31,8 +33,28 @@ const routes = [
     routeType: 'private',
   },
   {
+    path: '/value-setting/add-value',
+    element: <ValueSettingAction />,
+    routeType: 'private',
+  },
+  {
+    path: '/value-setting/edit/:id',
+    element: <ValueSettingAction />,
+    routeType: 'private',
+  },
+  {
     path: '/camera',
     element: <Camera />,
+    routeType: 'private',
+  },
+  {
+    path: '/camera/add-camera',
+    element: <CameraAdd />,
+    routeType: 'private',
+  },
+  {
+    path: '/camera/edit/:id',
+    element: <CameraAdd />,
     routeType: 'private',
   },
   {
