@@ -1,7 +1,11 @@
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // CONSTANTS
 import { colors } from 'constants/colors'
+
+// CONTEXTS
+import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 
 // MUIS
 import { Stack, IconButton } from '@mui/material'
@@ -15,6 +19,7 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined'
 
 const CollapseSideBar = () => {
   const navigate = useNavigate()
+  const { appTheme } = useContext(PrivateLayoutContext)
 
   const sideBarItems = [
     {
@@ -90,10 +95,11 @@ const CollapseSideBar = () => {
                 display: 'flex',
               },
               ':hover .sideBarIconContainer': {
-                backgroundColor: colors.sideBarHover,
+                backgroundColor:
+                  appTheme.sideBar === 'dark' ? colors.sideBarHover : '#e4eaec',
               },
               ':hover .sideBarIcon': {
-                color: 'white',
+                color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
               },
             }}
           >
@@ -114,8 +120,9 @@ const CollapseSideBar = () => {
               className='sideBarTooltip'
               sx={{
                 display: 'none',
-                backgroundColor: colors.sideBarHover,
-                color: 'white',
+                backgroundColor:
+                  appTheme.sideBar === 'dark' ? colors.sideBarHover : '#e4eaec',
+                color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
               }}
             >
               {item.title}
@@ -132,7 +139,8 @@ const CollapseSideBar = () => {
         alignItems='center'
         justifyContent={'center'}
         sx={{
-          backgroundColor: colors.backgroundBrown,
+          backgroundColor:
+            appTheme.sideBar === 'dark' ? colors.backgroundBrown : '#e4eaec',
           color: colors.textSecondary,
         }}
       >
