@@ -3,6 +3,7 @@ import { useState } from 'react'
 // COMPONENTS
 import SideBarSkins from './SideBarSkins'
 import NavbarSkins from './NavbarSkins'
+import PrimarySkins from './PrimarySkins'
 
 // CONSTANTS
 import { colors } from 'constants/colors'
@@ -20,6 +21,7 @@ const ThemeReplacementWidget = () => {
   const getTabContent = () => {
     if (tabValue === 0) return <SideBarSkins />
     else if (tabValue === 1) return <NavbarSkins />
+    else if (tabValue === 2) return <PrimarySkins />
   }
 
   return (

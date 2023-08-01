@@ -7,4 +7,5 @@ export const intialAppTheme = {
   sideBar: 'dark',
   navBarInverse: false,
   navbarColor: '#fff',
+  primarySkin: '#fff',
 }

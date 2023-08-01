@@ -36,21 +36,31 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 const AppBar = () => {
   const classes = useStyles()
 
-  const { isDrawerExpanded, setIsDrawerExpanded } =
+  const { isDrawerExpanded, setIsDrawerExpanded, appTheme } =
     useContext(PrivateLayoutContext)
 
   const [notificationmMenuAnchor, setNotificationMenuAnchor] = useState(null)
   const [profileMenuAnchor, setProfileMenuAnchor] = useState(null)
 
   return (
-    <Stack className={classes.root}>
+    <Stack
+      className={classes.root}
+      sx={{
+        backgroundColor: appTheme.navBarInverse
+          ? appTheme?.navbarColor
+          : 'unset',
+      }}
+    >
       {/* COMPANY LOGO */}
       <Stack
-        width={isDrawerExpanded ? '315px' : '90px'}
+        width={isDrawerExpanded ? '315px' : '98px'}
         alignItems={isDrawerExpanded ? 'flex-start' : 'center'}
         justifyContent='center'
         position='relative'
-        sx={{ transition: 'width 0.5s' }}
+        sx={{
+          transition: 'width 0.5s',
+          backgroundColor: appTheme?.navbarColor,
+        }}
       >
         <Stack
           direction='row'
@@ -80,7 +90,15 @@ const AppBar = () => {
           disableRipple
           onClick={() => setIsDrawerExpanded((prev) => !prev)}
         >
-          {isDrawerExpanded ? <ArrowBackIcon /> : <MenuIcon />}
+          {isDrawerExpanded ? (
+            <ArrowBackIcon
+              sx={{ color: appTheme.navBarInverse ? 'white' : 'unset' }}
+            />
+          ) : (
+            <MenuIcon
+              sx={{ color: appTheme.navBarInverse ? 'white' : 'unset' }}
+            />
+          )}
         </IconButton>
 
         {/* NOTIFICATION & PROFILE */}
@@ -91,7 +109,11 @@ const AppBar = () => {
             size='small'
           >
             <Badge badgeContent={5} color='error'>
-              <NotificationsIcon sx={{ color: colors.textPrimary }} />
+              <NotificationsIcon
+                sx={{
+                  color: appTheme.navBarInverse ? 'white' : colors.textPrimary,
+                }}
+              />
             </Badge>
           </IconButton>
 
@@ -130,11 +152,17 @@ const AppBar = () => {
 
           {/* ADMINISTRATOR TEXT */}
           <Stack direction='row' alignItems='flex-end'>
-            <AccountCircleIcon sx={{ color: colors.textPrimary }} />
+            <AccountCircleIcon
+              sx={{
+                color: appTheme.navBarInverse ? 'white' : colors.textPrimary,
+              }}
+            />
             <Typography
               marginLeft='6px'
               variant='body2'
-              sx={{ color: colors.textPrimary }}
+              sx={{
+                color: appTheme.navBarInverse ? 'white' : colors.textPrimary,
+              }}
             >
               Administrator - admin
             </Typography>
