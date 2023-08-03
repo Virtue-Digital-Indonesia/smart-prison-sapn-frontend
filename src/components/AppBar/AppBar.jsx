@@ -9,6 +9,7 @@ import { colors } from 'constants/colors'
 
 // CONTEXTS
 import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // STYLES
 import useStyles from './appBaruseStyles'
@@ -33,14 +34,23 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import SettingsIcon from '@mui/icons-material/Settings'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 
+// UTILS
+import { removeUserProfileFromLocalStorage } from 'utilities/localStorage'
+
 const AppBar = () => {
   const classes = useStyles()
 
   const { isDrawerExpanded, setIsDrawerExpanded, appTheme } =
     useContext(PrivateLayoutContext)
+  const { setAuth } = useContext(AllPagesContext)
 
   const [notificationmMenuAnchor, setNotificationMenuAnchor] = useState(null)
   const [profileMenuAnchor, setProfileMenuAnchor] = useState(null)
+
+  const handleLogOutButton = () => {
+    setAuth({})
+    removeUserProfileFromLocalStorage({})
+  }
 
   return (
     <Stack
@@ -53,7 +63,7 @@ const AppBar = () => {
     >
       {/* COMPANY LOGO */}
       <Stack
-        width={isDrawerExpanded ? '315px' : '98px'}
+        width={isDrawerExpanded ? '315px' : '90px'}
         alignItems={isDrawerExpanded ? 'flex-start' : 'center'}
         justifyContent='center'
         position='relative'
@@ -83,7 +93,7 @@ const AppBar = () => {
         justifyContent='space-between'
         alignItems='center'
         padding='0px 15px'
-        width='100%'
+        flex={1}
       >
         {/* EXPAND ICON */}
         <IconButton
@@ -203,6 +213,7 @@ const AppBar = () => {
                 <Button
                   sx={{ color: colors.textPrimary, textTransform: 'unset' }}
                   startIcon={<PowerSettingsNewIcon />}
+                  onClick={handleLogOutButton}
                 >
                   Keluar
                 </Button>
