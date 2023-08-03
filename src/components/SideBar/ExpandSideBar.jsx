@@ -6,6 +6,7 @@ import { colors } from 'constants/colors'
 
 // CONTEXTS
 import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import { Stack, Typography, Fade } from '@mui/material'
@@ -19,10 +20,14 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 
+// UTILS
+import { removeUserProfileFromLocalStorage } from 'utilities/localStorage'
+
 const ExpandSideBar = () => {
   const textColor = colors.textPrimary
   const navigate = useNavigate()
   const { isDrawerExpanded, appTheme } = useContext(PrivateLayoutContext)
+  const { setAuth } = useContext(AllPagesContext)
 
   const menuItems = [
     {
@@ -56,6 +61,13 @@ const ExpandSideBar = () => {
       icon: <PowerSettingsNewIcon />,
     },
   ]
+
+  const handleSettingButtonClick = (inputItem) => {
+    if (inputItem.title === 'Logout') {
+      setAuth({})
+      removeUserProfileFromLocalStorage({})
+    }
+  }
 
   return (
     <Stack width='100%' justifyContent='space-between' height='100%'>
@@ -164,6 +176,7 @@ const ExpandSideBar = () => {
                 <Typography variant='caption'>{item.title}</Typography>
               </Stack>
               <Stack
+                onClick={() => handleSettingButtonClick(item)}
                 key={index}
                 width={'86px'}
                 height='76px'

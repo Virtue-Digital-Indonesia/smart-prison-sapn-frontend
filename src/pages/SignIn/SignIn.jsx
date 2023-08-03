@@ -26,6 +26,9 @@ import Typography from '@mui/material/Typography'
 // STYLES
 import useStyles from './signInUseStyles'
 
+// UTILS
+import { setUserProfileToLocalStorage } from 'utilities/localStorage'
+
 const SignIn = () => {
   const classes = useStyles()
   const navigate = useNavigate()
@@ -34,12 +37,12 @@ const SignIn = () => {
   const { setAuth } = useContext(AllPagesContext)
 
   const initialFormObject = {
-    email: '',
+    userName: '',
     password: '',
   }
 
   const initialFormHelperObject = {
-    email: null,
+    userName: null,
     password: null,
   }
 
@@ -47,14 +50,16 @@ const SignIn = () => {
     severity: null,
     message: null,
   }
-  
-  const [isRendered, setIsRendered] = useState(false)
+
   const [isLoading, setIsLoading] = useState(false)
   const [formObject, setFormObject] = useState(initialFormObject)
-  const [formHelperObject, setFormHelperObject] = useState(initialFormHelperObject)
+  const [formHelperObject, setFormHelperObject] = useState(
+    initialFormHelperObject
+  )
   const [showPassword, setShowPassword] = useState(false)
   const [alertObject, setAlertObject] = useState(initialAlertObject)
-  
+  const [isSignInBtnDisabled, setIsSignInBtnDisabled] = useState(false)
+
   let alertStyle
   if (alertObject.severity === 'error') alertStyle = classes.alertError
   else if (alertObject.severity === 'success') alertStyle = classes.alertSuccess
@@ -67,13 +72,16 @@ const SignIn = () => {
   }
 
   useEffect(() => {
-    if (!isRendered) {
-      setIsRendered(true)
-    }
-  }, [])
+    if (formObject.userName !== '' && formObject.password !== '')
+      setIsSignInBtnDisabled(false)
+    else setIsSignInBtnDisabled(true)
+  }, [formObject])
 
   const handleLogin = async () => {
-
+    const dummyToken = { dummyToken: 'Hello World' }
+    setAuth(dummyToken)
+    setUserProfileToLocalStorage(dummyToken)
+    navigate('/')
   }
 
   return (
@@ -81,73 +89,51 @@ const SignIn = () => {
       {/* LEFT SECTION */}
       <Box className={classes.leftSection}>
         {/* LOGO */}
-        <Box
-          component='img'
-          src={LogoLapas}
-          alt=''
-          className={classes.logo}
-        />
+        <Box component='img' src={LogoLapas} alt='' className={classes.logo} />
         {/* TITLE */}
-        <Typography
-          variant='h3'
-          className={classes.title}
-        >
+        <Typography variant='h3' className={classes.title}>
           Sistem Analisa Perilaku Narapidana (SAPN)
         </Typography>
       </Box>
 
       <Box className={classes.rightSection}>
         {/* SIGN IN */}
-        <Typography
-          variant='h4'
-          className={classes.signInCaption}
-        >
+        <Typography variant='h4' className={classes.signInCaption}>
           Sign In
         </Typography>
 
         {/* CAPTION */}
-        <Typography
-          variant='subtitle2'
-          className={classes.caption}
-        >
+        <Typography variant='subtitle2' className={classes.caption}>
           Please enter your username and password
         </Typography>
 
         {/* ERROR MESSAGE */}
-        {alertObject.message &&
-        <Alert
-          severity={alertObject.severity}
-          className={alertStyle}
-        >
-          {alertObject.message}
-        </Alert>}
+        {alertObject.message && (
+          <Alert severity={alertObject.severity} className={alertStyle}>
+            {alertObject.message}
+          </Alert>
+        )}
 
         {/* USERNAME INPUT */}
         <FormControl
           required
           variant='outlined'
-          error={Boolean(formHelperObject.username)}
+          error={Boolean(formHelperObject.userName)}
           className={classes.textInput}
         >
           <InputLabel>Username</InputLabel>
           <OutlinedInput
             label='Username'
-            name='username'
-            value={formObject.username}
+            name='userName'
+            value={formObject.userName}
             onChange={handleFormObjectChange}
           />
 
-          <FormHelperText>
-            {formHelperObject.username}
-          </FormHelperText>
+          <FormHelperText>{formHelperObject.userName}</FormHelperText>
         </FormControl>
 
         {/* PASSWORD INPUT */}
-        <FormControl
-          required
-          variant='outlined'
-          className={classes.textInput}
-        >
+        <FormControl required variant='outlined' className={classes.textInput}>
           <InputLabel>Password</InputLabel>
           <OutlinedInput
             label='Password'
@@ -158,17 +144,14 @@ const SignIn = () => {
             endAdornment={
               <InputAdornment position='end'>
                 <IconButton
-                  onClick={() => setShowPassword(current => !current)}
+                  onClick={() => setShowPassword((current) => !current)}
                   edge='end'
                 >
-                  {showPassword ?
-                    <IconVisibilityOff /> :
-                    <IconVisibility />}
+                  {showPassword ? <IconVisibilityOff /> : <IconVisibility />}
                 </IconButton>
               </InputAdornment>
             }
           />
-
         </FormControl>
 
         {/* SIGN IN BUTTON */}
@@ -176,6 +159,7 @@ const SignIn = () => {
           variant='contained'
           className={classes.buttonSignIn}
           onClick={handleLogin}
+          disabled={isSignInBtnDisabled}
         >
           Sign In
         </Button>
