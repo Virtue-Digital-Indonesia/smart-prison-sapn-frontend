@@ -43,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     height: '450px',
   },
+  mediaPlayerContainer: {
+    zIndex: 9,
+    cursor: 'zoom-out',
+    color: 'white',
+  },
 }))
 
 export default useStyles

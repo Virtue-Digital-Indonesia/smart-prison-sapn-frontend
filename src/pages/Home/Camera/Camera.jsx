@@ -8,8 +8,18 @@ import Footer from 'components/Footer/Footer'
 import { cameraData } from 'pages/DataDummy'
 
 // MUIS
-import { Divider, Grid, Stack, Typography } from '@mui/material'
+import {
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+  Backdrop,
+  IconButton,
+} from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/system'
+
+// MUI ICONS
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 
 // STYLES
 import useStyles from './cameraUseStyles'
@@ -21,11 +31,10 @@ const Camera = (props) => {
   const { cameraFilter } = props
 
   const [cameraList, setCameraList] = useState(cameraData)
+  const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)
 
   const handleCameraNameClick = (inputParams) => {
-    navigate(
-      `/camera/detail/${inputParams}`
-    )
+    navigate(`/camera/detail/${inputParams}`)
   }
 
   return (
@@ -74,7 +83,12 @@ const Camera = (props) => {
                       </Typography>
                     </Stack>
                     <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
-                    <Stack className={classes.cameraScreen}>Camera</Stack>
+                    <Stack
+                      onClick={() => setIsMediaPlayerActive(true)}
+                      className={classes.cameraScreen}
+                    >
+                      Camera
+                    </Stack>
                   </Stack>
                 </Grid>
               ))}
@@ -96,6 +110,44 @@ const Camera = (props) => {
       </Stack>
       {/* FOOTER */}
       <Footer />
+
+      {/* MEDIA PLAYER */}
+      <Backdrop
+        className={classes.mediaPlayerContainer}
+        open={isMediaPlayerActive}
+        onClick={(e) => {
+          e.stopPropagation()
+          setIsMediaPlayerActive(false)
+        }}
+      >
+        <Stack direction='row' width='100%'>
+          {/* PREVIOUS BUTTON */}
+          <IconButton
+            size='large'
+            sx={{ marginLeft: '16px' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <PlayArrowIcon
+              fontSize='large'
+              sx={{ color: 'white', rotate: '180deg' }}
+            />
+          </IconButton>
+
+          {/* CONTENT */}
+          <Stack flex={1} justifyContent='center' alignItems='center'>
+            The image could not be loaded.
+          </Stack>
+
+          {/* NEXT BUTTON */}
+          <IconButton
+            size='large'
+            sx={{ marginRight: '16px' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <PlayArrowIcon fontSize='large' sx={{ color: 'white' }} />
+          </IconButton>
+        </Stack>
+      </Backdrop>
     </Stack>
   )
 }
