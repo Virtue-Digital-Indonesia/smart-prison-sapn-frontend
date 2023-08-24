@@ -8,7 +8,7 @@ import { colors } from 'constants/colors'
 import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 
 // MUIS
-import { Stack, IconButton } from '@mui/material'
+import { Stack, IconButton, Typography } from '@mui/material'
 
 // MUI ICONS
 import HomeIcon from '@mui/icons-material/Home'
@@ -16,6 +16,9 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront'
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined'
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined'
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest'
+import AccountTreeIcon from '@mui/icons-material/AccountTree'
+import PersonIcon from '@mui/icons-material/Person'
 
 const CollapseSideBar = () => {
   const navigate = useNavigate()
@@ -70,6 +73,19 @@ const CollapseSideBar = () => {
       ),
       path: '/all-camera',
     },
+    {
+      title: 'Konfigurasi Pengguna',
+      hasSubmenu: true,
+      icon: (
+        <SettingsSuggestIcon
+          className='sideBarIcon'
+          sx={{
+            color: colors.textSecondary,
+          }}
+        />
+      ),
+      path: '#',
+    },
   ]
 
   return (
@@ -79,9 +95,12 @@ const CollapseSideBar = () => {
         {sideBarItems.map((item, index) => (
           <Stack
             key={index}
-            onClick={() => navigate(item.path)}
+            onClick={() => {
+              if (!item.hasSubmenu) navigate(item.path)
+              else navigate('#')
+            }}
             height='60px'
-            alignItems='center'
+            alignItems={item.hasSubmenu ? 'flex-start' : 'center'}
             justifyContent='space-between'
             direction='row'
             width='90px'
@@ -103,6 +122,7 @@ const CollapseSideBar = () => {
               },
             }}
           >
+            {/* ICON */}
             <Stack
               height='100%'
               width='90px'
@@ -112,11 +132,13 @@ const CollapseSideBar = () => {
             >
               {item.icon}
             </Stack>
+
+            {/* TITLE ON HOVER */}
             <Stack
-              height='100%'
+              height={item.hasSubmenu ? 'auto' : '60px'}
               alignItems='center'
               width='240px'
-              justifyContent='center'
+              justifyContent={item.hasSubmenu ? 'flex-start' : 'center'}
               className='sideBarTooltip'
               sx={{
                 display: 'none',
@@ -125,7 +147,85 @@ const CollapseSideBar = () => {
                 color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
               }}
             >
-              {item.title}
+              {item.hasSubmenu ? (
+                <>
+                  {/* TITLE */}
+                  <Stack>
+                    <Stack
+                      height='60px'
+                      justifyContent='center'
+                      marginLeft='35px'
+                    >
+                      {item.title}
+                    </Stack>
+                    {/* KEWENANGAN */}
+                    <Stack
+                      height='50px'
+                      direction='row'
+                      alignItems='center'
+                      width='240px'
+                      spacing={1}
+                      paddingLeft='35px'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        navigate('/authority')
+                      }}
+                      sx={{
+                        color: '#76838fe6',
+                        backgroundColor:
+                          appTheme.sideBar === 'dark'
+                            ? colors.backgroundBrown
+                            : '#f1f4f5',
+                        ':hover': {
+                          color:
+                            appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                          backgroundColor:
+                            appTheme.sideBar === 'dark'
+                              ? colors.sideBarHover
+                              : '#e4eaec',
+                        },
+                      }}
+                    >
+                      <AccountTreeIcon />
+                      <Typography>Kewenangan</Typography>
+                    </Stack>
+
+                    {/* PENGGUNA */}
+                    <Stack
+                      height='50px'
+                      direction='row'
+                      alignItems='center'
+                      width='240px'
+                      spacing={1}
+                      paddingLeft='35px'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        navigate('/user')
+                      }}
+                      sx={{
+                        color: '#76838fe6',
+                        backgroundColor:
+                          appTheme.sideBar === 'dark'
+                            ? colors.backgroundBrown
+                            : '#f1f4f5',
+                        ':hover': {
+                          color:
+                            appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                          backgroundColor:
+                            appTheme.sideBar === 'dark'
+                              ? colors.sideBarHover
+                              : '#e4eaec',
+                        },
+                      }}
+                    >
+                      <PersonIcon />
+                      <Typography>Pengguna</Typography>
+                    </Stack>
+                  </Stack>
+                </>
+              ) : (
+                item.title
+              )}
             </Stack>
           </Stack>
         ))}
