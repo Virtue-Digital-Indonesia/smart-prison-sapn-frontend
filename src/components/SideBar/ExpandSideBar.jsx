@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // CONSTANTS
@@ -9,7 +9,7 @@ import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
-import { Stack, Typography, Fade } from '@mui/material'
+import { Stack, Typography, Fade, Collapse } from '@mui/material'
 
 // MUI ICONS
 import HomeIcon from '@mui/icons-material/Home'
@@ -19,6 +19,10 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined'
 import SettingsIcon from '@mui/icons-material/Settings'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest'
+import AccountTreeIcon from '@mui/icons-material/AccountTree'
+import PersonIcon from '@mui/icons-material/Person'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 
 // UTILS
 import { removeUserProfileFromLocalStorage } from 'utilities/localStorage'
@@ -28,6 +32,8 @@ const ExpandSideBar = () => {
   const navigate = useNavigate()
   const { isDrawerExpanded, appTheme } = useContext(PrivateLayoutContext)
   const { setAuth } = useContext(AllPagesContext)
+
+  const [isSubMenuExpanded, setIsSubMenuExpanded] = useState(false)
 
   const menuItems = [
     {
@@ -44,6 +50,12 @@ const ExpandSideBar = () => {
       title: 'Semua Kamera',
       icon: <CircleOutlinedIcon />,
       path: '/all-camera',
+    },
+    {
+      title: 'Konfigurasi Pengguna',
+      icon: <SettingsSuggestIcon />,
+      path: '#',
+      hasSubmenu: true,
     },
   ]
 
@@ -120,7 +132,7 @@ const ExpandSideBar = () => {
             <Stack
               key={index}
               direction='row'
-              padding='0px 30px'
+              paddingLeft='30px'
               height='38px'
               alignItems='center'
               sx={{
@@ -129,15 +141,80 @@ const ExpandSideBar = () => {
                 ':hover': {
                   backgroundColor:
                     appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
+                  color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
                 },
               }}
               spacing={2}
-              onClick={() => navigate(item.path)}
+              onClick={() => {
+                if (!item.hasSubmenu) navigate(item.path)
+                else setIsSubMenuExpanded((prev) => !prev)
+              }}
             >
               {item.icon}
               <Typography variant='body2'>{item.title}</Typography>
+              {item.hasSubmenu && (
+                <KeyboardArrowRightIcon
+                  sx={{
+                    rotate: isSubMenuExpanded ? '90deg' : '0 deg',
+                    transition: 'rotate 0.5s',
+                  }}
+                />
+              )}
             </Stack>
           ))}
+
+          {/* SUB MENU CONFIGURATION */}
+          <Collapse in={isSubMenuExpanded}>
+            {/* KEWENANGAN */}
+            <Stack
+              direction='row'
+              paddingLeft='30px'
+              height='38px'
+              alignItems='center'
+              onClick={(e) => {
+                e.stopPropagation()
+                navigate('/authority')
+              }}
+              sx={{
+                color: textColor,
+                cursor: 'pointer',
+                ':hover': {
+                  backgroundColor:
+                    appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
+                  color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                },
+              }}
+              spacing={2}
+            >
+              <AccountTreeIcon />
+              <Typography variant='body2'>Kewenangan</Typography>
+            </Stack>
+
+            {/* PENGGUNA */}
+            <Stack
+              direction='row'
+              paddingLeft='30px'
+              height='38px'
+              alignItems='center'
+              onClick={(e) => {
+                e.stopPropagation()
+                navigate('/user')
+              }}
+              sx={{
+                color: textColor,
+                cursor: 'pointer',
+                ':hover': {
+                  backgroundColor:
+                    appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
+                  color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                },
+              }}
+              spacing={2}
+            >
+              <PersonIcon />
+              <Typography variant='body2'>Pengguna</Typography>
+            </Stack>
+          </Collapse>
         </Stack>
       </Fade>
 
