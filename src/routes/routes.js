@@ -5,8 +5,10 @@ import CameraDetail from 'pages/CameraDetail/CameraDetail'
 import ValueSetting from 'pages/ValueSetting/ValueSetting'
 import ValueSettingAction from 'pages/ValueSettingAction/ValueSettingAction'
 import Camera from 'pages/Camera/Camera'
-import CameraAdd  from 'pages/CameraAdd/CameraAdd'
+import CameraAdd from 'pages/CameraAdd/CameraAdd'
 import AllCamera from 'pages/AllCamera/AllCamera'
+import Authority from 'pages/Authority/Authority'
+import User from 'pages/User/User'
 
 const routes = [
   // AUTHENTICATION
@@ -60,6 +62,16 @@ const routes = [
   {
     path: '/all-camera',
     element: <AllCamera />,
+    routeType: 'private',
+  },
+  {
+    path: '/authority',
+    element: <Authority />,
+    routeType: 'private',
+  },
+  {
+    path: '/user',
+    element: <User />,
     routeType: 'private',
   },
 ]

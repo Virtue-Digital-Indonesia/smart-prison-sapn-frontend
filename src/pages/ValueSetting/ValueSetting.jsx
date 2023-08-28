@@ -50,7 +50,16 @@ const ValueSetting = () => {
       field: 'takbir',
       headerName: 'Takbir',
       flex: 1,
-      minWidth: 270,
+      minWidth: 150,
+      hide: false,
+      isFilterShown: true,
+      isSortShown: true,
+    },
+    {
+      field: 'berdiri',
+      headerName: 'Berdiri',
+      flex: 1,
+      minWidth: 150,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
@@ -59,7 +68,16 @@ const ValueSetting = () => {
       field: 'sedekap',
       headerName: 'Sedekap',
       flex: 1,
-      minWidth: 110,
+      minWidth: 150,
+      hide: false,
+      isFilterShown: true,
+      isSortShown: true,
+    },
+    {
+      field: 'rukuk',
+      headerName: 'Rukuk',
+      flex: 1,
+      minWidth: 150,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
@@ -68,7 +86,7 @@ const ValueSetting = () => {
       field: 'duduk',
       headerName: 'Duduk',
       flex: 1,
-      minWidth: 200,
+      minWidth: 150,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
@@ -77,7 +95,7 @@ const ValueSetting = () => {
       field: 'nilai',
       headerName: 'Nilai',
       flex: 1,
-      minWidth: 200,
+      minWidth: 150,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
@@ -121,6 +139,8 @@ const ValueSetting = () => {
       sedekap: 10,
       duduk: 10,
       nilai: 10,
+      rukuk: 10,
+      berdiri: 10,
     },
     {
       id: 2,
@@ -129,6 +149,8 @@ const ValueSetting = () => {
       sedekap: 10,
       duduk: 10,
       nilai: 10,
+      rukuk: 10,
+      berdiri: 10,
     },
     {
       id: 3,
@@ -137,93 +159,41 @@ const ValueSetting = () => {
       sedekap: 10,
       duduk: 10,
       nilai: 10,
+      rukuk: 10,
+      berdiri: 10,
     },
     {
       id: 4,
-      sholat: 'Subuh',
+      sholat: 'Magrib',
       takbir: 10,
       sedekap: 10,
       duduk: 10,
       nilai: 10,
+      rukuk: 10,
+      berdiri: 10,
     },
     {
       id: 5,
-      sholat: 'Dzuhur',
+      sholat: 'Isya',
       takbir: 10,
       sedekap: 10,
       duduk: 10,
       nilai: 10,
-    },
-    {
-      id: 6,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 7,
-      sholat: 'Subuh',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 8,
-      sholat: 'Dzuhur',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 9,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 10,
-      sholat: 'Dzuhur',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 11,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 12,
-      sholat: 'Dzuhur',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
-    },
-    {
-      id: 13,
-      sholat: 'Ashar',
-      takbir: 10,
-      sedekap: 10,
-      duduk: 10,
-      nilai: 10,
+      rukuk: 10,
+      berdiri: 10,
     },
   ]
 
   const columnGroupingModel = [
     {
       groupId: 'Gerakan',
-      children: [{ field: 'takbir' }, { field: 'sedekap' }, { field: 'duduk' }],
+      children: [
+        { field: 'takbir' },
+        { field: 'sedekap' },
+        { field: 'duduk' },
+        { field: 'berdiri' },
+        { field: 'rukuk' },
+      ],
     },
   ]
 
@@ -262,11 +232,7 @@ const ValueSetting = () => {
         </Stack>
 
         {/* DATA GRID */}
-        <Stack
-          minHeight={'34.7vw'}
-          height={tableData * 52 + 48}
-          padding='0px 30px 30px 30px'
-        >
+        <Stack padding='0px 30px 30px 30px'>
           <DataGridTable
             // BASE
             initialColumns={initialColumns}
@@ -337,10 +303,12 @@ const ValueSetting = () => {
               alignItems='center'
               justifyContent='center'
               spacing={1}
-              onClick={() => navigate(
-                '/value-setting/edit/1'
-                //`/value-setting/edit/${inputParams.id}`
-              )}
+              onClick={() =>
+                navigate(
+                  '/value-setting/edit/1'
+                  //`/value-setting/edit/${inputParams.id}`
+                )
+              }
             >
               <EditNoteIcon />
               <Typography>Edit</Typography>

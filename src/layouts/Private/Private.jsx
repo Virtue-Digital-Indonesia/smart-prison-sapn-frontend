@@ -30,12 +30,13 @@ const Private = ({ children }) => {
           width='100%'
           sx={{
             overflowY: 'scroll',
+            backgroundColor: '#f1f4f5',
 
             '@media only screen and (max-height: 820px)': {
               height: '109vh',
             },
             '@media only screen and (min-height: 820px)': {
-              height: '93vh',
+              height: '95vh',
             },
           }}
         >
