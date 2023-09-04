@@ -63,13 +63,19 @@ const AppBar = () => {
     >
       {/* COMPANY LOGO */}
       <Stack
-        width={isDrawerExpanded ? '315px' : '90px'}
+        // width={isDrawerExpanded ? '13.3%' : '90px'}
         alignItems={isDrawerExpanded ? 'flex-start' : 'center'}
         justifyContent='center'
         position='relative'
         sx={{
           transition: 'width 0.5s',
           backgroundColor: appTheme?.navbarColor,
+          '@media only screen and (max-height: 820px)': {
+            width: isDrawerExpanded ? '219px' : '77px',
+          },
+          '@media only screen and (min-height: 820px)': {
+            width: isDrawerExpanded ? '257.5px' : '89.5px',
+          },
         }}
       >
         <Stack
