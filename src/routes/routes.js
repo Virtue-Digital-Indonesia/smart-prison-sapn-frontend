@@ -8,6 +8,7 @@ import Camera from 'pages/Camera/Camera'
 import CameraAdd from 'pages/CameraAdd/CameraAdd'
 import AllCamera from 'pages/AllCamera/AllCamera'
 import Authority from 'pages/Authority/Authority'
+import UserAction from 'pages/UserAction/UserAction'
 import User from 'pages/User/User'
 
 const routes = [
@@ -72,6 +73,16 @@ const routes = [
   {
     path: '/user',
     element: <User />,
+    routeType: 'private',
+  },
+  {
+    path: '/user/add-user',
+    element: <UserAction />,
+    routeType: 'private',
+  },
+  {
+    path: '/user/edit/:id',
+    element: <UserAction />,
     routeType: 'private',
   },
 ]
