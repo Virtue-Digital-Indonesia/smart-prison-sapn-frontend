@@ -7,8 +7,16 @@ import Header from './Header/Header'
 
 // MUIS
 import {
-  Autocomplete, Button, FormControl, ListItem, ListItemText,
-  OutlinedInput, Stack, TextField, Typography } from '@mui/material/'
+  Autocomplete,
+  Button,
+  FormControl,
+  ListItem,
+  ListItemText,
+  OutlinedInput,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material/'
 
 // STYLES
 import useStyles from './cameraAddUseStyles'
@@ -38,11 +46,11 @@ const CameraAdd = () => {
     {
       inputValue: 'Perkelahian',
       name: 'Perkelahian',
-    }, 
+    },
     {
       inputValue: 'Sholat',
       name: 'Sholat',
-    }
+    },
   ]
   const [formObject, setFormObject] = useState(initialFormObject)
   const [type, setType] = useState([])
@@ -56,10 +64,9 @@ const CameraAdd = () => {
 
   const handleAutocompleteChangeType = (e, newVal) => {
     let newValue
-    if(newVal !== null) {
+    if (newVal !== null) {
       newValue = newVal.name
-    }
-    else{
+    } else {
       newValue = newVal
     }
 
@@ -68,7 +75,7 @@ const CameraAdd = () => {
       type: newValue,
     }))
 
-    if(newValue !== 'Perkelahian'){
+    if (newValue !== 'Perkelahian') {
       setFormObject((current) => ({
         ...current,
         treshold: '',
@@ -76,7 +83,6 @@ const CameraAdd = () => {
     }
 
     setType(newValue)
-    console.log(formObject)
   }
 
   const handleSaveButtonClick = () => {
@@ -90,11 +96,10 @@ const CameraAdd = () => {
 
   let breadcrumbList, pageTitle
 
-  if(location.pathname.includes('add-camera')){
+  if (location.pathname.includes('add-camera')) {
     breadcrumbList = [cameraRoutes[0], cameraRoutes[1], cameraRoutes[3]]
     pageTitle = 'Tambah Data Kamera Baru'
-  }
-  else{ 
+  } else {
     breadcrumbList = [cameraRoutes[0], cameraRoutes[1], cameraRoutes[2]]
     pageTitle = 'Edit Kamera'
   }
@@ -107,28 +112,56 @@ const CameraAdd = () => {
       {/* EDIT CAMERA */}
       <Stack className={classes.container}>
         <Stack className={classes.pageTitle}>
-          <Stack
-            width='100%'
-            alignItems='flex-start'
-          >
+          <Stack width='100%' alignItems='flex-start'>
             <Typography className={classes.title}>{pageTitle}</Typography>
-            <Typography className={classes.subtitle}>** Isi kolom di bawah dengan benar</Typography>
+            <Typography className={classes.subtitle}>
+              ** Isi kolom di bawah dengan benar
+            </Typography>
           </Stack>
         </Stack>
         <Stack className={classes.cameraContainer}>
-
-          {/* LEFT SECTION */} 
+          {/* LEFT SECTION */}
           <Stack className={classes.leftSection}>
-            <Typography marginTop='15px' align='right' className={classes.leftSectionText}>Nama Kamera</Typography>
-            <Typography marginTop='46.5px' align='right' className={classes.leftSectionText}>IP</Typography>
-            <Typography marginTop='46.5px' align='right' className={classes.leftSectionText}>Port</Typography>
-            <Typography marginTop='43px' align='right' className={classes.leftSectionText}>Status</Typography>
-            {(type === 'Perkelahian') &&
-            <Typography marginTop='44px' align='right' className={classes.leftSectionText}>Treshold Perkelahian</Typography>
-            }
+            <Typography
+              marginTop='15px'
+              align='right'
+              className={classes.leftSectionText}
+            >
+              Nama Kamera
+            </Typography>
+            <Typography
+              marginTop='46.5px'
+              align='right'
+              className={classes.leftSectionText}
+            >
+              IP
+            </Typography>
+            <Typography
+              marginTop='46.5px'
+              align='right'
+              className={classes.leftSectionText}
+            >
+              Port
+            </Typography>
+            <Typography
+              marginTop='43px'
+              align='right'
+              className={classes.leftSectionText}
+            >
+              Status
+            </Typography>
+            {type === 'Perkelahian' && (
+              <Typography
+                marginTop='44px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Treshold Perkelahian
+              </Typography>
+            )}
           </Stack>
 
-          {/* RIGHT SECTION */} 
+          {/* RIGHT SECTION */}
           <Stack className={classes.rightSection}>
             {/* CAMERA NAME */}
             <FormControl
@@ -145,7 +178,7 @@ const CameraAdd = () => {
                 onChange={handleFormObjectChange}
               />
             </FormControl>
-              
+
             {/* CAMERA IP */}
             <FormControl
               required
@@ -161,7 +194,7 @@ const CameraAdd = () => {
                 onChange={handleFormObjectChange}
               />
             </FormControl>
-              
+
             {/* CAMERA PORT */}
             <FormControl
               required
@@ -171,7 +204,7 @@ const CameraAdd = () => {
               <OutlinedInput
                 label=''
                 type='number'
-                inputProps={{min: 0}}
+                inputProps={{ min: 0 }}
                 name='port'
                 value={formObject.port}
                 placeholder='Port'
@@ -179,7 +212,7 @@ const CameraAdd = () => {
                 onChange={handleFormObjectChange}
               />
             </FormControl>
-            
+
             {/* CAMERA TYPE */}
             <Autocomplete
               value={formObject.type || null}
@@ -204,32 +237,28 @@ const CameraAdd = () => {
                 </ListItem>
               )}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder='Pilih'
-                  required
-                />
+                <TextField {...params} placeholder='Pilih' required />
               )}
             />
 
             {/* CAMERA TRESHOLD */}
-            {(type === 'Perkelahian') &&
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                label=''
-                type='number'
-                inputProps={{min: 0, max: 1, step: 0.01}}
-                name='treshold'
-                value={formObject.treshold}
-                placeholder='Treshold Perkelahian'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
-            }
+            {type === 'Perkelahian' && (
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  label=''
+                  type='number'
+                  inputProps={{ min: 0, max: 1, step: 0.01 }}
+                  name='treshold'
+                  value={formObject.treshold}
+                  placeholder='Treshold Perkelahian'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+            )}
 
             <Stack direction='row' marginTop='20px'>
               {/* SAVE BUTTON */}
