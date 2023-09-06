@@ -106,3 +106,27 @@ export const cameraData = [
     id: 14,
   },
 ]
+
+export const userData = [
+  {
+    id: 1,
+    authority: 'Administrator',
+    name: 'admin',
+    username: 'admin',
+    creation_date: ''
+  },
+  {
+    id: 2,
+    authority: 'Superadmin',
+    name: 'superadmin',
+    username: 'superadmin',
+    creation_date: ''
+  },
+  {
+    id: 3,
+    authority: 'Superadmin',
+    name: 'superadmins',
+    username: 'superadmins',
+    creation_date: ''
+  },
+]
