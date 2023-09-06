@@ -78,7 +78,10 @@ const Authority = () => {
           className='no-zoom'
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
-          onClick={(e) => setAnchorEditButton(e.currentTarget)}
+          onClick={(e) => {
+            setParamsID(params.id)
+            setAnchorEditButton(e.currentTarget)
+          }}
           sx={{
             backgroundColor: '#f2a654',
             borderColor: '#f2a654',
@@ -128,6 +131,7 @@ const Authority = () => {
   const [tableData, setTableData] = useState(initialTableData)
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
   const [anchorEditButton, setAnchorEditButton] = useState(null)
+  const [paramsID, setParamsID] = useState(null)
 
   return (
     <Stack className={classes.root}>
@@ -237,7 +241,10 @@ const Authority = () => {
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => setAnchorEditButton(null)}
+            onClick={() => {
+              paramsID && navigate(`/authority/edit-authority/${paramsID}`)
+              setAnchorEditButton(null)
+            }}
           >
             <Stack
               width={84}

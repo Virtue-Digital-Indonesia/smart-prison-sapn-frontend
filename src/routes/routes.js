@@ -9,6 +9,7 @@ import CameraAdd from 'pages/CameraAdd/CameraAdd'
 import AllCamera from 'pages/AllCamera/AllCamera'
 import Authority from 'pages/Authority/Authority'
 import User from 'pages/User/User'
+import CreateAuthority from 'pages/AuthorirtyActions/CreateAuthority/CreateAuthority'
 
 const routes = [
   // AUTHENTICATION
@@ -67,6 +68,16 @@ const routes = [
   {
     path: '/authority',
     element: <Authority />,
+    routeType: 'private',
+  },
+  {
+    path: '/authority/add-authority',
+    element: <CreateAuthority />,
+    routeType: 'private',
+  },
+  {
+    path: '/authority/edit-authority/:id',
+    element: <CreateAuthority />,
     routeType: 'private',
   },
   {
