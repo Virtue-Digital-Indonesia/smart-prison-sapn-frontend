@@ -13,3 +13,17 @@ export const postSignInUser = async (inputSignal, inputBodyParams) => {
     else return error.response
   }
 }
+
+// GET USER INFORMATION
+export const getUserInformation = async (inputSignal, inputToken) => {
+  try {
+    const response = await axios.get('/users/me', {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
