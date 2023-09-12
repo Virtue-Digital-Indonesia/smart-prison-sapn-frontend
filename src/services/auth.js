@@ -27,3 +27,17 @@ export const getUserInformation = async (inputSignal, inputToken) => {
     else return error.response
   }
 }
+
+// GET ACCESS USER
+export const getAccessUser = async (inputSignal, inputToken) => {
+  try {
+    const response = await axios.get('/module/menu-list', {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}

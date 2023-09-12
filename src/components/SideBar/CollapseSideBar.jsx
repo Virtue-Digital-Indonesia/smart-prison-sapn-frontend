@@ -6,6 +6,7 @@ import { colors } from 'constants/colors'
 
 // CONTEXTS
 import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import { Stack, IconButton, Typography } from '@mui/material'
@@ -23,10 +24,12 @@ import PersonIcon from '@mui/icons-material/Person'
 const CollapseSideBar = () => {
   const navigate = useNavigate()
   const { appTheme } = useContext(PrivateLayoutContext)
+  const { auth } = useContext(AllPagesContext)
 
   const sideBarItems = [
     {
       title: 'Beranda',
+      isShown: true,
       icon: (
         <HomeIcon
           className='sideBarIcon'
@@ -39,6 +42,7 @@ const CollapseSideBar = () => {
     },
     {
       title: 'Pengaturan Nilai',
+      isShown: auth?.userAccess?.pengaturan_nilai ?? false,
       icon: (
         <DriveFileRenameOutlineOutlinedIcon
           className='sideBarIcon'
@@ -51,6 +55,7 @@ const CollapseSideBar = () => {
     },
     {
       title: 'Kamera',
+      isShown: auth?.userAccess?.camera ?? false,
       icon: (
         <VideoCameraFrontIcon
           className='sideBarIcon'
@@ -63,6 +68,7 @@ const CollapseSideBar = () => {
     },
     {
       title: 'Semua Kamera',
+      isShown: auth?.userAccess?.all_camera ?? false,
       icon: (
         <CircleOutlinedIcon
           className='sideBarIcon'
@@ -75,6 +81,7 @@ const CollapseSideBar = () => {
     },
     {
       title: 'Konfigurasi Pengguna',
+      isShown: (auth?.userAccess?.group || auth?.userAccess?.user) ?? false,
       hasSubmenu: true,
       icon: (
         <SettingsSuggestIcon
@@ -93,140 +100,155 @@ const CollapseSideBar = () => {
       {/* LIST ICON */}
       <Stack>
         {sideBarItems.map((item, index) => (
-          <Stack
-            key={index}
-            onClick={() => {
-              if (!item.hasSubmenu) navigate(item.path)
-              else navigate('#')
-            }}
-            height='60px'
-            alignItems={item.hasSubmenu ? 'flex-start' : 'center'}
-            justifyContent='space-between'
-            direction='row'
-            width='90px'
-            zIndex={1}
-            sx={{
-              cursor: 'pointer',
-              ':hover': {
-                width: '330px',
-              },
-              ':hover .sideBarTooltip': {
-                display: 'flex',
-              },
-              ':hover .sideBarIconContainer': {
-                backgroundColor:
-                  appTheme.sideBar === 'dark' ? colors.sideBarHover : '#e4eaec',
-              },
-              ':hover .sideBarIcon': {
-                color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
-              },
-            }}
-          >
-            {/* ICON */}
-            <Stack
-              height='100%'
-              width='90px'
-              alignItems='center'
-              justifyContent='center'
-              className='sideBarIconContainer'
-            >
-              {item.icon}
-            </Stack>
+          <Stack key={index}>
+            {item.isShown && (
+              <Stack
+                onClick={() => {
+                  if (!item.hasSubmenu) navigate(item.path)
+                  else navigate('#')
+                }}
+                height='60px'
+                alignItems={item.hasSubmenu ? 'flex-start' : 'center'}
+                justifyContent='space-between'
+                direction='row'
+                width='90px'
+                zIndex={1}
+                sx={{
+                  cursor: 'pointer',
+                  ':hover': {
+                    width: '330px',
+                  },
+                  ':hover .sideBarTooltip': {
+                    display: 'flex',
+                  },
+                  ':hover .sideBarIconContainer': {
+                    backgroundColor:
+                      appTheme.sideBar === 'dark'
+                        ? colors.sideBarHover
+                        : '#e4eaec',
+                  },
+                  ':hover .sideBarIcon': {
+                    color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                  },
+                }}
+              >
+                {/* ICON */}
+                <Stack
+                  height='100%'
+                  width='90px'
+                  alignItems='center'
+                  justifyContent='center'
+                  className='sideBarIconContainer'
+                >
+                  {item.icon}
+                </Stack>
 
-            {/* TITLE ON HOVER */}
-            <Stack
-              height={item.hasSubmenu ? 'auto' : '60px'}
-              alignItems='center'
-              width='240px'
-              justifyContent={item.hasSubmenu ? 'flex-start' : 'center'}
-              className='sideBarTooltip'
-              sx={{
-                display: 'none',
-                backgroundColor:
-                  appTheme.sideBar === 'dark' ? colors.sideBarHover : '#e4eaec',
-                color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
-              }}
-            >
-              {item.hasSubmenu ? (
-                <>
-                  {/* TITLE */}
-                  <Stack>
-                    <Stack
-                      height='60px'
-                      justifyContent='center'
-                      marginLeft='35px'
-                    >
-                      {item.title}
-                    </Stack>
-                    {/* KEWENANGAN */}
-                    <Stack
-                      height='50px'
-                      direction='row'
-                      alignItems='center'
-                      width='240px'
-                      spacing={1}
-                      paddingLeft='35px'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        navigate('/authority')
-                      }}
-                      sx={{
-                        color: '#76838fe6',
-                        backgroundColor:
-                          appTheme.sideBar === 'dark'
-                            ? colors.backgroundBrown
-                            : '#f1f4f5',
-                        ':hover': {
-                          color:
-                            appTheme.sideBar === 'dark' ? 'white' : colors.info,
-                          backgroundColor:
-                            appTheme.sideBar === 'dark'
-                              ? colors.sideBarHover
-                              : '#e4eaec',
-                        },
-                      }}
-                    >
-                      <AccountTreeIcon />
-                      <Typography>Kewenangan</Typography>
-                    </Stack>
+                {/* TITLE ON HOVER */}
+                <Stack
+                  height={item.hasSubmenu ? 'auto' : '60px'}
+                  alignItems='center'
+                  width='240px'
+                  justifyContent={item.hasSubmenu ? 'flex-start' : 'center'}
+                  className='sideBarTooltip'
+                  sx={{
+                    display: 'none',
+                    backgroundColor:
+                      appTheme.sideBar === 'dark'
+                        ? colors.sideBarHover
+                        : '#e4eaec',
+                    color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                  }}
+                >
+                  {item.hasSubmenu ? (
+                    <>
+                      {/* TITLE */}
+                      <Stack>
+                        <Stack
+                          height='60px'
+                          justifyContent='center'
+                          marginLeft='35px'
+                        >
+                          {item.title}
+                        </Stack>
+                        {/* KEWENANGAN */}
+                        {auth?.userAccess?.group && (
+                          <Stack
+                            height='50px'
+                            direction='row'
+                            alignItems='center'
+                            width='240px'
+                            spacing={1}
+                            paddingLeft='35px'
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              navigate('/authority')
+                            }}
+                            sx={{
+                              color: '#76838fe6',
+                              backgroundColor:
+                                appTheme.sideBar === 'dark'
+                                  ? colors.backgroundBrown
+                                  : '#f1f4f5',
+                              ':hover': {
+                                color:
+                                  appTheme.sideBar === 'dark'
+                                    ? 'white'
+                                    : colors.info,
+                                backgroundColor:
+                                  appTheme.sideBar === 'dark'
+                                    ? colors.sideBarHover
+                                    : '#e4eaec',
+                              },
+                            }}
+                          >
+                            <AccountTreeIcon />
+                            <Typography>Kewenangan</Typography>
+                          </Stack>
+                        )}
 
-                    {/* PENGGUNA */}
-                    <Stack
-                      height='50px'
-                      direction='row'
-                      alignItems='center'
-                      width='240px'
-                      spacing={1}
-                      paddingLeft='35px'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        navigate('/user')
-                      }}
-                      sx={{
-                        color: '#76838fe6',
-                        backgroundColor:
-                          appTheme.sideBar === 'dark'
-                            ? colors.backgroundBrown
-                            : '#f1f4f5',
-                        ':hover': {
-                          color:
-                            appTheme.sideBar === 'dark' ? 'white' : colors.info,
-                          backgroundColor:
-                            appTheme.sideBar === 'dark'
-                              ? colors.sideBarHover
-                              : '#e4eaec',
-                        },
-                      }}
-                    >
-                      <PersonIcon />
-                      <Typography>Pengguna</Typography>
-                    </Stack>
-                  </Stack>
-                </>
-              ) : (
-                item.title
-              )}
-            </Stack>
+                        {/* PENGGUNA */}
+                        {auth?.userAccess?.user && (
+                          <Stack
+                            height='50px'
+                            direction='row'
+                            alignItems='center'
+                            width='240px'
+                            spacing={1}
+                            paddingLeft='35px'
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              navigate('/user')
+                            }}
+                            sx={{
+                              color: '#76838fe6',
+                              backgroundColor:
+                                appTheme.sideBar === 'dark'
+                                  ? colors.backgroundBrown
+                                  : '#f1f4f5',
+                              ':hover': {
+                                color:
+                                  appTheme.sideBar === 'dark'
+                                    ? 'white'
+                                    : colors.info,
+                                backgroundColor:
+                                  appTheme.sideBar === 'dark'
+                                    ? colors.sideBarHover
+                                    : '#e4eaec',
+                              },
+                            }}
+                          >
+                            <PersonIcon />
+                            <Typography>Pengguna</Typography>
+                          </Stack>
+                        )}
+                      </Stack>
+                    </>
+                  ) : (
+                    item.title
+                  )}
+                </Stack>
+              </Stack>
+            )}
           </Stack>
         ))}
       </Stack>

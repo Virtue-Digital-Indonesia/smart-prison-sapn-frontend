@@ -33,7 +33,6 @@ import { setUserProfileToLocalStorage } from 'utilities/localStorage'
 const SignIn = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-  const dynamicYear = new Date().getFullYear()
 
   const { setAuth } = useContext(AllPagesContext)
 
@@ -42,7 +41,6 @@ const SignIn = () => {
     password: '',
   }
 
-  const [isLoading, setIsLoading] = useState(false)
   const [formObject, setFormObject] = useState(initialFormObject)
 
   const [showPassword, setShowPassword] = useState(false)
@@ -76,9 +74,12 @@ const SignIn = () => {
         )
 
         if (getUserInformationData.status === 200) {
+          console.log(getUserInformationData)
           const tempUserData = {
             accessToken: resultSignIn?.data?.data?.accessToken,
             name: getUserInformationData?.data?.data?.nameUser,
+            userName: getUserInformationData?.data?.data?.username,
+            userAccess: {},
           }
           setAuth(tempUserData)
           setUserProfileToLocalStorage(tempUserData)
