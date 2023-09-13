@@ -34,7 +34,7 @@ const SignIn = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const { setAuth } = useContext(AllPagesContext)
+  const { setAuth, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialFormObject = {
     username: '',
@@ -74,7 +74,6 @@ const SignIn = () => {
         )
 
         if (getUserInformationData.status === 200) {
-          console.log(getUserInformationData)
           const tempUserData = {
             accessToken: resultSignIn?.data?.data?.accessToken,
             name: getUserInformationData?.data?.data?.nameUser,
@@ -83,11 +82,31 @@ const SignIn = () => {
           }
           setAuth(tempUserData)
           setUserProfileToLocalStorage(tempUserData)
+          setSnackbarObject({
+            open: true,
+            severity: 'success',
+            title: `Successfully logged in as ${getUserInformationData?.data?.data?.nameUser}.`,
+            message: '',
+          })
           navigate('/')
+        } else {
+          setSnackbarObject({
+            open: true,
+            severity: 'error',
+            title: 'Login failed, username and password are incorrect',
+            message: '',
+          })
         }
       } catch (error) {
         console.log(error)
       }
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Login failed, username and password are incorrect.',
+        message: '',
+      })
     }
 
     abortController.abort()

@@ -26,8 +26,8 @@ const Snackbar = (props) => {
       autoHideDuration={6000}
       onClose={handleToastClose}
       anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
+        vertical: 'top',
+        horizontal: 'right',
       }}
     >
       <Alert elevation={6} onClose={handleToastClose} severity={severity}>
