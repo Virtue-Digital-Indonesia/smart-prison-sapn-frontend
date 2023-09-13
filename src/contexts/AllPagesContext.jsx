@@ -1,5 +1,8 @@
 import { createContext, useState } from 'react'
 
+// CONSTANT
+import { values } from 'constants/values'
+
 // MUIS
 import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -10,7 +13,7 @@ const AllPagesContext = createContext()
 
 const AllPagesContextProvider = (props) => {
   // AUTH
-  const [ auth, setAuth ] = useState(readUserProfileFromLocalStorage())
+  const [auth, setAuth] = useState(readUserProfileFromLocalStorage())
 
   // BREAKPOINT
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.only('xs'))
@@ -28,13 +31,22 @@ const AllPagesContextProvider = (props) => {
 
   console.log('breakpointType: ', breakpointType)
 
+  // SNACKBAR
+  const [snackbarObject, setSnackbarObject] = useState(
+    values.initialSnackbarObject
+  )
+
   return (
     <AllPagesContext.Provider
       value={{
         // AUTH
-        auth, setAuth,
+        auth,
+        setAuth,
         // BREAKPOINT
         breakpointType,
+        // SNACKBAR
+        snackbarObject,
+        setSnackbarObject,
       }}
     >
       {props.children}

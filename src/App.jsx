@@ -1,9 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 // ASSETS
 import SapnFavIconLogo from 'assets/images/logos/FavIconLogo.svg'
 import SapnAppleTouchLogo from 'assets/images/logos/AppleTouchLogo.png'
+
+// CONTEXS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // ROUTES
 import routes from 'routes/routes'
@@ -11,8 +14,11 @@ import routes from 'routes/routes'
 // COMPONENTS
 import AuthenticationRoute from 'components/Routes/AuthenticationRoute'
 import PrivateRoute from 'components/Routes/PrivateRoute'
+import Snackbar from 'components/Snackbar/Snackbar'
 
 function App() {
+  const { snackbarObject, setSnackbarObject } = useContext(AllPagesContext)
+
   const getRouteComponent = (inputItem) => {
     if (inputItem.routeType === 'authentication') {
       return <AuthenticationRoute>{inputItem.element}</AuthenticationRoute>
@@ -41,6 +47,15 @@ function App() {
           />
         ))}
       </Routes>
+
+      {/* SNACKBAR */}
+      <Snackbar
+        open={snackbarObject.open}
+        setToast={setSnackbarObject}
+        severity={snackbarObject.severity}
+        title={snackbarObject.title}
+        message={snackbarObject.message}
+      />
     </>
   )
 }

@@ -42,7 +42,7 @@ const AppBar = () => {
 
   const { isDrawerExpanded, setIsDrawerExpanded, appTheme } =
     useContext(PrivateLayoutContext)
-  const { setAuth } = useContext(AllPagesContext)
+  const { setAuth, auth } = useContext(AllPagesContext)
 
   const [notificationmMenuAnchor, setNotificationMenuAnchor] = useState(null)
   const [profileMenuAnchor, setProfileMenuAnchor] = useState(null)
@@ -180,7 +180,7 @@ const AppBar = () => {
                 color: appTheme.navBarInverse ? 'white' : colors.textPrimary,
               }}
             >
-              Administrator - admin
+              {auth?.name} - {auth?.userName}
             </Typography>
           </Stack>
 

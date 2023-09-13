@@ -31,28 +31,32 @@ const ExpandSideBar = () => {
   const textColor = colors.textPrimary
   const navigate = useNavigate()
   const { isDrawerExpanded, appTheme } = useContext(PrivateLayoutContext)
-  const { setAuth } = useContext(AllPagesContext)
+  const { auth, setAuth } = useContext(AllPagesContext)
 
   const [isSubMenuExpanded, setIsSubMenuExpanded] = useState(false)
 
   const menuItems = [
     {
       title: 'Pengaturan Nilai',
+      isShown: auth?.userAccess?.pengaturan_nilai ?? false,
       icon: <DriveFileRenameOutlineOutlinedIcon />,
       path: '/value-setting',
     },
     {
       title: 'Kamera',
+      isShown: auth?.userAccess?.camera ?? false,
       icon: <VideoCameraFrontIcon />,
       path: '/camera',
     },
     {
       title: 'Semua Kamera',
+      isShown: auth?.userAccess?.all_camera ?? false,
       icon: <CircleOutlinedIcon />,
       path: '/all-camera',
     },
     {
       title: 'Konfigurasi Pengguna',
+      isShown: (auth?.userAccess?.group || auth?.userAccess?.user) ?? false,
       icon: <SettingsSuggestIcon />,
       path: '#',
       hasSubmenu: true,
@@ -129,36 +133,40 @@ const ExpandSideBar = () => {
 
           {/* MENU ITEMS */}
           {menuItems.map((item, index) => (
-            <Stack
-              key={index}
-              direction='row'
-              paddingLeft='30px'
-              height='38px'
-              alignItems='center'
-              sx={{
-                color: textColor,
-                cursor: 'pointer',
-                ':hover': {
-                  backgroundColor:
-                    appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
-                  color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
-                },
-              }}
-              spacing={2}
-              onClick={() => {
-                if (!item.hasSubmenu) navigate(item.path)
-                else setIsSubMenuExpanded((prev) => !prev)
-              }}
-            >
-              {item.icon}
-              <Typography variant='body2'>{item.title}</Typography>
-              {item.hasSubmenu && (
-                <KeyboardArrowRightIcon
+            <Stack key={index}>
+              {item.isShown && (
+                <Stack
+                  direction='row'
+                  paddingLeft='30px'
+                  height='38px'
+                  alignItems='center'
                   sx={{
-                    rotate: isSubMenuExpanded ? '90deg' : '0 deg',
-                    transition: 'rotate 0.5s',
+                    color: textColor,
+                    cursor: 'pointer',
+                    ':hover': {
+                      backgroundColor:
+                        appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
+                      color:
+                        appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                    },
                   }}
-                />
+                  spacing={2}
+                  onClick={() => {
+                    if (!item.hasSubmenu) navigate(item.path)
+                    else setIsSubMenuExpanded((prev) => !prev)
+                  }}
+                >
+                  {item.icon}
+                  <Typography variant='body2'>{item.title}</Typography>
+                  {item.hasSubmenu && (
+                    <KeyboardArrowRightIcon
+                      sx={{
+                        rotate: isSubMenuExpanded ? '90deg' : '0 deg',
+                        transition: 'rotate 0.5s',
+                      }}
+                    />
+                  )}
+                </Stack>
               )}
             </Stack>
           ))}
@@ -166,54 +174,58 @@ const ExpandSideBar = () => {
           {/* SUB MENU CONFIGURATION */}
           <Collapse in={isSubMenuExpanded}>
             {/* KEWENANGAN */}
-            <Stack
-              direction='row'
-              paddingLeft='30px'
-              height='38px'
-              alignItems='center'
-              onClick={(e) => {
-                e.stopPropagation()
-                navigate('/authority')
-              }}
-              sx={{
-                color: textColor,
-                cursor: 'pointer',
-                ':hover': {
-                  backgroundColor:
-                    appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
-                  color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
-                },
-              }}
-              spacing={2}
-            >
-              <AccountTreeIcon />
-              <Typography variant='body2'>Kewenangan</Typography>
-            </Stack>
+            {auth?.userAccess?.group && (
+              <Stack
+                direction='row'
+                paddingLeft='30px'
+                height='38px'
+                alignItems='center'
+                onClick={(e) => {
+                  e.stopPropagation()
+                  navigate('/authority')
+                }}
+                sx={{
+                  color: textColor,
+                  cursor: 'pointer',
+                  ':hover': {
+                    backgroundColor:
+                      appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
+                    color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                  },
+                }}
+                spacing={2}
+              >
+                <AccountTreeIcon />
+                <Typography variant='body2'>Kewenangan</Typography>
+              </Stack>
+            )}
 
             {/* PENGGUNA */}
-            <Stack
-              direction='row'
-              paddingLeft='30px'
-              height='38px'
-              alignItems='center'
-              onClick={(e) => {
-                e.stopPropagation()
-                navigate('/user')
-              }}
-              sx={{
-                color: textColor,
-                cursor: 'pointer',
-                ':hover': {
-                  backgroundColor:
-                    appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
-                  color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
-                },
-              }}
-              spacing={2}
-            >
-              <PersonIcon />
-              <Typography variant='body2'>Pengguna</Typography>
-            </Stack>
+            {auth?.userAccess?.user && (
+              <Stack
+                direction='row'
+                paddingLeft='30px'
+                height='38px'
+                alignItems='center'
+                onClick={(e) => {
+                  e.stopPropagation()
+                  navigate('/user')
+                }}
+                sx={{
+                  color: textColor,
+                  cursor: 'pointer',
+                  ':hover': {
+                    backgroundColor:
+                      appTheme.sideBar === 'dark' ? '#2a363c' : '#3583ca0d',
+                    color: appTheme.sideBar === 'dark' ? 'white' : colors.info,
+                  },
+                }}
+                spacing={2}
+              >
+                <PersonIcon />
+                <Typography variant='body2'>Pengguna</Typography>
+              </Stack>
+            )}
           </Collapse>
         </Stack>
       </Fade>
@@ -223,6 +235,7 @@ const ExpandSideBar = () => {
         <Stack direction='row'>
           {settingItems.map((item, index) => (
             <Stack
+              key={index}
               alignItems='center'
               justifyContent='flex-end'
               sx={{
