@@ -1,8 +1,11 @@
-import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useState, useContext } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 // COMPONENTS
 import Header from './Header/Header'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // COLORS
 import { colors } from 'constants/colors'
@@ -16,17 +19,52 @@ import {
   Typography,
 } from '@mui/material/'
 
+// SERVICE
+import { postCreateNewAuthority } from 'services/authority'
+
 // STYLES
 import useStyles from './createAuthorityUseStyles'
 
 const CreateAuthority = () => {
   const classes = useStyles()
   const location = useLocation()
+  const navigate = useNavigate()
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const [name, setName] = useState('')
 
-  const handleSaveButtonClick = () => {
-    alert('Save')
+  // HANDLE CREATE NEW AUTHORITY
+  const handleSaveButtonClick = async () => {
+    const abortController = new AbortController()
+
+    const bodyParams = {
+      name_group: name,
+    }
+
+    const resultCreateNewAuthority = await postCreateNewAuthority(
+      abortController.signal,
+      auth.accessToken,
+      bodyParams
+    )
+
+    if (resultCreateNewAuthority.status === 200) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'Satu data kewenangan baru saja dibuat.',
+        message: '',
+      })
+      navigate('/authority')
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Gagal membuat data kewenangan baru.',
+        message: '',
+      })
+    }
+
+    abortController.abort()
   }
 
   const handleResetButtonClick = () => {

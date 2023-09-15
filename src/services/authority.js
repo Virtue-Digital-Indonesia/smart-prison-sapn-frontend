@@ -27,3 +27,21 @@ export const getAuthorityList = async (
     else return error.response
   }
 }
+
+// CREATE NEW AUTHORITY
+export const postCreateNewAuthority = async (
+  inputSignal,
+  inputToken,
+  inputBodyParams
+) => {
+  try {
+    const response = await axios.post('/group', inputBodyParams, {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
