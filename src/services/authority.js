@@ -45,3 +45,21 @@ export const postCreateNewAuthority = async (
     else return error.response
   }
 }
+
+// EDIT THE AUTHORITY
+export const putEditAuthority = async (
+  inputSignal,
+  inputToken,
+  inputBodyParams
+) => {
+  try {
+    const response = await axios.put('/group', inputBodyParams, {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}

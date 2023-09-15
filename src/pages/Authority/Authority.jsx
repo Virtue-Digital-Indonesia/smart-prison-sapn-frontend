@@ -27,10 +27,16 @@ import EditNoteIcon from '@mui/icons-material/EditNote'
 import CloseIcon from '@mui/icons-material/Close'
 
 // SERVICE
-import { getAuthorityList } from 'services/authority'
+import { getAuthorityList, putEditAuthority } from 'services/authority'
 
 // STYLES
 import useStyles from './authorityUseStyles'
+
+// UTILS
+import {
+  setAuthorityToLocalStorage,
+  removeAuthorityFromLocalStorage,
+} from 'utilities/localStorage'
 
 const Authority = () => {
   const classes = useStyles()
@@ -76,7 +82,7 @@ const Authority = () => {
       isFilterShown: true,
       isSortShown: true,
       renderCell: (params) =>
-        moment(params.value).format('YYYY-MM-DD HH:mm:ss'),
+        params.value ? moment(params.value).format('YYYY-MM-DD HH:mm:ss') : '-',
     },
     {
       field: 'opsi',
@@ -92,7 +98,7 @@ const Authority = () => {
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
           onClick={(e) => {
-            setParamsID(params.id)
+            setAuthorityTempData(params.row)
             setAnchorEditButton(e.currentTarget)
           }}
           sx={{
@@ -120,7 +126,7 @@ const Authority = () => {
   const [tableData, setTableData] = useState([])
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
   const [anchorEditButton, setAnchorEditButton] = useState(null)
-  const [paramsID, setParamsID] = useState(null)
+  const [authorityTempData, setAuthorityTempData] = useState(null)
   const [search, setSearch] = useState('')
 
   // GET AUTHORITY LIST
@@ -159,6 +165,11 @@ const Authority = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
+
+  // REMOVE AUTHORITY LOCAL STORAGE DATA
+  useEffect(() => {
+    removeAuthorityFromLocalStorage()
+  }, [])
 
   return (
     <Stack className={classes.root}>
@@ -275,7 +286,9 @@ const Authority = () => {
               ':hover': { backgroundColor: 'white' },
             }}
             onClick={() => {
-              paramsID && navigate(`/authority/edit-authority/${paramsID}`)
+              setAuthorityToLocalStorage(authorityTempData)
+              authorityTempData.id &&
+                navigate(`/authority/edit-authority/${authorityTempData.id}`)
               setAnchorEditButton(null)
             }}
           >

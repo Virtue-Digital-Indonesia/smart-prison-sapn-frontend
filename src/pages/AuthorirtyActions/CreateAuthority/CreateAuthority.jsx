@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState, useContext, useEffect } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 // COMPONENTS
 import Header from './Header/Header'
@@ -20,48 +20,86 @@ import {
 } from '@mui/material/'
 
 // SERVICE
-import { postCreateNewAuthority } from 'services/authority'
+import { postCreateNewAuthority, putEditAuthority } from 'services/authority'
 
 // STYLES
 import useStyles from './createAuthorityUseStyles'
+
+// UTILS
+import { readAuthorityFromLocalStorage } from 'utilities/localStorage'
 
 const CreateAuthority = () => {
   const classes = useStyles()
   const location = useLocation()
   const navigate = useNavigate()
+  const { id } = useParams()
   const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const [name, setName] = useState('')
 
-  // HANDLE CREATE NEW AUTHORITY
+  // HANDLE CREATE OR EDIT AUTHORITY
   const handleSaveButtonClick = async () => {
     const abortController = new AbortController()
 
-    const bodyParams = {
-      name_group: name,
+    // HANDLE CREATE NEW AUTHORITY
+    if (location.pathname === '/authority/add-authority') {
+      const bodyParams = {
+        name_group: name,
+      }
+
+      const resultCreateNewAuthority = await postCreateNewAuthority(
+        abortController.signal,
+        auth.accessToken,
+        bodyParams
+      )
+
+      if (resultCreateNewAuthority.status === 201) {
+        setSnackbarObject({
+          open: true,
+          severity: 'success',
+          title: 'Satu data kewenangan baru saja dibuat.',
+          message: '',
+        })
+        navigate('/authority')
+      } else {
+        setSnackbarObject({
+          open: true,
+          severity: 'error',
+          title: 'Gagal membuat data kewenangan baru.',
+          message: '',
+        })
+      }
     }
 
-    const resultCreateNewAuthority = await postCreateNewAuthority(
-      abortController.signal,
-      auth.accessToken,
-      bodyParams
-    )
+    // HANDLE EDIT AUTHORITY
+    else if (location.pathname.includes('edit-authority')) {
+      const bodyParams = {
+        id_group: id,
+        name_group: name,
+      }
 
-    if (resultCreateNewAuthority.status === 200) {
-      setSnackbarObject({
-        open: true,
-        severity: 'success',
-        title: 'Satu data kewenangan baru saja dibuat.',
-        message: '',
-      })
-      navigate('/authority')
-    } else {
-      setSnackbarObject({
-        open: true,
-        severity: 'error',
-        title: 'Gagal membuat data kewenangan baru.',
-        message: '',
-      })
+      const resultEditAuthority = await putEditAuthority(
+        abortController.signal,
+        auth.accessToken,
+        bodyParams
+      )
+
+      if (resultEditAuthority.status === 200) {
+        setSnackbarObject({
+          open: true,
+          severity: 'success',
+          title: 'Satu data kewenangan telah di perbarui.',
+          message: '',
+        })
+        navigate('/authority')
+      } else {
+        setSnackbarObject({
+          open: true,
+          severity: 'error',
+          title: 'Gagal memperbarui data kewenangan.',
+          message: '',
+        })
+      }
     }
 
     abortController.abort()
@@ -70,6 +108,17 @@ const CreateAuthority = () => {
   const handleResetButtonClick = () => {
     setName('')
   }
+
+  useEffect(() => {
+    const authorityData = readAuthorityFromLocalStorage()
+
+    if (
+      Object.keys(authorityData).length > 0 &&
+      location.pathname.includes('edit-authority')
+    )
+      setName(authorityData?.name_group)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Stack className={classes.root}>

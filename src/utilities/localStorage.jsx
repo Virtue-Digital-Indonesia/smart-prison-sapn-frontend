@@ -3,6 +3,7 @@ import { intialAppTheme } from 'constants/values'
 
 const keyUserProfile = 'smart-prison-sapn'
 const keySapnTheme = 'sapn-theme'
+const keyAddAuthority = 'add-authority'
 
 // USER PROFILE
 export const setUserProfileToLocalStorage = (inputUserObject) => {
@@ -32,4 +33,19 @@ export const readSapnThemeFromLocalStorage = () => {
 
 export const removeSapnThemeFromLocalStorage = () => {
   return localStorage.removeItem(keySapnTheme)
+}
+
+// AUTHORITY
+export const setAuthorityToLocalStorage = (inputUserObject) => {
+  localStorage.setItem(keyAddAuthority, JSON.stringify(inputUserObject))
+}
+
+export const readAuthorityFromLocalStorage = () => {
+  return localStorage.getItem(keyAddAuthority)
+    ? JSON.parse(localStorage.getItem(keyAddAuthority))
+    : intialAppTheme
+}
+
+export const removeAuthorityFromLocalStorage = () => {
+  return localStorage.removeItem(keyAddAuthority)
 }
