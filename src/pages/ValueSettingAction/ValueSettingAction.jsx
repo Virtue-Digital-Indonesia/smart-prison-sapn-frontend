@@ -38,14 +38,41 @@ const ValueSettingAction = () => {
     score: '',
   }
 
+  const initialErrorValue = {
+    item: false,
+    takbir: false,
+    berdiri: false,
+    sedekap: false,
+    rukuk: false,
+    duduk: false,
+    score: false,
+  }
+
   const [formObject, setFormObject] = useState(initialFormObject)
   const [selectedData, setSelectedData] = useState(initialFormObject)
+  const [errorValue, setErrorValue] = useState(initialErrorValue)
 
   const handleFormObjectChange = (event) => {
     setFormObject((current) => ({
       ...current,
       [event.target.name]: event.target.value,
     }))
+
+    if(event.target.name === 'item' ||
+      (event.target.value <= 10 && event.target.value >= 0)){
+      console.log(errorValue)
+      setErrorValue((current) => ({
+        ...current,
+        [event.target.name]: false}))
+      console.log(errorValue)
+    }
+    // HANDLE NUMBER LESS THAN 0 AND MORE THAN 10
+    else{
+      setErrorValue((current) => ({
+        ...current,
+        [event.target.name]: true}))
+      console.log(errorValue)
+    }
   }
 
   const handleSaveButtonClick = async () => {
@@ -246,6 +273,9 @@ const ValueSettingAction = () => {
               className={classes.formItemInput}
             >
               <OutlinedInput
+                error={errorValue.takbir}
+                id={errorValue.takbir? null : 'outlined-error'}
+                helperText='Salah input'
                 label=''
                 type='number'
                 inputProps={{min: 0, max: 10}}
