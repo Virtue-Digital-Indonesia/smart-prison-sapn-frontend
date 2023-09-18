@@ -28,7 +28,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote'
 import CloseIcon from '@mui/icons-material/Close'
 
 // SERVICE
-import { getAuthorityList, putEditAuthority } from 'services/authority'
+import { getAuthorityList, deleteAuthority } from 'services/authority'
 
 // STYLES
 import useStyles from './authorityUseStyles'
@@ -43,7 +43,7 @@ const Authority = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const { auth } = useContext(AllPagesContext)
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -96,6 +96,7 @@ const Authority = () => {
       renderCell: (params) => (
         <Button
           className='no-zoom'
+          size='small'
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
           onClick={(e) => {
@@ -133,7 +134,32 @@ const Authority = () => {
 
   // HANDLE DELETE AUTHORITY
   const handleDeleteAuthority = async () => {
-    console.log(authorityTempData)
+    const abortController = new AbortController()
+
+    const resultDeleteAuthority = await deleteAuthority(
+      abortController.signal,
+      auth.accessToken,
+      authorityTempData.id
+    )
+
+    if (resultDeleteAuthority.status === 200) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'Satu data kewenangan telah di hapus.',
+        message: '',
+      })
+      getAuthorityListData(abortController.signal, auth.accessToken)
+      setDialogDeleteAuthority(null)
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Gagal menghapus data kewenangan.',
+        message: '',
+      })
+      setDialogDeleteAuthority(null)
+    }
   }
 
   // GET AUTHORITY LIST
@@ -306,6 +332,7 @@ const Authority = () => {
                 backgroundColor: '#e4eaec',
                 color: '#76838f',
                 ':hover': { backgroundColor: '#f3f7f9' },
+                marginTop: -1,
               }}
               borderRadius='4px'
               direction='row'
@@ -336,6 +363,7 @@ const Authority = () => {
                 backgroundColor: '#e4eaec',
                 color: '#76838f',
                 ':hover': { backgroundColor: '#f3f7f9' },
+                marginTop: -1,
               }}
               borderRadius='4px'
               direction='row'

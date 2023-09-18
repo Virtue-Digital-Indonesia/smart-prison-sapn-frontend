@@ -63,3 +63,22 @@ export const putEditAuthority = async (
     else return error.response
   }
 }
+
+// DELETE THE AUTHORITY
+export const deleteAuthority = async (
+  inputSignal,
+  inputToken,
+  inputBodyParams
+) => {
+  try {
+    const response = await axios.delete('/group', {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+      data: inputBodyParams,
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
