@@ -6,6 +6,7 @@ import moment from 'moment'
 import Header from './Header/Header'
 import DataGridTable from 'components/DataGridTable/DataGridTable'
 import Footer from 'components/Footer/Footer'
+import DialogDelete from 'components/DialogDelete/DialogDelete'
 
 // CONTEXTS
 import { AllPagesContext } from 'contexts/AllPagesContext'
@@ -99,7 +100,7 @@ const Authority = () => {
           endIcon={<ArrowDropDownIcon />}
           onClick={(e) => {
             setAuthorityTempData(params.row)
-            setAnchorEditButton(e.currentTarget)
+            setAnchorOptionButton(e.currentTarget)
           }}
           sx={{
             backgroundColor: '#f2a654',
@@ -125,9 +126,15 @@ const Authority = () => {
   const [pageSize, setPageSize] = useState(10)
   const [tableData, setTableData] = useState([])
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
-  const [anchorEditButton, setAnchorEditButton] = useState(null)
+  const [anchorOptionButton, setAnchorOptionButton] = useState(null)
   const [authorityTempData, setAuthorityTempData] = useState(null)
   const [search, setSearch] = useState('')
+  const [dialogDeleteAuthority, setDialogDeleteAuthority] = useState(null)
+
+  // HANDLE DELETE AUTHORITY
+  const handleDeleteAuthority = async () => {
+    console.log(authorityTempData)
+  }
 
   // GET AUTHORITY LIST
   const getAuthorityListData = async (inputSignal, inputToken) => {
@@ -226,9 +233,9 @@ const Authority = () => {
 
         {/* MENU ITEM */}
         <Menu
-          anchorEl={anchorEditButton}
-          open={Boolean(anchorEditButton)}
-          onClose={() => setAnchorEditButton(null)}
+          anchorEl={anchorOptionButton}
+          open={Boolean(anchorOptionButton)}
+          onClose={() => setAnchorOptionButton(null)}
           className='no-zoom'
           anchorOrigin={{
             vertical: 'bottom',
@@ -258,7 +265,7 @@ const Authority = () => {
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => setAnchorEditButton(null)}
+            onClick={() => setAnchorOptionButton(null)}
           >
             <Stack
               width={84}
@@ -289,7 +296,7 @@ const Authority = () => {
               setAuthorityToLocalStorage(authorityTempData)
               authorityTempData.id &&
                 navigate(`/authority/edit-authority/${authorityTempData.id}`)
-              setAnchorEditButton(null)
+              setAnchorOptionButton(null)
             }}
           >
             <Stack
@@ -317,7 +324,10 @@ const Authority = () => {
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => setAnchorEditButton(null)}
+            onClick={() => {
+              setAnchorOptionButton(null)
+              setDialogDeleteAuthority(true)
+            }}
           >
             <Stack
               width={84}
@@ -338,6 +348,14 @@ const Authority = () => {
             </Stack>
           </MenuItem>
         </Menu>
+
+        {/* DIALOG DELETE AUTHORITY */}
+        <DialogDelete
+          dialogDelete={dialogDeleteAuthority}
+          setDialogDelete={setDialogDeleteAuthority}
+          title='Apakah Anda yakin akan menghapus data ini ?'
+          handleOkButtonClick={handleDeleteAuthority}
+        />
       </Stack>
 
       {/* FOOTER */}
