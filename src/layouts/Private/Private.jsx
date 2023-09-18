@@ -19,7 +19,10 @@ import { getAccessUser } from 'services/auth'
 import useStyles from './privateUseStyles'
 
 // UTILS
-import { setUserProfileToLocalStorage } from 'utilities/localStorage'
+import {
+  setUserProfileToLocalStorage,
+  removeUserProfileFromLocalStorage,
+} from 'utilities/localStorage'
 
 const Private = ({ children }) => {
   const classes = useStyles()
@@ -35,6 +38,11 @@ const Private = ({ children }) => {
       })
       setUserProfileToLocalStorage({ ...auth, userAccess: tempListMenu })
       setAuth((prev) => ({ ...prev, userAccess: tempListMenu }))
+    }
+    // HANDLE TOKEN EXPIRED
+    else if (resultData.status === 401) {
+      setAuth({})
+      removeUserProfileFromLocalStorage()
     }
   }
 
