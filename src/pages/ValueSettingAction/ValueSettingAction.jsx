@@ -65,13 +65,13 @@ const ValueSettingAction = () => {
         bodyParams
       )
   
-      if (resultCreateNewValue.status === 200) {
+      if (resultCreateNewValue.status === 201) {
         setLoading(false)
         setFormObject(initialFormObject)
         setSnackbarObject({
           open: true,
           severity: 'success',
-          title: `${resultCreateNewValue?.message}.`,
+          title: `${resultCreateNewValue?.data?.message}`,
           message: '',
         })
         navigate('/value-setting')
@@ -80,7 +80,7 @@ const ValueSettingAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'error',
-          title: `${resultCreateNewValue?.message}.`,
+          title: `${resultCreateNewValue?.data?.message}`,
           message: '',
         })
       } 
@@ -98,7 +98,7 @@ const ValueSettingAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'success',
-          title: `${resultEditValue?.message}.`,
+          title: `${resultEditValue?.data?.message}`,
           message: '',
         })
         navigate('/value-setting')
@@ -107,7 +107,7 @@ const ValueSettingAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'error',
-          title: `${resultEditValue?.message}.`,
+          title: `${resultEditValue?.data?.message}.`,
           message: '',
         })
       }
