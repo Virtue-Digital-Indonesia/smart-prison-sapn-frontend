@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
 
 // COMPONENT
 import Header from './Header/Header'
 import DataGridTable from 'components/DataGridTable/DataGridTable'
 import Footer from 'components/Footer/Footer'
+import DialogDelete from 'components/DialogDelete/DialogDelete'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import {
@@ -22,12 +27,23 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import EditNoteIcon from '@mui/icons-material/EditNote'
 import CloseIcon from '@mui/icons-material/Close'
 
+// SERVICE
+import { getAuthorityList, deleteAuthority } from 'services/authority'
+
 // STYLES
 import useStyles from './authorityUseStyles'
+
+// UTILS
+import {
+  setAuthorityToLocalStorage,
+  removeAuthorityFromLocalStorage,
+} from 'utilities/localStorage'
 
 const Authority = () => {
   const classes = useStyles()
   const navigate = useNavigate()
+
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -39,7 +55,7 @@ const Authority = () => {
       isSortShown: true,
     },
     {
-      field: 'authorityName',
+      field: 'name_group',
       headerName: 'Nama Kewenangan Pengguna',
       flex: 1,
       minWidth: 110,
@@ -48,22 +64,26 @@ const Authority = () => {
       isSortShown: true,
     },
     {
-      field: 'createdAt',
+      field: 'create_at',
       headerName: 'Dibuat pada',
       flex: 1,
       minWidth: 150,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
+      renderCell: (params) =>
+        moment(params.value).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      field: 'updatedAt',
+      field: 'modified_at',
       headerName: 'Diperbarui pada',
       flex: 1,
       minWidth: 150,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
+      renderCell: (params) =>
+        params.value ? moment(params.value).format('YYYY-MM-DD HH:mm:ss') : '-',
     },
     {
       field: 'opsi',
@@ -76,11 +96,12 @@ const Authority = () => {
       renderCell: (params) => (
         <Button
           className='no-zoom'
+          size='small'
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
           onClick={(e) => {
-            setParamsID(params.id)
-            setAnchorEditButton(e.currentTarget)
+            setAuthorityTempData(params.row)
+            setAnchorOptionButton(e.currentTarget)
           }}
           sx={{
             backgroundColor: '#f2a654',
@@ -99,39 +120,89 @@ const Authority = () => {
     },
   ]
 
-  const initialTableData = [
-    {
-      no: 1,
-      id: 1,
-      authorityName: 'Superadmin',
-      createdAt: '2022-03-17 14:16:07',
-      updatedAt: '2022-03-17 14:16:07',
-    },
-    {
-      no: 2,
-      id: 2,
-      authorityName: 'Administrator',
-      createdAt: '2022-03-17 14:16:07',
-      updatedAt: '2022-03-17 14:16:07',
-    },
-    {
-      no: 3,
-      id: 3,
-      authorityName: 'Administrator',
-      createdAt: '2022-03-17 14:16:07',
-      updatedAt: '2022-03-17 14:16:07',
-    },
-  ]
-
   const [order, setOrder] = useState(null)
   const [orderBy, setOrderBy] = useState(null)
-  const [totalRow, setTotalRow] = useState(initialTableData.length)
+  const [totalRow, setTotalRow] = useState(0)
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
-  const [tableData, setTableData] = useState(initialTableData)
+  const [tableData, setTableData] = useState([])
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
-  const [anchorEditButton, setAnchorEditButton] = useState(null)
-  const [paramsID, setParamsID] = useState(null)
+  const [anchorOptionButton, setAnchorOptionButton] = useState(null)
+  const [authorityTempData, setAuthorityTempData] = useState(null)
+  const [search, setSearch] = useState('')
+  const [dialogDeleteAuthority, setDialogDeleteAuthority] = useState(null)
+
+  // HANDLE DELETE AUTHORITY
+  const handleDeleteAuthority = async () => {
+    const abortController = new AbortController()
+
+    const resultDeleteAuthority = await deleteAuthority(
+      abortController.signal,
+      auth.accessToken,
+      authorityTempData.id
+    )
+
+    if (resultDeleteAuthority.status === 200) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'Satu data kewenangan telah di hapus.',
+        message: '',
+      })
+      getAuthorityListData(abortController.signal, auth.accessToken)
+      setDialogDeleteAuthority(null)
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Gagal menghapus data kewenangan.',
+        message: '',
+      })
+      setDialogDeleteAuthority(null)
+    }
+  }
+
+  // GET AUTHORITY LIST
+  const getAuthorityListData = async (inputSignal, inputToken) => {
+    const queryParams = {
+      page: pageNumber,
+      size: pageSize,
+    }
+    const resultData = await getAuthorityList(
+      inputSignal,
+      inputToken,
+      search,
+      queryParams
+    )
+
+    if (resultData.status === 200) {
+      setTotalRow(resultData?.data?.totalElements)
+      setTableData(
+        resultData.data.rows.map((item, index) => {
+          return {
+            ...item,
+            id: item.id_group,
+            no: index + 1,
+          }
+        })
+      )
+    }
+  }
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    getAuthorityListData(abortController.signal, auth.accessToken)
+    return () => {
+      abortController.abort()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search])
+
+  // REMOVE AUTHORITY LOCAL STORAGE DATA
+  useEffect(() => {
+    removeAuthorityFromLocalStorage()
+  }, [])
 
   return (
     <Stack className={classes.root}>
@@ -155,7 +226,13 @@ const Authority = () => {
           marginTop='20px'
           paddingRight='30px'
         >
-          <TextField variant='outlined' placeholder='Search..' size='small' />
+          <TextField
+            variant='outlined'
+            placeholder='Search..'
+            size='small'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </Stack>
 
         {/* DATA GRID */}
@@ -182,9 +259,9 @@ const Authority = () => {
 
         {/* MENU ITEM */}
         <Menu
-          anchorEl={anchorEditButton}
-          open={Boolean(anchorEditButton)}
-          onClose={() => setAnchorEditButton(null)}
+          anchorEl={anchorOptionButton}
+          open={Boolean(anchorOptionButton)}
+          onClose={() => setAnchorOptionButton(null)}
           className='no-zoom'
           anchorOrigin={{
             vertical: 'bottom',
@@ -214,7 +291,7 @@ const Authority = () => {
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => setAnchorEditButton(null)}
+            onClick={() => setAnchorOptionButton(null)}
           >
             <Stack
               width={84}
@@ -242,8 +319,10 @@ const Authority = () => {
               ':hover': { backgroundColor: 'white' },
             }}
             onClick={() => {
-              paramsID && navigate(`/authority/edit-authority/${paramsID}`)
-              setAnchorEditButton(null)
+              setAuthorityToLocalStorage(authorityTempData)
+              authorityTempData.id &&
+                navigate(`/authority/edit-authority/${authorityTempData.id}`)
+              setAnchorOptionButton(null)
             }}
           >
             <Stack
@@ -253,6 +332,7 @@ const Authority = () => {
                 backgroundColor: '#e4eaec',
                 color: '#76838f',
                 ':hover': { backgroundColor: '#f3f7f9' },
+                marginTop: -1,
               }}
               borderRadius='4px'
               direction='row'
@@ -271,7 +351,10 @@ const Authority = () => {
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => setAnchorEditButton(null)}
+            onClick={() => {
+              setAnchorOptionButton(null)
+              setDialogDeleteAuthority(true)
+            }}
           >
             <Stack
               width={84}
@@ -280,6 +363,7 @@ const Authority = () => {
                 backgroundColor: '#e4eaec',
                 color: '#76838f',
                 ':hover': { backgroundColor: '#f3f7f9' },
+                marginTop: -1,
               }}
               borderRadius='4px'
               direction='row'
@@ -292,6 +376,14 @@ const Authority = () => {
             </Stack>
           </MenuItem>
         </Menu>
+
+        {/* DIALOG DELETE AUTHORITY */}
+        <DialogDelete
+          dialogDelete={dialogDeleteAuthority}
+          setDialogDelete={setDialogDeleteAuthority}
+          title='Apakah Anda yakin akan menghapus data ini ?'
+          handleOkButtonClick={handleDeleteAuthority}
+        />
       </Stack>
 
       {/* FOOTER */}

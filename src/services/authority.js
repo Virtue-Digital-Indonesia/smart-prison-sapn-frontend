@@ -4,8 +4,8 @@ import axios from 'apis/axios'
 // QUERY
 import queryString from 'query-string'
 
-// GET ALL VALUE SETTINGS
-export const getValueSettingData = async (
+// GET AUTHORITY LIST
+export const getAuthorityList = async (
   inputSignal,
   inputToken,
   globalSearch,
@@ -13,7 +13,7 @@ export const getValueSettingData = async (
 ) => {
   try {
     const response = await axios.get(
-      `/score/search?globalSearch=${globalSearch}&${queryString.stringify(
+      `/group/search?globalSearch=${globalSearch}&${queryString.stringify(
         inputQueryParams
       )}`,
       {
@@ -28,14 +28,14 @@ export const getValueSettingData = async (
   }
 }
 
-// CREATE NEW VALUE
-export const postCreateNewValue = async (
+// CREATE NEW AUTHORITY
+export const postCreateNewAuthority = async (
   inputSignal,
   inputToken,
   inputBodyParams
 ) => {
   try {
-    const response = await axios.post('/score', inputBodyParams, {
+    const response = await axios.post('/group', inputBodyParams, {
       signal: inputSignal,
       headers: { Authorization: `Bearer ${inputToken}` },
     })
@@ -46,14 +46,14 @@ export const postCreateNewValue = async (
   }
 }
 
-// EDIT EXISTING VALUE
-export const putEditValue = async (
+// EDIT THE AUTHORITY
+export const putEditAuthority = async (
   inputSignal,
   inputToken,
   inputBodyParams
 ) => {
   try {
-    const response = await axios.put('/score', inputBodyParams, {
+    const response = await axios.put('/group', inputBodyParams, {
       signal: inputSignal,
       headers: { Authorization: `Bearer ${inputToken}` },
     })
@@ -64,14 +64,14 @@ export const putEditValue = async (
   }
 }
 
-// DELETE EXISTING VALUE
-export const deleteValue = async (
+// DELETE THE AUTHORITY
+export const deleteAuthority = async (
   inputSignal,
   inputToken,
   inputBodyParams
 ) => {
   try {
-    const response = await axios.delete('/score', {
+    const response = await axios.delete('/group', {
       signal: inputSignal,
       headers: { Authorization: `Bearer ${inputToken}` },
       data: inputBodyParams,

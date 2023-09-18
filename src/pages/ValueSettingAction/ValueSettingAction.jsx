@@ -14,10 +14,13 @@ import {
   Stack, Typography } from '@mui/material/'
 
 // SERVICES
-import { getValueSettingData, postCreateNewValue, putEditValue } from 'services/valueSetting'
+import { postCreateNewValue, putEditValue } from 'services/valueSetting'
 
 // STYLES
 import useStyles from './valueSettingActionUseStyles'
+
+// UTILS
+import { readValueSettingFromLocalStorage } from 'utilities/localStorage'
 
 const ValueSettingAction = () => {
   const classes = useStyles()
@@ -161,62 +164,16 @@ const ValueSettingAction = () => {
     pageTitle = 'Edit Nilai Sholat'
   }
 
-  // GET VALUE SETTING
-  const getValueSetting = async (inputSignal) => {
-    setLoading(true)
-
-    const queryParams = {
-      page: 0,
-      size: 100,
-    }
-
-    const resultData = await getValueSettingData(
-      inputSignal,
-      auth?.accessToken,
-      queryParams
-    )
-
-    if (resultData.status === 200) {
-      const newData = resultData?.data?.rows?.map((item) => {
-
-        if(item.id.toString() === id){
-          return{
-            item: item.item,
-            takbir: item.takbir,
-            berdiri: item.berdiri,
-            sedekap: item.sedekap,
-            rukuk: item.rukuk,
-            duduk: item.duduk,
-            score: item.score,
-          }
-        }
-        else{
-          return {}
-        }
-      })
-
-      for (let i = 0; i < newData.length; i++) {
-        if(Object.keys(newData[i]).length > 0){
-          setSelectedData(newData[i])
-          setFormObject(newData[i])
-        }
-      }
-
-      setLoading(false)
-    } else {
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
-    const abortController = new AbortController()
+    const valueSettingData = readValueSettingFromLocalStorage()
 
-    getValueSetting(abortController.signal)
-
-    return () => {
-      abortController.abort()
+    if (
+      Object.keys(valueSettingData).length > 0 &&
+      location.pathname.includes('edit')
+    ){
+      setFormObject(valueSettingData)
+      setSelectedData(valueSettingData)
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -275,7 +232,7 @@ const ValueSettingAction = () => {
               <OutlinedInput
                 error={errorValue.takbir}
                 id={errorValue.takbir? null : 'outlined-error'}
-                helperText='Salah input'
+                helpertext='Salah input'
                 label=''
                 type='number'
                 inputProps={{min: 0, max: 10}}
