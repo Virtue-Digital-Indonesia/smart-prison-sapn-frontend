@@ -11,6 +11,7 @@ import Authority from 'pages/Authority/Authority'
 import UserAction from 'pages/UserAction/UserAction'
 import User from 'pages/User/User'
 import CreateAuthority from 'pages/AuthorirtyActions/CreateAuthority/CreateAuthority'
+import AuthorityManagement from 'pages/AuthorirtyActions/AuthorityManagement/AuthorityManagement'
 
 const routes = [
   // AUTHENTICATION
@@ -79,6 +80,11 @@ const routes = [
   {
     path: '/authority/edit-authority/:id',
     element: <CreateAuthority />,
+    routeType: 'private',
+  },
+  {
+    path: '/authority/manage/:id',
+    element: <AuthorityManagement />,
     routeType: 'private',
   },
   {
