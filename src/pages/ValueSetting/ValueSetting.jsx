@@ -354,17 +354,18 @@ const ValueSetting = () => {
             }
           >
             <Stack
-              width={84}
+              width={104}
               height={40}
               sx={{
                 backgroundColor: '#e4eaec',
                 color: '#76838f',
+                paddingLeft: '7px',
                 ':hover': { backgroundColor: '#f3f7f9' },
               }}
               borderRadius='4px'
               direction='row'
               alignItems='center'
-              justifyContent='center'
+              justifyContent='left'
               spacing={1}
             >
               <EditNoteIcon />
@@ -384,18 +385,19 @@ const ValueSetting = () => {
             }}
           >
             <Stack
-              width={84}
+              width={104}
               height={40}
               sx={{
                 backgroundColor: '#e4eaec',
                 color: '#76838f',
+                paddingLeft: '7px',
                 ':hover': { backgroundColor: '#f3f7f9' },
                 marginTop: -1,
               }}
               borderRadius='4px'
               direction='row'
               alignItems='center'
-              justifyContent='center'
+              justifyContent='left'
               spacing={1}
             >
               <CloseIcon />

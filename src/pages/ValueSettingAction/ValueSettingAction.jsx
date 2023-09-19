@@ -63,25 +63,34 @@ const ValueSettingAction = () => {
 
     if(event.target.name === 'item' ||
       (event.target.value <= 10 && event.target.value >= 0)){
-      console.log(errorValue)
       setErrorValue((current) => ({
         ...current,
         [event.target.name]: false}))
-      console.log(errorValue)
     }
     // HANDLE NUMBER LESS THAN 0 AND MORE THAN 10
     else{
       setErrorValue((current) => ({
         ...current,
         [event.target.name]: true}))
-      console.log(errorValue)
     }
+  }
+
+  const handleErrorValueCheck = () => {
+    errorValue.item || errorValue.takbir || errorValue.berdiri ||
+    errorValue.sedekap || errorValue.rukuk || errorValue.duduk ||
+    errorValue.score ?
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Ada data yang salah',
+        message: '',
+      }) :
+      handleSaveButtonClick()
   }
 
   const handleSaveButtonClick = async () => {
     setLoading(true)
     const abortController = new AbortController()
-    let selectedSnackbarObject
 
     const bodyParams = {
       ...formObject,
@@ -153,6 +162,7 @@ const ValueSettingAction = () => {
     else{
       setFormObject(selectedData)
     }
+    setErrorValue(initialErrorValue)
   }
 
   let pageTitle
@@ -232,7 +242,6 @@ const ValueSettingAction = () => {
               <OutlinedInput
                 error={errorValue.takbir}
                 id={errorValue.takbir? null : 'outlined-error'}
-                helpertext='Salah input'
                 label=''
                 type='number'
                 inputProps={{min: 0, max: 10}}
@@ -250,6 +259,8 @@ const ValueSettingAction = () => {
               className={classes.formItemInput}
             >
               <OutlinedInput
+                error={errorValue.berdiri}
+                id={errorValue.berdiri? null : 'outlined-error'}
                 label=''
                 type='number'
                 inputProps={{min: 0, max: 10}}
@@ -267,6 +278,8 @@ const ValueSettingAction = () => {
               className={classes.formItemInput}
             >
               <OutlinedInput
+                error={errorValue.sedekap}
+                id={errorValue.sedekap? null : 'outlined-error'}
                 label=''
                 type='number'
                 inputProps={{min: 0, max: 10}}
@@ -284,6 +297,8 @@ const ValueSettingAction = () => {
               className={classes.formItemInput}
             >
               <OutlinedInput
+                error={errorValue.rukuk}
+                id={errorValue.rukuk? null : 'outlined-error'}
                 label=''
                 type='number'
                 inputProps={{min: 0, max: 10}}
@@ -301,6 +316,8 @@ const ValueSettingAction = () => {
               className={classes.formItemInput}
             >
               <OutlinedInput
+                error={errorValue.duduk}
+                id={errorValue.duduk? null : 'outlined-error'}
                 label=''
                 type='number'
                 inputProps={{min: 0, max: 10}}
@@ -318,6 +335,8 @@ const ValueSettingAction = () => {
               className={classes.formItemInput}
             >
               <OutlinedInput
+                error={errorValue.nilai}
+                id={errorValue.nilai? null : 'outlined-error'}
                 label=''
                 type='number'
                 inputProps={{min: 0, max: 10}}
@@ -334,7 +353,7 @@ const ValueSettingAction = () => {
                 variant='outlined'
                 size='large'
                 className={classes.saveButton}
-                onClick={() => handleSaveButtonClick()}
+                onClick={() => handleErrorValueCheck()}
               >
                 Simpan
               </Button>
@@ -349,6 +368,28 @@ const ValueSettingAction = () => {
                 Setel Ulang
               </Button>
             </Stack>
+          </Stack>
+
+          {/* CAUTIONS */} 
+          <Stack className={classes.cautions}>
+            {errorValue.takbir &&
+            <Typography marginTop='83.5px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+            }
+            {errorValue.berdiri &&
+            <Typography marginTop='43.5px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+            }
+            {errorValue.sedekap &&
+            <Typography marginTop='46.5px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+            }
+            {errorValue.rukuk &&
+            <Typography marginTop='46.5px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+            }
+            {errorValue.duduk &&
+            <Typography marginTop='43px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+            }
+            {errorValue.nilai &&
+            <Typography marginTop='44px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+            }
           </Stack>
         </Stack>
       </Stack>

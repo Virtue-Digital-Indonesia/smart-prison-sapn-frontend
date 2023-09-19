@@ -55,8 +55,16 @@ const useStyles = makeStyles((theme) => ({
   },
   rightSection: {
   },
+  cautions: {
+    width: 130,
+  },
   leftSectionText: {
     color: '#76838f',
+    fontSize: '16px',
+    fontWeight: 300,
+  },
+  cautionText: {
+    color: '#d32f2f',
     fontSize: '16px',
     fontWeight: 300,
   },
