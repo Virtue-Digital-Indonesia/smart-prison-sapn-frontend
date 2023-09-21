@@ -14,6 +14,7 @@ const AllPagesContext = createContext()
 const AllPagesContextProvider = (props) => {
   // AUTH
   const [auth, setAuth] = useState(readUserProfileFromLocalStorage())
+  const [loading, setLoading] = useState(false)
 
   // BREAKPOINT
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.only('xs'))
@@ -44,6 +45,8 @@ const AllPagesContextProvider = (props) => {
         setAuth,
         // BREAKPOINT
         breakpointType,
+        // LOADING
+        loading, setLoading,
         // SNACKBAR
         snackbarObject,
         setSnackbarObject,

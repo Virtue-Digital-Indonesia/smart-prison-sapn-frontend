@@ -11,7 +11,7 @@ const Footer = () => {
   const dynamicYear = new Date().getFullYear()
 
   return (
-    <Stack alignItems='center' justifyContent='space-between'>
+    <Stack alignItems='center' justifyContent='space-between' marginTop='10vh'>
       {/* COPYRIGHT */}
       <Stack className={classes.copyright}>
         © {dynamicYear}. All rights reserved
