@@ -119,7 +119,7 @@ const ValueSettingAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'error',
-          title: `${resultCreateNewValue?.data?.message}`,
+          title: `Error ${resultCreateNewValue?.data?.status_code}`,
           message: '',
         })
       } 
@@ -146,7 +146,7 @@ const ValueSettingAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'error',
-          title: `${resultEditValue?.data?.message}.`,
+          title: `Error ${resultEditValue?.data?.status_code}`,
           message: '',
         })
       }
@@ -234,118 +234,154 @@ const ValueSettingAction = () => {
             </FormControl>
               
             {/* TAKBIR */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                error={errorValue.takbir}
-                id={errorValue.takbir? null : 'outlined-error'}
-                label=''
-                type='number'
-                inputProps={{min: 0, max: 10}}
-                name='takbir'
-                value={formObject.takbir}
-                placeholder='Takbir'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
-              
+            <Stack direction='row'>
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  error={errorValue.takbir}
+                  id={errorValue.takbir? null : 'outlined-error'}
+                  label=''
+                  type='number'
+                  inputProps={{min: 0, max: 10}}
+                  name='takbir'
+                  value={formObject.takbir}
+                  placeholder='Takbir'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+            
+              {errorValue.takbir &&
+              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+              }
+            </Stack>
+
             {/* BERDIRI */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                error={errorValue.berdiri}
-                id={errorValue.berdiri? null : 'outlined-error'}
-                label=''
-                type='number'
-                inputProps={{min: 0, max: 10}}
-                name='berdiri'
-                value={formObject.berdiri}
-                placeholder='Berdiri'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
+            <Stack direction='row'>
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  error={errorValue.berdiri}
+                  id={errorValue.berdiri? null : 'outlined-error'}
+                  label=''
+                  type='number'
+                  inputProps={{min: 0, max: 10}}
+                  name='berdiri'
+                  value={formObject.berdiri}
+                  placeholder='Berdiri'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+              
+              {errorValue.berdiri &&
+              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+              }
+            </Stack>
               
             {/*SEDEKAP */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                error={errorValue.sedekap}
-                id={errorValue.sedekap? null : 'outlined-error'}
-                label=''
-                type='number'
-                inputProps={{min: 0, max: 10}}
-                name='sedekap'
-                value={formObject.sedekap}
-                placeholder='Sedekap'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
+            <Stack direction='row'>
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  error={errorValue.sedekap}
+                  id={errorValue.sedekap? null : 'outlined-error'}
+                  label=''
+                  type='number'
+                  inputProps={{min: 0, max: 10}}
+                  name='sedekap'
+                  value={formObject.sedekap}
+                  placeholder='Sedekap'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+            
+              {errorValue.sedekap &&
+              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+              }
+            </Stack>
               
             {/* RUKUK */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                error={errorValue.rukuk}
-                id={errorValue.rukuk? null : 'outlined-error'}
-                label=''
-                type='number'
-                inputProps={{min: 0, max: 10}}
-                name='rukuk'
-                value={formObject.rukuk}
-                placeholder='Rukuk'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
+            <Stack direction='row'>
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  error={errorValue.rukuk}
+                  id={errorValue.rukuk? null : 'outlined-error'}
+                  label=''
+                  type='number'
+                  inputProps={{min: 0, max: 10}}
+                  name='rukuk'
+                  value={formObject.rukuk}
+                  placeholder='Rukuk'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+            
+              {errorValue.rukuk &&
+              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+              }
+            </Stack>
             
             {/* DUDUK */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                error={errorValue.duduk}
-                id={errorValue.duduk? null : 'outlined-error'}
-                label=''
-                type='number'
-                inputProps={{min: 0, max: 10}}
-                name='duduk'
-                value={formObject.duduk}
-                placeholder='Duduk'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
+            <Stack direction='row'>
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  error={errorValue.duduk}
+                  id={errorValue.duduk? null : 'outlined-error'}
+                  label=''
+                  type='number'
+                  inputProps={{min: 0, max: 10}}
+                  name='duduk'
+                  value={formObject.duduk}
+                  placeholder='Duduk'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+
+              {errorValue.duduk &&
+                <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+              }
+            </Stack>
 
             {/* NILAI */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                error={errorValue.nilai}
-                id={errorValue.nilai? null : 'outlined-error'}
-                label=''
-                type='number'
-                inputProps={{min: 0, max: 10}}
-                name='score'
-                value={formObject.score}
-                placeholder='Nilai'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
+            <Stack direction='row'>
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  error={errorValue.score}
+                  id={errorValue.score? null : 'outlined-error'}
+                  label=''
+                  type='number'
+                  inputProps={{min: 0, max: 10}}
+                  name='score'
+                  value={formObject.score}
+                  placeholder='Nilai'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+
+              {errorValue.score &&
+              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
+              }
+            </Stack>
 
             <Stack direction='row' marginTop='20px'>
               {/* SAVE BUTTON */}
@@ -368,28 +404,6 @@ const ValueSettingAction = () => {
                 Setel Ulang
               </Button>
             </Stack>
-          </Stack>
-
-          {/* CAUTIONS */} 
-          <Stack className={classes.cautions}>
-            {errorValue.takbir &&
-            <Typography marginTop='83.5px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-            }
-            {errorValue.berdiri &&
-            <Typography marginTop='43.5px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-            }
-            {errorValue.sedekap &&
-            <Typography marginTop='46.5px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-            }
-            {errorValue.rukuk &&
-            <Typography marginTop='46.5px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-            }
-            {errorValue.duduk &&
-            <Typography marginTop='43px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-            }
-            {errorValue.nilai &&
-            <Typography marginTop='44px' align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-            }
           </Stack>
         </Stack>
       </Stack>

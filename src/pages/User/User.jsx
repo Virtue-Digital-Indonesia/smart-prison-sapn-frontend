@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
 
 // MUIS
 import {
@@ -16,25 +17,37 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 
 // COMPONENTS
 import DataGridTable from 'components/DataGridTable/DataGridTable'
+import DialogDelete from 'components/DialogDelete/DialogDelete'
 import Footer from 'components/Footer/Footer'
 import Header from './Header/Header'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // STYLES
 import useStyles from './userUseStyles'
 
-// DATA DUMMY
-import { userData } from 'pages/DataDummy'
-
 // ROUTES
 import { userRoutes } from './userRoutes'
+
+// SERVICES
+import { getAllUsersData, deleteUser } from 'services/user'
+
+// UTILS
+import {
+  setUserSettingToLocalStorage,
+  removeUserSettingFromLocalStorage,
+} from 'utilities/localStorage'
 
 const User = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
+  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
+
   const initialColumns = [
     {
-      field: 'id',
+      field: 'no',
       headerName: 'No',
       flex: 1,
       maxWidth: 100,
@@ -43,19 +56,19 @@ const User = () => {
       isSortShown: true,
     },
     {
-      field: 'authority',
+      field: 'name_group',
       headerName: 'Kewenangan',
       flex: 1,
-      minWidth: 270,
+      minWidth: 200,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
     },
     {
-      field: 'name',
+      field: 'name_user',
       headerName: 'Nama',
       flex: 1,
-      minWidth: 160,
+      minWidth: 190,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
@@ -64,19 +77,21 @@ const User = () => {
       field: 'username',
       headerName: 'Username',
       flex: 1,
-      minWidth: 160,
+      minWidth: 190,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
     },
     {
-      field: 'creation_date',
+      field: 'created_at',
       headerName: 'Dibuat Pada',
       flex: 1,
-      minWidth: 200,
+      minWidth: 230,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
+      renderCell: (params) =>
+        params.value ? moment(params.value).format('YYYY-MM-DD HH:mm:ss') : '-',
     },
     {
       field: 'opsi',
@@ -91,7 +106,10 @@ const User = () => {
           className={`no-zoom ${classes.settingButton}`}
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
-          onClick={(e) => setAnchorEditButton(e.currentTarget)}
+          onClick={(e) => {
+            setUserTempData(params.row)
+            setAnchorEditButton(e.currentTarget)
+          }}
         >
         </Button>
       ),
@@ -103,16 +121,87 @@ const User = () => {
   const [totalRow, setTotalRow] = useState(0)
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
-  const [tableData, setTableData] = useState(userData)
+  const [tableData, setTableData] = useState([])
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
   const [anchorEditButton, setAnchorEditButton] = useState(null)
+  const [userTempData, setUserTempData] = useState(null)
+  const [search, setSearch] = useState('')
+  const [dialogDeleteValue, setDialogDeleteValue] = useState(null)
 
-  const handleEditButtonClick = () => {
-    navigate(
-      '/user/edit/1'
-      //`/user/edit/${inputParams.id}`
+  // HANDLE DELETE USER
+  const handleDeleteUser = async () => {
+    const abortController = new AbortController()
+
+    const resultDeleteAuthority = await deleteUser(
+      abortController.signal,
+      auth.accessToken,
+      userTempData.id
     )
+
+    if (resultDeleteAuthority.status === 200) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'User berhasil dihapus.',
+        message: '',
+      })
+      getAllUsers(abortController.signal)
+      setDialogDeleteValue(null)
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Gagal menghapus user.',
+        message: '',
+      })
+      setDialogDeleteValue(null)
+    }
   }
+
+  // GET ALL USERS
+  const getAllUsers = async (inputSignal) => {
+    setLoading(true)
+
+    const queryParams = {
+      page: pageNumber,
+      size: pageSize,
+    }
+
+    const resultData = await getAllUsersData(
+      inputSignal,
+      auth?.accessToken,
+      search,
+      queryParams
+    )
+
+    if (resultData.status === 200) {
+      const newTableData = resultData?.data?.rows?.map((item, index) => {
+        return {
+          ...item,
+          id: item.id_user,
+          no: index + 1,
+        }
+      })
+      setTableData(newTableData)
+      setTotalRow(resultData?.data?.totalElements)
+      setLoading(false)
+    } else {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    getAllUsers(abortController.signal)
+
+    return () => {
+      abortController.abort()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumber, pageSize, search])
+
 
   return (
     <Stack className={classes.root}>
@@ -136,7 +225,13 @@ const User = () => {
           margin='20px 0 10px'
           paddingRight='30px'
         >
-          <TextField variant='outlined' placeholder='Search..' size='small' />
+          <TextField
+            variant='outlined'
+            placeholder='Search..'
+            size='small'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </Stack>
 
         {/* DATA GRID */}
@@ -150,6 +245,7 @@ const User = () => {
             initialColumns={initialColumns}
             selectedColumnList={selectedColumnList}
             setSelectedColumnList={setSelectedColumnList}
+            
             rows={tableData}
             // PAGINATION
             total={totalRow}
@@ -196,7 +292,12 @@ const User = () => {
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => handleEditButtonClick()}
+            onClick={() => {
+              setUserSettingToLocalStorage(userTempData)
+              userTempData.id &&
+              navigate(`/user/edit/${userTempData.id}`)         
+              setAnchorEditButton(null)}
+            }
           >
             <Button className={classes.menuButton} startIcon={<EditNoteIcon />}>Edit</Button>
           </MenuItem>
@@ -205,12 +306,23 @@ const User = () => {
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => setAnchorEditButton(null)}
+            onClick={() => {
+              setAnchorEditButton(null)
+              setDialogDeleteValue(true)
+            }}
           >
             <Button className={classes.menuButton} startIcon={<ClearIcon />}>Hapus</Button>
           </MenuItem>
         </Menu>
       </Stack>
+      
+      {/* DIALOG DELETE VALUE */}
+      <DialogDelete
+        dialogDelete={dialogDeleteValue}
+        setDialogDelete={setDialogDeleteValue}
+        title='Apakah Anda yakin akan menghapus data ini ?'
+        handleOkButtonClick={handleDeleteUser}
+      />
 
       {/* FOOTER */}
       <Footer />
