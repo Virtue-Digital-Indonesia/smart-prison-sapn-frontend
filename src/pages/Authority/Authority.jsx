@@ -291,7 +291,11 @@ const Authority = () => {
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => setAnchorOptionButton(null)}
+            onClick={() => {
+              authorityTempData.id &&
+                navigate(`/authority/manage/${authorityTempData.id}`)
+              setAnchorOptionButton(null)
+            }}
           >
             <Stack
               width={84}

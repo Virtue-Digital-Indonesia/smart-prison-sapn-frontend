@@ -27,6 +27,7 @@ import useStyles from './createAuthorityUseStyles'
 
 // UTILS
 import { readAuthorityFromLocalStorage } from 'utilities/localStorage'
+import { getTimeZoneOffset } from 'utilities/valueConverter'
 
 const CreateAuthority = () => {
   const classes = useStyles()
@@ -36,6 +37,7 @@ const CreateAuthority = () => {
   const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const [name, setName] = useState('')
+  const [tempName, setTempName] = useState('')
 
   // HANDLE CREATE OR EDIT AUTHORITY
   const handleSaveButtonClick = async () => {
@@ -45,6 +47,7 @@ const CreateAuthority = () => {
     if (location.pathname === '/authority/add-authority') {
       const bodyParams = {
         name_group: name,
+        timezone_offset: getTimeZoneOffset(),
       }
 
       const resultCreateNewAuthority = await postCreateNewAuthority(
@@ -76,6 +79,7 @@ const CreateAuthority = () => {
       const bodyParams = {
         id_group: id,
         name_group: name,
+        timezone_offset: getTimeZoneOffset(),
       }
 
       const resultEditAuthority = await putEditAuthority(
@@ -106,7 +110,9 @@ const CreateAuthority = () => {
   }
 
   const handleResetButtonClick = () => {
-    setName('')
+    if (location.pathname.includes('edit')) {
+      setName(tempName)
+    } else setName('')
   }
 
   useEffect(() => {
@@ -115,8 +121,10 @@ const CreateAuthority = () => {
     if (
       Object.keys(authorityData).length > 0 &&
       location.pathname.includes('edit-authority')
-    )
+    ) {
+      setTempName(authorityData?.name_group)
       setName(authorityData?.name_group)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
