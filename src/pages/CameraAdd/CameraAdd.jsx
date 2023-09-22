@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 import Header from './Header/Header'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import {
@@ -18,6 +21,9 @@ import {
   Typography,
 } from '@mui/material/'
 
+// SERVICE
+import { postAddNewCamera } from 'services/camera'
+
 // STYLES
 import useStyles from './cameraAddUseStyles'
 
@@ -27,10 +33,14 @@ import { cameraData } from 'pages/DataDummy'
 // ROUTES
 import { cameraRoutes } from 'pages/Camera/cameraRoutes'
 
+// UTILS
+import { getTimeZoneOffset } from 'utilities/valueConverter'
+
 const CameraAdd = () => {
   const classes = useStyles()
   const navigate = useNavigate()
   const location = useLocation()
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialFormObject = {
     // BASIC DETAILS
@@ -38,8 +48,7 @@ const CameraAdd = () => {
     ip: '',
     port: '',
     type: '',
-    treshold: '',
-    creation_date: '',
+    treshold: 0,
   }
 
   const cameraOptions = [
@@ -78,15 +87,50 @@ const CameraAdd = () => {
     if (newValue !== 'Perkelahian') {
       setFormObject((current) => ({
         ...current,
-        treshold: '',
+        treshold: 0,
       }))
     }
 
     setType(newValue)
   }
 
-  const handleSaveButtonClick = () => {
-    alert('Save')
+  const handleSaveButtonClick = async () => {
+    const abortController = new AbortController()
+    const { ip, port, treshold, type, title } = formObject
+
+    const bodyParams = {
+      camera: title,
+      ip: ip,
+      port: +port,
+      status_fight_sholat: type === 'Sholat' ? 2 : 1,
+      fight_threshold: +treshold,
+      timezone_offset: getTimeZoneOffset(),
+    }
+
+    const resultAddCamera = await postAddNewCamera(
+      abortController.signal,
+      auth.accessToken,
+      bodyParams
+    )
+
+    if (resultAddCamera.status === 201) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'Satu data kamera baru saja dibuat.',
+        message: '',
+      })
+      navigate('/camera')
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Gagal membuat data kamera baru.',
+        message: '',
+      })
+    }
+
+    abortController.abort()
   }
 
   const handleResetButtonClick = () => {
