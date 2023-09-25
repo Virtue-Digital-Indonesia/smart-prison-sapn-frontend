@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import {
-  Button, Stack, Menu, MenuItem,
-  TextField, Typography
+  Button,
+  Stack,
+  Menu,
+  MenuItem,
+  TextField,
+  Typography,
 } from '@mui/material'
 
 // MUI ICONS
@@ -19,11 +27,11 @@ import DataGridTable from 'components/DataGridTable/DataGridTable'
 import Footer from 'components/Footer/Footer'
 import Header from './Header/Header'
 
+// SERVICE
+import { getCameraList } from 'services/camera'
+
 // STYLES
 import useStyles from './cameraUseStyles'
-
-// DATA DUMMY
-import { cameraData } from 'pages/DataDummy'
 
 // ROUTES
 import { cameraRoutes } from './cameraRoutes'
@@ -31,6 +39,7 @@ import { cameraRoutes } from './cameraRoutes'
 const Camera = () => {
   const classes = useStyles()
   const navigate = useNavigate()
+  const { auth } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -43,7 +52,7 @@ const Camera = () => {
       isSortShown: true,
     },
     {
-      field: 'title',
+      field: 'nama',
       headerName: 'Nama Kamera',
       flex: 1,
       minWidth: 270,
@@ -52,7 +61,7 @@ const Camera = () => {
       isSortShown: true,
     },
     {
-      field: 'ip',
+      field: 'IP',
       headerName: 'IP',
       flex: 1,
       minWidth: 110,
@@ -70,22 +79,25 @@ const Camera = () => {
       isSortShown: true,
     },
     {
-      field: 'type',
+      field: 'status_fight_sholat',
       headerName: 'Perkelahian/Sholat',
       flex: 1,
       minWidth: 100,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
+      renderCell: (params) => (params.value === 1 ? 'Perkelahian' : 'Sholat'),
     },
     {
-      field: 'creation_date',
+      field: 'created_at',
       headerName: 'Dibuat Pada',
       flex: 1,
       minWidth: 200,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
+      renderCell: (params) =>
+        moment(params.value).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       field: 'opsi',
@@ -101,20 +113,20 @@ const Camera = () => {
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
           onClick={(e) => setAnchorEditButton(e.currentTarget)}
-        >
-        </Button>
+        ></Button>
       ),
     },
   ]
-  
+
   const [order, setOrder] = useState(null)
   const [orderBy, setOrderBy] = useState(null)
   const [totalRow, setTotalRow] = useState(0)
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
-  const [tableData, setTableData] = useState(cameraData)
+  const [tableData, setTableData] = useState([])
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
   const [anchorEditButton, setAnchorEditButton] = useState(null)
+  const [search, setSearch] = useState('')
 
   const handleEditButtonClick = () => {
     navigate(
@@ -122,6 +134,43 @@ const Camera = () => {
       //`/camera/edit/${inputParams.id}`
     )
   }
+
+  // GET CAMERA LIST
+  const getCameraListData = async (inputSignal, inputToken) => {
+    const queryParams = {
+      page: pageNumber,
+      size: pageSize,
+    }
+    const resultData = await getCameraList(
+      inputSignal,
+      inputToken,
+      search,
+      queryParams
+    )
+
+    if (resultData.status === 200) {
+      console.log(resultData.data.rows)
+      setTotalRow(resultData?.data?.totalElements)
+      setTableData(
+        resultData.data.rows.map((item, index) => {
+          return {
+            ...item,
+            no: index + 1,
+          }
+        })
+      )
+    }
+  }
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    getCameraListData(abortController.signal, auth.accessToken)
+    return () => {
+      abortController.abort()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search])
 
   return (
     <Stack className={classes.root}>
@@ -190,13 +239,14 @@ const Camera = () => {
           sx={{
             '@media only screen and (max-height: 820px)': {
               '& .MuiMenuItem-root': {
-                zoom: 0.85, padding: '2.5px 5px',
-                '&:first-of-type' : {paddingBottom: 0, paddingTop: '7px'},
-                '&:last-child' : {paddingTop: 0, paddingBottom: '7px'},
+                zoom: 0.85,
+                padding: '2.5px 5px',
+                '&:first-of-type': { paddingBottom: 0, paddingTop: '7px' },
+                '&:last-child': { paddingTop: 0, paddingBottom: '7px' },
               },
             },
             '& .MuiList-root': {
-              padding: 0
+              padding: 0,
             },
           }}
         >
@@ -207,7 +257,9 @@ const Camera = () => {
             }}
             onClick={() => handleEditButtonClick()}
           >
-            <Button className={classes.menuButton} startIcon={<EditNoteIcon />}>Edit</Button>
+            <Button className={classes.menuButton} startIcon={<EditNoteIcon />}>
+              Edit
+            </Button>
           </MenuItem>
           <MenuItem
             sx={{
@@ -216,7 +268,9 @@ const Camera = () => {
             }}
             onClick={() => setAnchorEditButton(null)}
           >
-            <Button className={classes.menuButton} startIcon={<ClearIcon />}>Hapus</Button>
+            <Button className={classes.menuButton} startIcon={<ClearIcon />}>
+              Hapus
+            </Button>
           </MenuItem>
           <MenuItem
             sx={{
@@ -225,7 +279,12 @@ const Camera = () => {
             }}
             onClick={() => setAnchorEditButton(null)}
           >
-            <Button className={classes.menuButton} startIcon={<PlayArrowIcon />}>Restart Service</Button>
+            <Button
+              className={classes.menuButton}
+              startIcon={<PlayArrowIcon />}
+            >
+              Restart Service
+            </Button>
           </MenuItem>
         </Menu>
       </Stack>
