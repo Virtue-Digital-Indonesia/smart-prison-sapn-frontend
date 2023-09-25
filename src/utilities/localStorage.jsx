@@ -5,6 +5,7 @@ const keyUserProfile = 'smart-prison-sapn'
 const keySapnTheme = 'sapn-theme'
 const keyAddAuthority = 'add-authority'
 const keyAddValueSetting = 'add-value-setting'
+const keyCameraDetail = 'camera-detail'
 
 // USER PROFILE
 export const setUserProfileToLocalStorage = (inputUserObject) => {
@@ -64,4 +65,19 @@ export const readValueSettingFromLocalStorage = () => {
 
 export const removeValueSettingFromLocalStorage = () => {
   return localStorage.removeItem(keyAddValueSetting)
+}
+
+// CAMERA DETAIL
+export const setCameraDetailToLocalStorage = (inputUserObject) => {
+  localStorage.setItem(keyCameraDetail, JSON.stringify(inputUserObject))
+}
+
+export const readCameraDetailFromLocalStorage = () => {
+  return localStorage.getItem(keyCameraDetail)
+    ? JSON.parse(localStorage.getItem(keyCameraDetail))
+    : intialAppTheme
+}
+
+export const removeCameraDetailFromLocalStorage = () => {
+  return localStorage.removeItem(keyCameraDetail)
 }

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState, useEffect} from 'react'
 
 // MUIS
 import { Box, Stack, Typography } from '@mui/material'
@@ -9,7 +9,7 @@ import useStyles from './optionsUseStyles'
 const Options = (props) => {
   const classes = useStyles()
 
-  const {setCameraFilter} = props
+  const { cameraFilter, setCameraFilter, setCameraList, tempCameraList } = props
 
   const optionsList = [
     {
@@ -38,6 +38,22 @@ const Options = (props) => {
     setCameraOptionsListButton(newList)
     setCameraFilter(inputItem.title)
   }
+
+  // HANDLE TABLE TAB
+  useEffect(() => {
+    if (cameraFilter !== 'Semua') {
+      let newTableData
+      if (cameraFilter === 'Sholat'){
+        newTableData = [...tempCameraList].filter((data) => data.type === 'Sholat')
+      }
+      else if (cameraFilter === 'Perkelahian'){
+        newTableData = [...tempCameraList].filter((data) => data.type === 'Perkelahian')
+      }
+      setCameraList(newTableData)
+    } else {
+      setCameraList(tempCameraList)
+    }
+  }, [cameraFilter])
 
   return (
     <Box>
