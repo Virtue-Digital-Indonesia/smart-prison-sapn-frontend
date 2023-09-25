@@ -1,11 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
-
-// DATA DUMMY
-import { cameraData } from 'pages/DataDummy'
 
 // MUIS
 import {
@@ -24,18 +21,28 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 // STYLES
 import useStyles from './cameraUseStyles'
 
+// UTILS
+import {
+  setCameraDetailToLocalStorage,
+  removeCameraDetailFromLocalStorage,
+} from 'utilities/localStorage'
+
 const Camera = (props) => {
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const { cameraFilter } = props
+  const { cameraList } = props
 
-  const [cameraList, setCameraList] = useState(cameraData)
   const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)
 
   const handleCameraNameClick = (inputParams) => {
-    navigate(`/camera/detail/${inputParams}`)
+    setCameraDetailToLocalStorage(inputParams)
+    navigate(`/camera/detail/${inputParams.id}`)
   }
+
+  useEffect(() => {
+    removeCameraDetailFromLocalStorage()
+  }, [])
 
   return (
     <Stack>
@@ -67,7 +74,7 @@ const Camera = (props) => {
                     className={classes.container}
                   >
                     <Stack
-                      onClick={() => handleCameraNameClick(item.id)}
+                      onClick={() => handleCameraNameClick(item)}
                       padding='20px 30px'
                       sx={{
                         ':hover': {
