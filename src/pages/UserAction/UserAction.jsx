@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
@@ -35,7 +35,6 @@ const UserAction = () => {
   const location = useLocation()
 
   const { auth, setLoading, setSnackbarObject  } = useContext(AllPagesContext)
-  const { id } = useParams()
 
   const initialFormObject = {
     // BASIC DETAILS
@@ -50,7 +49,6 @@ const UserAction = () => {
   const [authorityOptions, setAuthorityOptions] = useState([])
   const [showPassword, setShowPassword] = useState(false)
   const [selectedData, setSelectedData] = useState(initialFormObject)
-  const [selectedGroupIdEdit, setSelectedGroupIdEdit] = useState()
 
   const handleFormObjectChange = (event) => {
     setFormObject((current) => ({
@@ -110,7 +108,11 @@ const UserAction = () => {
     const abortController = new AbortController()
 
     const bodyParams = {
-      ...formObject,
+      id_user: formObject.id_user,
+      id_group: formObject.id_group,
+      name_user: formObject.name_user,
+      username: formObject.username,
+      password: (location.pathname.includes('add-user') ? formObject.password : ''),
       timezone_offset: getTimeZoneOffset(),
     }
 
@@ -149,7 +151,7 @@ const UserAction = () => {
         bodyParams
       )
 
-      if (resultEditUser.status === 201) {
+      if (resultEditUser.status === 200) {
         setSnackbarObject({
           open: true,
           severity: 'success',
@@ -177,27 +179,6 @@ const UserAction = () => {
     else{
       setFormObject(selectedData)
     }
-  }
-
-  const getGroupRoleID = (item) => {
-    console.log('1st step')
-    console.log(authorityOptions)
-    console.log(item)
-    let newFormObject
-
-    for(let i; i < authorityOptions.length; ++i){
-      console.log('2nd step')
-      if(authorityOptions.name_group === item.name_group){
-        console.log('3rd step')
-        newFormObject = {
-          ...item,
-          id_group: authorityOptions.id_group
-        }
-      }
-    }
-
-    setFormObject(newFormObject)
-    setSelectedData(newFormObject)
   }
 
   useEffect(() => {
