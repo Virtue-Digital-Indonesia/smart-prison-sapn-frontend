@@ -37,6 +37,12 @@ import useStyles from './cameraUseStyles'
 // ROUTES
 import { cameraRoutes } from './cameraRoutes'
 
+// UTILS
+import {
+  setCameraToLocalStorage,
+  removeCameraFromLocalStorage,
+} from 'utilities/localStorage'
+
 const Camera = () => {
   const classes = useStyles()
   const navigate = useNavigate()
@@ -134,11 +140,10 @@ const Camera = () => {
   const [dialogDeleteCamera, setDialogDeleteCamera] = useState(null)
   const [cameraTempData, setCameraTempData] = useState(null)
 
+  // HANDLE EDIT CAMERA
   const handleEditButtonClick = () => {
-    navigate(
-      '/camera/edit/1'
-      //`/camera/edit/${inputParams.id}`
-    )
+    setCameraToLocalStorage(cameraTempData)
+    navigate(`/camera/edit/${cameraTempData?.id}`)
   }
 
   // HANDLE DELETE CAMERA
@@ -185,7 +190,6 @@ const Camera = () => {
     )
 
     if (resultData.status === 200) {
-      console.log(resultData.data.rows)
       setTotalRow(resultData?.data?.totalElements)
       setTableData(
         resultData.data.rows.map((item, index) => {
@@ -207,6 +211,11 @@ const Camera = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
+
+  // REMOVE CAMERA DATA FROM LOCAL STORAGE
+  useEffect(() => {
+    removeCameraFromLocalStorage()
+  }, [])
 
   return (
     <Stack className={classes.root}>
