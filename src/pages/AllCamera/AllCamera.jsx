@@ -1,14 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 
-// DATA DUMMY
-import { cameraData } from 'pages/DataDummy'
-
 // MUIS
 import { Divider, Grid, Stack, Typography } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/system'
+
+// SERVICES
+import { getCameraList } from 'services/camera'
 
 // STYLES
 import useStyles from './allCameraUseStyles'
@@ -16,7 +19,54 @@ import useStyles from './allCameraUseStyles'
 const AllCamera = () => {
   const classes = useStyles()
 
-  const [allCameraList, setAllCameraList] = useState(cameraData)
+  const [allCameraList, setAllCameraList] = useState([])
+  const [search, setSearch] = useState('')
+
+  const { auth, setLoading } = useContext(AllPagesContext)
+
+  // GET ALL CAMERA
+  const getAllCamera = async (inputSignal) => {
+    setLoading(true)
+  
+    const queryParams = {
+      page: 0,
+      size: 100,
+    }
+  
+    const resultData = await getCameraList(
+      inputSignal,
+      auth?.accessToken,
+      search,
+      queryParams
+    )
+  
+    if (resultData.status === 200) {
+      const newCameraList = resultData?.data?.rows?.map((item) => {
+        return {
+          ...item,
+          title: item.nama,
+          type: (item.status_fight_sholat === 1? 'Sholat' :
+            item.status_fight_sholat === 2? 'Perkelahian' : 'Unknown')
+        }
+      })
+      setAllCameraList(newCameraList)
+      setLoading(false)
+    } else {
+      setLoading(false)
+    }
+  }
+  
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    getAllCamera(abortController.signal)
+
+    return () => {
+      abortController.abort()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Stack className={classes.root}>
