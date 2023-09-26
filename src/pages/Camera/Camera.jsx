@@ -39,8 +39,8 @@ import { cameraRoutes } from './cameraRoutes'
 
 // UTILS
 import {
-  setCameraToLocalStorage,
-  removeCameraFromLocalStorage,
+  setCameraDetailToLocalStorage,
+  removeCameraDetailFromLocalStorage,
 } from 'utilities/localStorage'
 
 const Camera = () => {
@@ -142,7 +142,7 @@ const Camera = () => {
 
   // HANDLE EDIT CAMERA
   const handleEditButtonClick = () => {
-    setCameraToLocalStorage(cameraTempData)
+    setCameraDetailToLocalStorage(cameraTempData)
     navigate(`/camera/edit/${cameraTempData?.id}`)
   }
 
@@ -214,7 +214,7 @@ const Camera = () => {
 
   // REMOVE CAMERA DATA FROM LOCAL STORAGE
   useEffect(() => {
-    removeCameraFromLocalStorage()
+    removeCameraDetailFromLocalStorage()
   }, [])
 
   return (

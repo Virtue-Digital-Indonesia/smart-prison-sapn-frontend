@@ -5,7 +5,8 @@ const keyUserProfile = 'smart-prison-sapn'
 const keySapnTheme = 'sapn-theme'
 const keyAddAuthority = 'add-authority'
 const keyAddValueSetting = 'add-value-setting'
-const keyAddCamera = 'add-camera'
+const keyAddUserSetting = 'add-user-setting'
+const keyCameraDetail = 'camera-detail'
 
 // USER PROFILE
 export const setUserProfileToLocalStorage = (inputUserObject) => {
@@ -67,17 +68,32 @@ export const removeValueSettingFromLocalStorage = () => {
   return localStorage.removeItem(keyAddValueSetting)
 }
 
-// CAMERA
-export const setCameraToLocalStorage = (inputUserObject) => {
-  localStorage.setItem(keyAddCamera, JSON.stringify(inputUserObject))
+// USER SETTING
+export const setUserSettingToLocalStorage = (inputUserObject) => {
+  localStorage.setItem(keyAddUserSetting, JSON.stringify(inputUserObject))
 }
 
-export const readCameraFromLocalStorage = () => {
-  return localStorage.getItem(keyAddCamera)
-    ? JSON.parse(localStorage.getItem(keyAddCamera))
+export const readUserSettingFromLocalStorage = () => {
+  return localStorage.getItem(keyAddUserSetting)
+    ? JSON.parse(localStorage.getItem(keyAddUserSetting))
     : intialAppTheme
 }
 
-export const removeCameraFromLocalStorage = () => {
-  return localStorage.removeItem(keyAddCamera)
+export const removeUserSettingFromLocalStorage = () => {
+  return localStorage.removeItem(keyAddUserSetting)
+}
+
+// CAMERA DETAIL
+export const setCameraDetailToLocalStorage = (inputUserObject) => {
+  localStorage.setItem(keyCameraDetail, JSON.stringify(inputUserObject))
+}
+
+export const readCameraDetailFromLocalStorage = () => {
+  return localStorage.getItem(keyCameraDetail)
+    ? JSON.parse(localStorage.getItem(keyCameraDetail))
+    : intialAppTheme
+}
+
+export const removeCameraDetailFromLocalStorage = () => {
+  return localStorage.removeItem(keyCameraDetail)
 }

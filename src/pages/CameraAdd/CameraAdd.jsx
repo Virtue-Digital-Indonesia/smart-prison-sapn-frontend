@@ -32,7 +32,7 @@ import { cameraRoutes } from 'pages/Camera/cameraRoutes'
 
 // UTILS
 import { getTimeZoneOffset } from 'utilities/valueConverter'
-import { readCameraFromLocalStorage } from 'utilities/localStorage'
+import { readCameraDetailFromLocalStorage } from 'utilities/localStorage'
 
 const CameraAdd = () => {
   const classes = useStyles()
@@ -196,7 +196,7 @@ const CameraAdd = () => {
 
   // HANDLE AUTO FILL WHILE EDIT THE CAMERA
   useEffect(() => {
-    const cameraData = readCameraFromLocalStorage()
+    const cameraData = readCameraDetailFromLocalStorage()
 
     if (
       Object.keys(cameraData).length > 0 &&

@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // ASSETS
 import IconSholat from 'assets/images/icons/sholat.png'
 import IconPerkelahian from 'assets/images/icons/fighting.png'
+import IconUnknown from 'assets/images/icons/unknown.png'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
@@ -14,52 +15,14 @@ import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
 // STYLES
 import useStyles from './cameraDetailUseStyles'
 
+// UTILS
+import { readCameraDetailFromLocalStorage } from 'utilities/localStorage'
+
 const CameraDetail = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const initialCameraList = [
-    {
-      title: 'SP-NG-KMFD-04',
-      type: 'Sholat',
-      id: 1,
-    },
-    {
-      title: 'SP-NG-KMFD-05',
-      type: 'Sholat',
-      id: 2,
-    },
-    {
-      title: 'SP-NG-KMFD-06',
-      type: 'Sholat',
-      id: 3,
-    },
-    {
-      title: 'SP-NG-KAMMAKS-50',
-      type: 'Sholat',
-      id: 4,
-    },
-    {
-      title: 'SP-NG-KMFD-04',
-      type: 'Perkelahian',
-      id: 5,
-    },
-    {
-      title: 'SP-NG-KMFD-05',
-      type: 'Perkelahian',
-      id: 6,
-    },
-    {
-      title: 'SP-NG-KMFD-06',
-      type: 'Perkelahian',
-      id: 7,
-    },
-    {
-      title: 'SP-NG-KAMMAKS-50',
-      type: 'Perkelahian',
-      id: 8,
-    },
-  ]
+  const cameraDetail = readCameraDetailFromLocalStorage()
 
   const handleButtonClick = () => {
     navigate('/')
@@ -75,7 +38,7 @@ const CameraDetail = () => {
             width='100%'
             alignItems='flex-start'
           >
-            <Typography className={classes.title}>{initialCameraList[0].title}</Typography>
+            <Typography className={classes.title}>{cameraDetail.nama}</Typography>
           </Stack>
           <Stack
             direction='row'
@@ -101,13 +64,17 @@ const CameraDetail = () => {
 
       {/* LOG */}
       <Stack className={classes.container}>
-        <Typography className={classes.title}>Log {initialCameraList[0].type}</Typography>
+        <Typography className={classes.title}>Log {cameraDetail.type}</Typography>
         <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
         <Stack className={classes.logContainer}>
           {/* ICON */}
           <Box
             component='img'
-            src={initialCameraList[0].type === 'Sholat' ? IconSholat : IconPerkelahian}
+            src={
+              cameraDetail.type === 'Sholat' ? IconSholat :
+                cameraDetail.type === 'Perkelahian' ? IconPerkelahian:
+                  IconUnknown
+            }
             alt=''
             className={classes.icon}
           />
