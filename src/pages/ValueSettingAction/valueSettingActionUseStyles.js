@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#d32f2f',
     fontSize: '16px',
     fontWeight: 300,
+    margin: 16,
   },
   formItemInput: {
     width: 300,
