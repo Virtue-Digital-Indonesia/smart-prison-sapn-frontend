@@ -79,7 +79,7 @@ export const readUserSettingFromLocalStorage = () => {
     : intialAppTheme
 }
 
-export const removeUserSettingSettingFromLocalStorage = () => {
+export const removeUserSettingFromLocalStorage = () => {
   return localStorage.removeItem(keyAddUserSetting)
 }
 

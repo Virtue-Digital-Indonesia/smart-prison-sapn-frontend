@@ -13,7 +13,6 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import EditNoteIcon from '@mui/icons-material/EditNote'
 import ClearIcon from '@mui/icons-material/Clear'
-import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 
 // COMPONENTS
 import DataGridTable from 'components/DataGridTable/DataGridTable'
@@ -202,6 +201,9 @@ const User = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, pageSize, search])
 
+  useEffect(() => {
+    removeUserSettingFromLocalStorage()
+  }, [])
 
   return (
     <Stack className={classes.root}>

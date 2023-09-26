@@ -112,7 +112,7 @@ const UserAction = () => {
       id_group: formObject.id_group,
       name_user: formObject.name_user,
       username: formObject.username,
-      password: (location.pathname.includes('add-user') ? formObject.password : ''),
+      password: formObject.password,
       timezone_offset: getTimeZoneOffset(),
     }
 
@@ -182,7 +182,12 @@ const UserAction = () => {
   }
 
   useEffect(() => {
-    const userSettingData = readUserSettingFromLocalStorage()
+    const localData = readUserSettingFromLocalStorage()
+
+    const userSettingData = {
+      ...localData,
+      password: '',
+    }
 
     getAuthorityOptions()
 
