@@ -1,7 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { useParams } from 'react-router-dom'
 
 // COMPONENT
 import Header from './Header/Header'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import {
@@ -15,11 +19,16 @@ import {
   Button,
 } from '@mui/material/'
 
+// SERVICE
+import { getUserAccess } from 'services/authority'
+
 // STYLES
 import useStyles from './authorityManagementUseStyles'
 
 const AuthorityManagement = () => {
   const classes = useStyles()
+  const { auth } = useContext(AllPagesContext)
+  const { id } = useParams()
 
   const initialListTable = [
     {
@@ -64,6 +73,41 @@ const AuthorityManagement = () => {
 
     setListTable(newListTable)
   }
+
+  // GET USER ACCESS DATA
+  const getUserAccesData = async (inputSignal, inputToken) => {
+    const resultData = await getUserAccess(inputSignal, inputToken, id)
+
+    console.log(resultData)
+    if (resultData.status === 200) {
+      const getAccessName = (inputName) => {
+        if (inputName === 'group') return 'Kewenangan'
+        else if (inputName === 'user') return 'Pengguna'
+        else if (inputName === 'pengaturan_nilai') return 'Pengaturan Nilai'
+        else if (inputName === 'camera') return 'Camera'
+        else if (inputName === 'all_camera') return 'All Camera'
+      }
+
+      const newData = resultData?.data.map((item) => {
+        return {
+          ...item,
+          name: getAccessName(item.name_controller),
+        }
+      })
+
+      console.log(newData)
+    }
+  }
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    getUserAccesData(abortController.signal, auth.accessToken)
+    return () => {
+      abortController.abort()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Stack className={classes.root}>

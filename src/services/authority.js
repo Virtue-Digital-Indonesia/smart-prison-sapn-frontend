@@ -82,3 +82,17 @@ export const deleteAuthority = async (
     else return error.response
   }
 }
+
+// GET USER ACCESS
+export const getUserAccess = async (inputSignal, inputToken, inputID) => {
+  try {
+    const response = await axios.get(`/user-access?group_id=${inputID}`, {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}

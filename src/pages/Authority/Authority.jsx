@@ -197,7 +197,7 @@ const Authority = () => {
       abortController.abort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search])
+  }, [search, pageNumber, pageSize])
 
   // REMOVE AUTHORITY LOCAL STORAGE DATA
   useEffect(() => {
