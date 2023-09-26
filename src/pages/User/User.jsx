@@ -141,7 +141,7 @@ const User = () => {
       setSnackbarObject({
         open: true,
         severity: 'success',
-        title: 'User berhasil dihapus.',
+        title: 'Satu data pengguna telah dihapus.',
         message: '',
       })
       getAllUsers(abortController.signal)
@@ -150,7 +150,7 @@ const User = () => {
       setSnackbarObject({
         open: true,
         severity: 'error',
-        title: 'Gagal menghapus user.',
+        title: 'Gagal menghapus data pengguna.',
         message: '',
       })
       setDialogDeleteValue(null)

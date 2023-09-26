@@ -129,7 +129,7 @@ const UserAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'success',
-          title: 'User baru berhasil dibuat.',
+          title: 'Satu data pengguna baru saja dibuat.',
           message: '',
         })
         navigate('/user')
@@ -137,7 +137,7 @@ const UserAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'error',
-          title: 'User baru gagal dibuat.',
+          title: 'Gagal membuat data pengguna baru.',
           message: '',
         })
       }
@@ -155,7 +155,7 @@ const UserAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'success',
-          title: 'User berhasil diedit.',
+          title: 'Satu data pengguna telah diperbarui.',
           message: '',
         })
         navigate('/user')
@@ -163,7 +163,7 @@ const UserAction = () => {
         setSnackbarObject({
           open: true,
           severity: 'error',
-          title: 'User gagal diedit.',
+          title: 'Gagal memperbarui data pengguna.',
           message: '',
         })
       }
