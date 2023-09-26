@@ -26,9 +26,10 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import DataGridTable from 'components/DataGridTable/DataGridTable'
 import Footer from 'components/Footer/Footer'
 import Header from './Header/Header'
+import DialogDelete from 'components/DialogDelete/DialogDelete'
 
 // SERVICE
-import { getCameraList } from 'services/camera'
+import { getCameraList, deleteCamera } from 'services/camera'
 
 // STYLES
 import useStyles from './cameraUseStyles'
@@ -39,7 +40,7 @@ import { cameraRoutes } from './cameraRoutes'
 const Camera = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-  const { auth } = useContext(AllPagesContext)
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -112,7 +113,10 @@ const Camera = () => {
           className={`no-zoom ${classes.settingButton}`}
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
-          onClick={(e) => setAnchorEditButton(e.currentTarget)}
+          onClick={(e) => {
+            setCameraTempData(params.row)
+            setAnchorEditButton(e.currentTarget)
+          }}
         ></Button>
       ),
     },
@@ -127,12 +131,44 @@ const Camera = () => {
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
   const [anchorEditButton, setAnchorEditButton] = useState(null)
   const [search, setSearch] = useState('')
+  const [dialogDeleteCamera, setDialogDeleteCamera] = useState(null)
+  const [cameraTempData, setCameraTempData] = useState(null)
 
   const handleEditButtonClick = () => {
     navigate(
       '/camera/edit/1'
       //`/camera/edit/${inputParams.id}`
     )
+  }
+
+  // HANDLE DELETE CAMERA
+  const handleDeleteCamera = async () => {
+    const abortController = new AbortController()
+
+    const resultDeleteAuthority = await deleteCamera(
+      abortController.signal,
+      auth.accessToken,
+      cameraTempData.id
+    )
+
+    if (resultDeleteAuthority.status === 200) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'Satu data kamera telah di hapus.',
+        message: '',
+      })
+      getCameraListData(abortController.signal, auth.accessToken)
+      setDialogDeleteCamera(null)
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Gagal menghapus data kamera.',
+        message: '',
+      })
+      setDialogDeleteCamera(null)
+    }
   }
 
   // GET CAMERA LIST
@@ -194,7 +230,13 @@ const Camera = () => {
           margin='20px 0 10px'
           paddingRight='30px'
         >
-          <TextField variant='outlined' placeholder='Search..' size='small' />
+          <TextField
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            variant='outlined'
+            placeholder='Search..'
+            size='small'
+          />
         </Stack>
 
         {/* DATA GRID */}
@@ -250,6 +292,7 @@ const Camera = () => {
             },
           }}
         >
+          {/* EDIT */}
           <MenuItem
             sx={{
               backgroundColor: 'white',
@@ -261,17 +304,24 @@ const Camera = () => {
               Edit
             </Button>
           </MenuItem>
+
+          {/* HAPUS */}
           <MenuItem
             sx={{
               backgroundColor: 'white',
               ':hover': { backgroundColor: 'white' },
             }}
-            onClick={() => setAnchorEditButton(null)}
+            onClick={() => {
+              setAnchorEditButton(null)
+              setDialogDeleteCamera(true)
+            }}
           >
             <Button className={classes.menuButton} startIcon={<ClearIcon />}>
               Hapus
             </Button>
           </MenuItem>
+
+          {/* RESTART */}
           <MenuItem
             sx={{
               backgroundColor: 'white',
@@ -288,6 +338,14 @@ const Camera = () => {
           </MenuItem>
         </Menu>
       </Stack>
+
+      {/* DIALOG DELETE AUTHORITY */}
+      <DialogDelete
+        dialogDelete={dialogDeleteCamera}
+        setDialogDelete={setDialogDeleteCamera}
+        title='Apakah Anda yakin akan menghapus data ini ?'
+        handleOkButtonClick={handleDeleteCamera}
+      />
 
       {/* FOOTER */}
       <Footer />
