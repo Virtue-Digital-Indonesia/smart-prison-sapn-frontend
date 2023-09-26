@@ -5,11 +5,8 @@ const keyUserProfile = 'smart-prison-sapn'
 const keySapnTheme = 'sapn-theme'
 const keyAddAuthority = 'add-authority'
 const keyAddValueSetting = 'add-value-setting'
-<<<<<<< HEAD
 const keyAddUserSetting = 'add-user-setting'
-=======
 const keyCameraDetail = 'camera-detail'
->>>>>>> develop
 
 // USER PROFILE
 export const setUserProfileToLocalStorage = (inputUserObject) => {
