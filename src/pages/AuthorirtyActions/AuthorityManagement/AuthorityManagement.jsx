@@ -30,44 +30,12 @@ const AuthorityManagement = () => {
   const { auth } = useContext(AllPagesContext)
   const { id } = useParams()
 
-  const initialListTable = [
-    {
-      name: 'Pengaturan Nilai',
-      akses: true,
-      tambah: true,
-      melihat: true,
-      edit: true,
-      hapus: true,
-      exExcel: false,
-      exPdf: false,
-    },
-    {
-      name: 'All Camera',
-      akses: false,
-      tambah: false,
-      melihat: false,
-      edit: false,
-      hapus: false,
-      exExcel: false,
-      exPdf: false,
-    },
-    {
-      name: 'Camera',
-      akses: false,
-      tambah: false,
-      melihat: false,
-      edit: false,
-      hapus: false,
-      exExcel: false,
-      exPdf: false,
-    },
-  ]
-
-  const [listTable, setListTable] = useState(initialListTable)
+  const [listTable, setListTable] = useState([])
 
   const handleCheckboxChange = (inputItem, inputValue, inputName) => {
     const newListTable = [...listTable].map((item) => {
-      if (item.name === inputItem.name) item[inputName] = inputValue
+      if (item.name === inputItem.name)
+        item[inputName] = inputValue === true ? 1 : 0
       return item
     })
 
@@ -94,8 +62,10 @@ const AuthorityManagement = () => {
           name: getAccessName(item.name_controller),
         }
       })
-
-      console.log(newData)
+      const fileteredData = newData.filter(
+        (item) => item.name_controller !== '#'
+      )
+      setListTable(fileteredData)
     }
   }
 
@@ -161,7 +131,7 @@ const AuthorityManagement = () => {
                 <TableCell align='center' className={classes.tableBodyCell}>
                   <Checkbox
                     disableRipple
-                    checked={item.akses}
+                    checked={item.akses === 1 ? true : false}
                     name='akses'
                     onChange={(e) =>
                       handleCheckboxChange(
@@ -175,7 +145,7 @@ const AuthorityManagement = () => {
                 <TableCell align='center' className={classes.tableBodyCell}>
                   <Checkbox
                     disableRipple
-                    checked={item.tambah}
+                    checked={item.tambah === 1 ? true : false}
                     name='tambah'
                     onChange={(e) =>
                       handleCheckboxChange(
@@ -189,8 +159,8 @@ const AuthorityManagement = () => {
                 <TableCell align='center' className={classes.tableBodyCell}>
                   <Checkbox
                     disableRipple
-                    checked={item.melihat}
-                    name='melihat'
+                    checked={item.lihat === 1 ? true : false}
+                    name='lihat'
                     onChange={(e) =>
                       handleCheckboxChange(
                         item,
@@ -203,7 +173,7 @@ const AuthorityManagement = () => {
                 <TableCell align='center' className={classes.tableBodyCell}>
                   <Checkbox
                     disableRipple
-                    checked={item.edit}
+                    checked={item.edit === 1 ? true : false}
                     name='edit'
                     onChange={(e) =>
                       handleCheckboxChange(
@@ -217,7 +187,7 @@ const AuthorityManagement = () => {
                 <TableCell align='center' className={classes.tableBodyCell}>
                   <Checkbox
                     disableRipple
-                    checked={item.hapus}
+                    checked={item.hapus === 1 ? true : false}
                     name='hapus'
                     onChange={(e) =>
                       handleCheckboxChange(
@@ -231,8 +201,8 @@ const AuthorityManagement = () => {
                 <TableCell align='center' className={classes.tableBodyCell}>
                   <Checkbox
                     disableRipple
-                    checked={item.exExcel}
-                    name='exExcel'
+                    checked={item.ex_excel === 1 ? true : false}
+                    name='ex_excel'
                     onChange={(e) =>
                       handleCheckboxChange(
                         item,
@@ -245,8 +215,8 @@ const AuthorityManagement = () => {
                 <TableCell align='center' sx={{ padding: '0px' }}>
                   <Checkbox
                     disableRipple
-                    checked={item.exPdf}
-                    name='exPdf'
+                    checked={item.ex_pdf === 1 ? true : false}
+                    name='ex_pdf'
                     onChange={(e) =>
                       handleCheckboxChange(
                         item,
