@@ -67,7 +67,7 @@ const ThemeReplacementWidget = () => {
           width='100%'
           height='50px'
           justifyContent='center'
-          alignItems='center'
+          alignItems='left'
         >
           <Tabs
             value={tabValue}
@@ -76,7 +76,7 @@ const ThemeReplacementWidget = () => {
           >
             <Tab label='Sidebar' />
             <Tab label='Navbar' />
-            <Tab label='Primary' />
+            {/* <Tab label='Primary' /> */}
           </Tabs>
         </Stack>
       </Stack>

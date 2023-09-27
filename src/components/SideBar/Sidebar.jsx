@@ -19,7 +19,7 @@ const Sidebar = () => {
   return (
     <Stack
       className='zoom'
-      width={isDrawerExpanded ? '260px' : '90px'}
+      width={isDrawerExpanded ? '300px' : '90px'}
       overflow='visible'
       height='100%'
       sx={{
