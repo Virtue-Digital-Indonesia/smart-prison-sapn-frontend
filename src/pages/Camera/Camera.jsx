@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import {
-  Button, Stack, Menu, MenuItem,
-  TextField, Typography
+  Button,
+  Stack,
+  Menu,
+  MenuItem,
+  TextField,
+  Typography,
 } from '@mui/material'
 
 // MUI ICONS
@@ -18,19 +26,27 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import DataGridTable from 'components/DataGridTable/DataGridTable'
 import Footer from 'components/Footer/Footer'
 import Header from './Header/Header'
+import DialogDelete from 'components/DialogDelete/DialogDelete'
+
+// SERVICE
+import { getCameraList, deleteCamera } from 'services/camera'
 
 // STYLES
 import useStyles from './cameraUseStyles'
 
-// DATA DUMMY
-import { cameraData } from 'pages/DataDummy'
-
 // ROUTES
 import { cameraRoutes } from './cameraRoutes'
+
+// UTILS
+import {
+  setCameraDetailToLocalStorage,
+  removeCameraDetailFromLocalStorage,
+} from 'utilities/localStorage'
 
 const Camera = () => {
   const classes = useStyles()
   const navigate = useNavigate()
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -43,7 +59,7 @@ const Camera = () => {
       isSortShown: true,
     },
     {
-      field: 'title',
+      field: 'nama',
       headerName: 'Nama Kamera',
       flex: 1,
       minWidth: 270,
@@ -52,7 +68,7 @@ const Camera = () => {
       isSortShown: true,
     },
     {
-      field: 'ip',
+      field: 'IP',
       headerName: 'IP',
       flex: 1,
       minWidth: 110,
@@ -70,22 +86,25 @@ const Camera = () => {
       isSortShown: true,
     },
     {
-      field: 'type',
+      field: 'status_fight_sholat',
       headerName: 'Perkelahian/Sholat',
       flex: 1,
       minWidth: 100,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
+      renderCell: (params) => (params.value === 1 ? 'Perkelahian' : 'Sholat'),
     },
     {
-      field: 'creation_date',
+      field: 'created_at',
       headerName: 'Dibuat Pada',
       flex: 1,
       minWidth: 200,
       hide: false,
       isFilterShown: true,
       isSortShown: true,
+      renderCell: (params) =>
+        moment(params.value).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       field: 'opsi',
@@ -100,28 +119,103 @@ const Camera = () => {
           className={`no-zoom ${classes.settingButton}`}
           startIcon={<SettingsIcon />}
           endIcon={<ArrowDropDownIcon />}
-          onClick={(e) => setAnchorEditButton(e.currentTarget)}
-        >
-        </Button>
+          onClick={(e) => {
+            setCameraTempData(params.row)
+            setAnchorEditButton(e.currentTarget)
+          }}
+        ></Button>
       ),
     },
   ]
-  
+
   const [order, setOrder] = useState(null)
   const [orderBy, setOrderBy] = useState(null)
   const [totalRow, setTotalRow] = useState(0)
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
-  const [tableData, setTableData] = useState(cameraData)
+  const [tableData, setTableData] = useState([])
   const [selectedColumnList, setSelectedColumnList] = useState(initialColumns)
   const [anchorEditButton, setAnchorEditButton] = useState(null)
+  const [search, setSearch] = useState('')
+  const [dialogDeleteCamera, setDialogDeleteCamera] = useState(null)
+  const [cameraTempData, setCameraTempData] = useState(null)
 
+  // HANDLE EDIT CAMERA
   const handleEditButtonClick = () => {
-    navigate(
-      '/camera/edit/1'
-      //`/camera/edit/${inputParams.id}`
-    )
+    setCameraDetailToLocalStorage(cameraTempData)
+    navigate(`/camera/edit/${cameraTempData?.id}`)
   }
+
+  // HANDLE DELETE CAMERA
+  const handleDeleteCamera = async () => {
+    const abortController = new AbortController()
+
+    const resultDeleteAuthority = await deleteCamera(
+      abortController.signal,
+      auth.accessToken,
+      cameraTempData.id
+    )
+
+    if (resultDeleteAuthority.status === 200) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'Satu data kamera telah di hapus.',
+        message: '',
+      })
+      getCameraListData(abortController.signal, auth.accessToken)
+      setDialogDeleteCamera(null)
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Gagal menghapus data kamera.',
+        message: '',
+      })
+      setDialogDeleteCamera(null)
+    }
+  }
+
+  // GET CAMERA LIST
+  const getCameraListData = async (inputSignal, inputToken) => {
+    const queryParams = {
+      page: pageNumber,
+      size: pageSize,
+    }
+    const resultData = await getCameraList(
+      inputSignal,
+      inputToken,
+      search,
+      queryParams
+    )
+
+    if (resultData.status === 200) {
+      setTotalRow(resultData?.data?.totalElements)
+      setTableData(
+        resultData.data.rows.map((item, index) => {
+          return {
+            ...item,
+            no: index + 1,
+          }
+        })
+      )
+    }
+  }
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    getCameraListData(abortController.signal, auth.accessToken)
+    return () => {
+      abortController.abort()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search])
+
+  // REMOVE CAMERA DATA FROM LOCAL STORAGE
+  useEffect(() => {
+    removeCameraDetailFromLocalStorage()
+  }, [])
 
   return (
     <Stack className={classes.root}>
@@ -145,7 +239,13 @@ const Camera = () => {
           margin='20px 0 10px'
           paddingRight='30px'
         >
-          <TextField variant='outlined' placeholder='Search..' size='small' />
+          <TextField
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            variant='outlined'
+            placeholder='Search..'
+            size='small'
+          />
         </Stack>
 
         {/* DATA GRID */}
@@ -190,16 +290,18 @@ const Camera = () => {
           sx={{
             '@media only screen and (max-height: 820px)': {
               '& .MuiMenuItem-root': {
-                zoom: 0.85, padding: '2.5px 5px',
-                '&:first-of-type' : {paddingBottom: 0, paddingTop: '7px'},
-                '&:last-child' : {paddingTop: 0, paddingBottom: '7px'},
+                zoom: 0.85,
+                padding: '2.5px 5px',
+                '&:first-of-type': { paddingBottom: 0, paddingTop: '7px' },
+                '&:last-child': { paddingTop: 0, paddingBottom: '7px' },
               },
             },
             '& .MuiList-root': {
-              padding: 0
+              padding: 0,
             },
           }}
         >
+          {/* EDIT */}
           <MenuItem
             sx={{
               backgroundColor: 'white',
@@ -207,8 +309,28 @@ const Camera = () => {
             }}
             onClick={() => handleEditButtonClick()}
           >
-            <Button className={classes.menuButton} startIcon={<EditNoteIcon />}>Edit</Button>
+            <Button className={classes.menuButton} startIcon={<EditNoteIcon />}>
+              Edit
+            </Button>
           </MenuItem>
+
+          {/* HAPUS */}
+          <MenuItem
+            sx={{
+              backgroundColor: 'white',
+              ':hover': { backgroundColor: 'white' },
+            }}
+            onClick={() => {
+              setAnchorEditButton(null)
+              setDialogDeleteCamera(true)
+            }}
+          >
+            <Button className={classes.menuButton} startIcon={<ClearIcon />}>
+              Hapus
+            </Button>
+          </MenuItem>
+
+          {/* RESTART */}
           <MenuItem
             sx={{
               backgroundColor: 'white',
@@ -216,19 +338,23 @@ const Camera = () => {
             }}
             onClick={() => setAnchorEditButton(null)}
           >
-            <Button className={classes.menuButton} startIcon={<ClearIcon />}>Hapus</Button>
-          </MenuItem>
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
-            }}
-            onClick={() => setAnchorEditButton(null)}
-          >
-            <Button className={classes.menuButton} startIcon={<PlayArrowIcon />}>Restart Service</Button>
+            <Button
+              className={classes.menuButton}
+              startIcon={<PlayArrowIcon />}
+            >
+              Restart Service
+            </Button>
           </MenuItem>
         </Menu>
       </Stack>
+
+      {/* DIALOG DELETE AUTHORITY */}
+      <DialogDelete
+        dialogDelete={dialogDeleteCamera}
+        setDialogDelete={setDialogDeleteCamera}
+        title='Apakah Anda yakin akan menghapus data ini ?'
+        handleOkButtonClick={handleDeleteCamera}
+      />
 
       {/* FOOTER */}
       <Footer />

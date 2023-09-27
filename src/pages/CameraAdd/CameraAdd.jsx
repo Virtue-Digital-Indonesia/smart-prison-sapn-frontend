@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 import Header from './Header/Header'
+
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import {
@@ -18,19 +21,24 @@ import {
   Typography,
 } from '@mui/material/'
 
+// SERVICE
+import { postAddNewCamera, putEditCamera } from 'services/camera'
+
 // STYLES
 import useStyles from './cameraAddUseStyles'
 
-// DATA DUMMY
-import { cameraData } from 'pages/DataDummy'
-
 // ROUTES
 import { cameraRoutes } from 'pages/Camera/cameraRoutes'
+
+// UTILS
+import { getTimeZoneOffset } from 'utilities/valueConverter'
+import { readCameraDetailFromLocalStorage } from 'utilities/localStorage'
 
 const CameraAdd = () => {
   const classes = useStyles()
   const navigate = useNavigate()
   const location = useLocation()
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialFormObject = {
     // BASIC DETAILS
@@ -38,8 +46,7 @@ const CameraAdd = () => {
     ip: '',
     port: '',
     type: '',
-    treshold: '',
-    creation_date: '',
+    treshold: 0,
   }
 
   const cameraOptions = [
@@ -52,9 +59,12 @@ const CameraAdd = () => {
       name: 'Sholat',
     },
   ]
+
   const [formObject, setFormObject] = useState(initialFormObject)
+  const [tempFormObject, setTempFormObject] = useState(null)
   const [type, setType] = useState([])
 
+  // HANDLE FORM OBJECT CHANGE
   const handleFormObjectChange = (event) => {
     setFormObject((current) => ({
       ...current,
@@ -62,6 +72,7 @@ const CameraAdd = () => {
     }))
   }
 
+  // HANDLE AUTOCOMPLETE CHANGE
   const handleAutocompleteChangeType = (e, newVal) => {
     let newValue
     if (newVal !== null) {
@@ -78,20 +89,99 @@ const CameraAdd = () => {
     if (newValue !== 'Perkelahian') {
       setFormObject((current) => ({
         ...current,
-        treshold: '',
+        treshold: 0,
       }))
     }
 
     setType(newValue)
   }
 
-  const handleSaveButtonClick = () => {
-    alert('Save')
+  // HANDLE SAVE BUTTON
+  const handleSaveButtonClick = async () => {
+    const abortController = new AbortController()
+    const { ip, port, treshold, type, title } = formObject
+
+    // HANDLE ADD CAMERA
+    if (!location.pathname.includes('edit')) {
+      const bodyParams = {
+        camera: title,
+        ip: ip,
+        port: +port,
+        status_fight_sholat: type === 'Sholat' ? 2 : 1,
+        fight_threshold: +treshold,
+        timezone_offset: getTimeZoneOffset(),
+      }
+
+      const resultAddCamera = await postAddNewCamera(
+        abortController.signal,
+        auth.accessToken,
+        bodyParams
+      )
+
+      if (resultAddCamera.status === 201) {
+        setSnackbarObject({
+          open: true,
+          severity: 'success',
+          title: 'Satu data kamera baru saja dibuat.',
+          message: '',
+        })
+        navigate('/camera')
+      } else {
+        setSnackbarObject({
+          open: true,
+          severity: 'error',
+          title: 'Gagal membuat data kamera baru.',
+          message: '',
+        })
+      }
+    }
+    // HANDLE EDIT CAMAERA
+    else {
+      const bodyParams = {
+        id: formObject.id,
+        camera: title,
+        ip: ip,
+        port: +port,
+        status_fight_sholat: type === 'Sholat' ? 2 : 1,
+        fight_threshold: +treshold,
+        timezone_offset: getTimeZoneOffset(),
+        nama: title,
+      }
+
+      const resultEditCamera = await putEditCamera(
+        abortController.signal,
+        auth.accessToken,
+        bodyParams
+      )
+
+      if (resultEditCamera.status === 200) {
+        setSnackbarObject({
+          open: true,
+          severity: 'success',
+          title: 'Satu data kamera baru saja diperbarui.',
+          message: '',
+        })
+        navigate('/camera')
+      } else {
+        setSnackbarObject({
+          open: true,
+          severity: 'error',
+          title: 'Gagal memperbarui data kamera.',
+          message: '',
+        })
+      }
+    }
+
+    abortController.abort()
   }
 
+  // HANDLE RESET BUTTON
   const handleResetButtonClick = () => {
-    setFormObject(initialFormObject)
-    setType(null)
+    if (location.pathname.includes('edit')) setFormObject(tempFormObject)
+    else {
+      setFormObject(initialFormObject)
+      setType(null)
+    }
   }
 
   let breadcrumbList, pageTitle
@@ -103,6 +193,32 @@ const CameraAdd = () => {
     breadcrumbList = [cameraRoutes[0], cameraRoutes[1], cameraRoutes[2]]
     pageTitle = 'Edit Kamera'
   }
+
+  // HANDLE AUTO FILL WHILE EDIT THE CAMERA
+  useEffect(() => {
+    const cameraData = readCameraDetailFromLocalStorage()
+
+    if (
+      Object.keys(cameraData).length > 0 &&
+      location.pathname.includes('edit')
+    ) {
+      const newFormObject = {
+        title: cameraData.nama,
+        ip: cameraData.IP,
+        port: cameraData.port,
+        type:
+          cameraData.status_fight_sholat === 1
+            ? cameraOptions[0].name
+            : cameraOptions[1].name,
+        treshold: cameraData.fight_threshold,
+        id: cameraData.id,
+      }
+
+      setFormObject(newFormObject)
+      setTempFormObject(newFormObject)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Stack className={classes.root}>
@@ -215,6 +331,7 @@ const CameraAdd = () => {
 
             {/* CAMERA TYPE */}
             <Autocomplete
+              disableClearable
               value={formObject.type || null}
               onChange={(event, newValue) =>
                 handleAutocompleteChangeType(event, newValue)
