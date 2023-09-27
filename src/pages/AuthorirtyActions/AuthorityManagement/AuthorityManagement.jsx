@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 // COMPONENT
 import Header from './Header/Header'
@@ -20,22 +20,38 @@ import {
 } from '@mui/material/'
 
 // SERVICE
-import { getUserAccess } from 'services/authority'
+import { getUserAccess, putManageUserAccess } from 'services/authority'
 
 // STYLES
 import useStyles from './authorityManagementUseStyles'
 
+// UTILS
+import { getTimeZoneOffset } from 'utilities/valueConverter'
+
 const AuthorityManagement = () => {
   const classes = useStyles()
-  const { auth } = useContext(AllPagesContext)
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const [listTable, setListTable] = useState([])
 
+  // HANDLE CHECKBOX CHANGE
   const handleCheckboxChange = (inputItem, inputValue, inputName) => {
     const newListTable = [...listTable].map((item) => {
-      if (item.name === inputItem.name)
-        item[inputName] = inputValue === true ? 1 : 0
+      if (item.name === inputItem.name) {
+        if (inputName === 'akses') {
+          item.akses = inputValue === true ? 1 : 0
+          item.tambah = inputValue === true ? 1 : 0
+          item.lihat = inputValue === true ? 1 : 0
+          item.edit = inputValue === true ? 1 : 0
+          item.hapus = inputValue === true ? 1 : 0
+          item.ex_excel = inputValue === true ? 1 : 0
+          item.ex_pdf = inputValue === true ? 1 : 0
+        } else if (item.name === inputItem.name && item.akses === 1)
+          item[inputName] = inputValue === true ? 1 : 0
+      }
+
       return item
     })
 
@@ -46,7 +62,6 @@ const AuthorityManagement = () => {
   const getUserAccesData = async (inputSignal, inputToken) => {
     const resultData = await getUserAccess(inputSignal, inputToken, id)
 
-    console.log(resultData)
     if (resultData.status === 200) {
       const getAccessName = (inputName) => {
         if (inputName === 'group') return 'Kewenangan'
@@ -60,13 +75,45 @@ const AuthorityManagement = () => {
         return {
           ...item,
           name: getAccessName(item.name_controller),
+          timezone_offset: getTimeZoneOffset(),
         }
       })
+
       const fileteredData = newData.filter(
         (item) => item.name_controller !== '#'
       )
+
       setListTable(fileteredData)
     }
+  }
+
+  // HANDLE UPDATE BUTTON
+  const handleUpdateButton = async () => {
+    const abortController = new AbortController()
+
+    const resultUpdateUserAccess = await putManageUserAccess(
+      abortController.signal,
+      auth.accessToken,
+      listTable
+    )
+
+    if (resultUpdateUserAccess.status === 200) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'Satu data kewenangan telah di kelola.',
+        message: '',
+      })
+      navigate('/authority')
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Gagal mengelola data kewenangan.',
+        message: '',
+      })
+    }
+    abortController.abort()
   }
 
   useEffect(() => {
@@ -237,6 +284,7 @@ const AuthorityManagement = () => {
             variant='contained'
             size='large'
             className={classes.buttonUpdate}
+            onClick={handleUpdateButton}
           >
             Update
           </Button>

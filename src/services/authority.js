@@ -64,6 +64,24 @@ export const putEditAuthority = async (
   }
 }
 
+// MANAGE USER ACCESS
+export const putManageUserAccess = async (
+  inputSignal,
+  inputToken,
+  inputBodyParams
+) => {
+  try {
+    const response = await axios.put('/group/manage', inputBodyParams, {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
+
 // DELETE THE AUTHORITY
 export const deleteAuthority = async (
   inputSignal,
