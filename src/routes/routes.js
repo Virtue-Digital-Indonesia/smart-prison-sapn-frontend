@@ -12,6 +12,7 @@ import UserAction from 'pages/UserAction/UserAction'
 import User from 'pages/User/User'
 import CreateAuthority from 'pages/AuthorirtyActions/CreateAuthority/CreateAuthority'
 import AuthorityManagement from 'pages/AuthorirtyActions/AuthorityManagement/AuthorityManagement'
+import NotificationDetail from 'pages/NotificationDetail/NotificationDetail'
 
 const routes = [
   // AUTHENTICATION
@@ -100,6 +101,11 @@ const routes = [
   {
     path: '/user/edit/:id',
     element: <UserAction />,
+    routeType: 'private',
+  },
+  {
+    path: '/notification/detail/:id',
+    element: <NotificationDetail />,
     routeType: 'private',
   },
 ]
