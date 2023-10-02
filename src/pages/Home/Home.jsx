@@ -22,8 +22,7 @@ const Home = () => {
   const [cameraFilter, setCameraFilter] = useState('Semua')
   const [cameraList, setCameraList] = useState([])
   const [tempCameraList, setTempCameraList] = useState([])
-  const [search, setSearch] = useState('')
-  
+
   const { auth, setLoading } = useContext(AllPagesContext)
 
   // GET ALL CAMERA
@@ -38,7 +37,7 @@ const Home = () => {
     const resultData = await getCameraList(
       inputSignal,
       auth?.accessToken,
-      search,
+      '',
       queryParams
     )
 
@@ -47,8 +46,7 @@ const Home = () => {
         return {
           ...item,
           title: item.nama,
-          type: (item.status_fight_sholat === 1? 'Sholat' :
-            item.status_fight_sholat === 2? 'Perkelahian' : 'Unknown')
+          type: item.status_fight_sholat === 1 ? 'Perkelahian' : 'Sholat',
         }
       })
       setCameraList(newCameraData)
