@@ -164,6 +164,8 @@ const Authority = () => {
 
   // GET AUTHORITY LIST
   const getAuthorityListData = async (inputSignal, inputToken) => {
+    setLoading(true)
+    
     const queryParams = {
       page: pageNumber,
       size: pageSize,
