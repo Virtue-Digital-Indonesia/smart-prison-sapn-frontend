@@ -21,7 +21,7 @@ const LoadingSpinner = (props) => {
     <Modal disableAutoFocus open={loading}>
       <Fade
         in={loading}
-        timeout={{enter: 0, exit: 2500}}
+        timeout={{enter: 0, exit: 2300}}
       >
         <Stack className={classes.root}>
           {/* LOGO */}
