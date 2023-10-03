@@ -46,7 +46,7 @@ import {
 const Camera = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-  const { auth, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -178,6 +178,8 @@ const Camera = () => {
 
   // GET CAMERA LIST
   const getCameraListData = async (inputSignal, inputToken) => {
+    setLoading(true)
+
     const queryParams = {
       page: pageNumber,
       size: pageSize,
@@ -199,6 +201,9 @@ const Camera = () => {
           }
         })
       )
+      setLoading(false)
+    } else {
+      setLoading(false)
     }
   }
 
