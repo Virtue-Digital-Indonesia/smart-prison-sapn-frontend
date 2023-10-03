@@ -290,7 +290,7 @@ const ValueSetting = () => {
         </Stack>
 
         {/* DATA GRID */}
-        <Stack padding='0px 30px 30px 30px'>
+        <Stack padding='0px 30px 30px 30px' height='33vw'>
           <DataGridTable
             // BASE
             initialColumns={initialColumns}
@@ -349,9 +349,9 @@ const ValueSetting = () => {
             onClick={() => {
               setValueSettingToLocalStorage(valueTempData)
               valueTempData.id &&
-              navigate(`/value-setting/edit/${valueTempData.id}`)         
-              setAnchorOptionButton(null)}
-            }
+                navigate(`/value-setting/edit/${valueTempData.id}`)
+              setAnchorOptionButton(null)
+            }}
           >
             <Stack
               width={104}
