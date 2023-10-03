@@ -214,8 +214,6 @@ const ValueSetting = () => {
 
   // GET ALL VALUE SETTINGS
   const getAllValueSettings = async (inputSignal) => {
-    setLoading(true)
-
     const queryParams = {
       page: pageNumber,
       size: pageSize,
@@ -255,6 +253,7 @@ const ValueSetting = () => {
   }, [pageNumber, pageSize, search])
 
   useEffect(() => {
+    setLoading(true)
     removeValueSettingFromLocalStorage()
   }, [])
 

@@ -178,12 +178,11 @@ const Camera = () => {
 
   // GET CAMERA LIST
   const getCameraListData = async (inputSignal, inputToken) => {
-    setLoading(true)
-
     const queryParams = {
       page: pageNumber,
       size: pageSize,
     }
+    
     const resultData = await getCameraList(
       inputSignal,
       inputToken,
@@ -219,6 +218,7 @@ const Camera = () => {
 
   // REMOVE CAMERA DATA FROM LOCAL STORAGE
   useEffect(() => {
+    setLoading(true)
     removeCameraDetailFromLocalStorage()
   }, [])
 

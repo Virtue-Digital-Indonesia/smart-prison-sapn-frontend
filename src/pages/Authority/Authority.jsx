@@ -164,8 +164,6 @@ const Authority = () => {
 
   // GET AUTHORITY LIST
   const getAuthorityListData = async (inputSignal, inputToken) => {
-    setLoading(true)
-    
     const queryParams = {
       page: pageNumber,
       size: pageSize,
@@ -206,6 +204,7 @@ const Authority = () => {
 
   // REMOVE AUTHORITY LOCAL STORAGE DATA
   useEffect(() => {
+    setLoading(true)
     removeAuthorityFromLocalStorage()
   }, [])
 

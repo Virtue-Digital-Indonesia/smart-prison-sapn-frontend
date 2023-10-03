@@ -86,7 +86,7 @@ const SignIn = () => {
           setSnackbarObject({
             open: true,
             severity: 'success',
-            title: `Successfully logged in as ${getUserInformationData?.data?.data?.nameUser}.`,
+            title: `Berhasil masuk sebagai ${getUserInformationData?.data?.data?.nameUser}.`,
             message: '',
           })
           navigate('/')
@@ -94,18 +94,17 @@ const SignIn = () => {
           setSnackbarObject({
             open: true,
             severity: 'error',
-            title: 'Login failed, username and password are incorrect',
+            title: 'Gagal masuk. Username dan/atau password salah.',
             message: '',
           })
         }
       } catch (error) {
-        console.log(error)
       }
     } else {
       setSnackbarObject({
         open: true,
         severity: 'error',
-        title: 'Login failed, username and password are incorrect.',
+        title: 'Gagal masuk. Username dan/atau password salah.',
         message: '',
       })
     }
@@ -114,7 +113,7 @@ const SignIn = () => {
   }
 
   return (
-    <Fade in={true} timeout={{ enter: 2345 }}>
+    <Fade in={true} timeout={{ enter: 1500 }}>
       <Box className={classes.root}>
         {/* LEFT SECTION */}
         <Box className={classes.leftSection}>
