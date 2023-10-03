@@ -30,7 +30,7 @@ const LoadingSpinner = (props) => {
           {/* SPINNER */}
           {loading && (
             <Box>
-              <CircularProgress disableShrink />
+              <CircularProgress disableShrink size='5rem' />
             </Box>
           )}
         </Stack>
