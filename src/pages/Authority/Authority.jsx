@@ -43,7 +43,7 @@ const Authority = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const { auth, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -186,6 +186,9 @@ const Authority = () => {
           }
         })
       )
+      setLoading(false)
+    } else {
+      setLoading(false)
     }
   }
 
@@ -201,6 +204,7 @@ const Authority = () => {
 
   // REMOVE AUTHORITY LOCAL STORAGE DATA
   useEffect(() => {
+    setLoading(true)
     removeAuthorityFromLocalStorage()
   }, [])
 

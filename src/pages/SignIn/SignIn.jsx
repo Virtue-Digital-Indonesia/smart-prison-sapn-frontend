@@ -14,6 +14,7 @@ import IconVisibilityOff from '@mui/icons-material/VisibilityOff'
 // MUIS
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Fade from '@mui/material/Fade'
 import FormControl from '@mui/material/FormControl'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -85,7 +86,7 @@ const SignIn = () => {
           setSnackbarObject({
             open: true,
             severity: 'success',
-            title: `Successfully logged in as ${getUserInformationData?.data?.data?.nameUser}.`,
+            title: `Berhasil masuk sebagai ${getUserInformationData?.data?.data?.nameUser}.`,
             message: '',
           })
           navigate('/')
@@ -93,18 +94,17 @@ const SignIn = () => {
           setSnackbarObject({
             open: true,
             severity: 'error',
-            title: 'Login failed, username and password are incorrect',
+            title: 'Gagal masuk. Username dan/atau password salah.',
             message: '',
           })
         }
       } catch (error) {
-        console.log(error)
       }
     } else {
       setSnackbarObject({
         open: true,
         severity: 'error',
-        title: 'Login failed, username and password are incorrect.',
+        title: 'Gagal masuk. Username dan/atau password salah.',
         message: '',
       })
     }
@@ -113,72 +113,73 @@ const SignIn = () => {
   }
 
   return (
-    <Box className={classes.root}>
-      {/* LEFT SECTION */}
-      <Box className={classes.leftSection}>
-        {/* LOGO */}
-        <Box component='img' src={LogoLapas} alt='' className={classes.logo} />
-        {/* TITLE */}
-        <Typography variant='h3' className={classes.title}>
-          Sistem Analisa Perilaku Narapidana (SAPN)
-        </Typography>
-      </Box>
+    <Fade in={true} timeout={{ enter: 1500 }}>
+      <Box className={classes.root}>
+        {/* LEFT SECTION */}
+        <Box className={classes.leftSection}>
+          {/* LOGO */}
+          <Box component='img' src={LogoLapas} alt='' className={classes.logo} />
+          {/* TITLE */}
+          <Typography variant='h3' className={classes.title}>
+            Sistem Analisa Perilaku Narapidana (SAPN)
+          </Typography>
+        </Box>
 
-      <Box className={classes.rightSection}>
-        {/* SIGN IN */}
-        <Typography variant='h4' className={classes.signInCaption}>
-          Sign In
-        </Typography>
+        <Box className={classes.rightSection}>
+          {/* SIGN IN */}
+          <Typography variant='h4' className={classes.signInCaption}>
+            Sign In
+          </Typography>
 
-        {/* CAPTION */}
-        <Typography variant='subtitle2' className={classes.caption}>
-          Please enter your username and password
-        </Typography>
+          {/* CAPTION */}
+          <Typography variant='subtitle2' className={classes.caption}>
+            Please enter your username and password
+          </Typography>
 
-        {/* USERNAME INPUT */}
-        <FormControl required variant='outlined' className={classes.textInput}>
-          <InputLabel>Username</InputLabel>
-          <OutlinedInput
-            label='Username'
-            name='username'
-            value={formObject.username}
-            onChange={handleFormObjectChange}
-          />
-        </FormControl>
+          {/* USERNAME INPUT */}
+          <FormControl required variant='outlined' className={classes.textInput}>
+            <InputLabel>Username</InputLabel>
+            <OutlinedInput
+              label='Username'
+              name='username'
+              value={formObject.username}
+              onChange={handleFormObjectChange}
+            />
+          </FormControl>
 
-        {/* PASSWORD INPUT */}
-        <FormControl required variant='outlined' className={classes.textInput}>
-          <InputLabel>Password</InputLabel>
-          <OutlinedInput
-            label='Password'
-            type={showPassword ? 'text' : 'password'}
-            name='password'
-            value={formObject.password}
-            onChange={handleFormObjectChange}
-            endAdornment={
-              <InputAdornment position='end'>
-                <IconButton
-                  onClick={() => setShowPassword((current) => !current)}
-                  edge='end'
-                >
-                  {showPassword ? <IconVisibilityOff /> : <IconVisibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+          {/* PASSWORD INPUT */}
+          <FormControl required variant='outlined' className={classes.textInput}>
+            <InputLabel>Password</InputLabel>
+            <OutlinedInput
+              label='Password'
+              type={showPassword ? 'text' : 'password'}
+              name='password'
+              value={formObject.password}
+              onChange={handleFormObjectChange}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    onClick={() => setShowPassword((current) => !current)}
+                    edge='end'
+                  >
+                    {showPassword ? <IconVisibilityOff /> : <IconVisibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
 
-        {/* SIGN IN BUTTON */}
-        <Button
-          variant='contained'
-          className={classes.buttonSignIn}
-          onClick={handleLogin}
-          disabled={isSignInBtnDisabled}
-        >
-          Sign In
-        </Button>
+          {/* SIGN IN BUTTON */}
+          <Button
+            variant='contained'
+            className={classes.buttonSignIn}
+            onClick={handleLogin}
+            disabled={isSignInBtnDisabled}
+          >
+            Sign In
+          </Button>
 
-        {/* <Box
+          {/* <Box
           alignItems='center'
           justifyContent='space-between'
         >
@@ -189,8 +190,9 @@ const SignIn = () => {
             © Transporta. {dynamicYear}. All rights reserved.
           </Typography>
         </Box> */}
+        </Box>
       </Box>
-    </Box>
+    </Fade>
   )
 }
 
