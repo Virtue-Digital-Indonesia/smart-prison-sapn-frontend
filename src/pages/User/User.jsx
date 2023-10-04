@@ -159,8 +159,6 @@ const User = () => {
 
   // GET ALL USERS
   const getAllUsers = async (inputSignal) => {
-    setLoading(true)
-
     const queryParams = {
       page: pageNumber,
       size: pageSize,
@@ -202,6 +200,7 @@ const User = () => {
   }, [pageNumber, pageSize, search])
 
   useEffect(() => {
+    setLoading(true)
     removeUserSettingFromLocalStorage()
   }, [])
 

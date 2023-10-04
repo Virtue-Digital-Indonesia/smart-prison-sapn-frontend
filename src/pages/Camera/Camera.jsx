@@ -46,7 +46,7 @@ import {
 const Camera = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-  const { auth, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -182,6 +182,7 @@ const Camera = () => {
       page: pageNumber,
       size: pageSize,
     }
+    
     const resultData = await getCameraList(
       inputSignal,
       inputToken,
@@ -199,6 +200,9 @@ const Camera = () => {
           }
         })
       )
+      setLoading(false)
+    } else {
+      setLoading(false)
     }
   }
 
@@ -214,6 +218,7 @@ const Camera = () => {
 
   // REMOVE CAMERA DATA FROM LOCAL STORAGE
   useEffect(() => {
+    setLoading(true)
     removeCameraDetailFromLocalStorage()
   }, [])
 
