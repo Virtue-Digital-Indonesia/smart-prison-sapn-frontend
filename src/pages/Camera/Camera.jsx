@@ -254,11 +254,7 @@ const Camera = () => {
         </Stack>
 
         {/* DATA GRID */}
-        <Stack
-          minHeight={'34.7vw'}
-          height={tableData * 52 + 48}
-          padding='0px 30px 30px'
-        >
+        <Stack height='33vw' padding='0px 30px 30px'>
           <DataGridTable
             // BASE
             initialColumns={initialColumns}

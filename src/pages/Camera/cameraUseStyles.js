@@ -8,8 +8,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: '#f1f4f5',
-    padding: '30px 30px 0',
-    position: 'relative',
+    padding: '30px',
   },
   pageTitle: {
     fontSize: '35px',
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#f2a65490',
       borderColor: '#f2a65490',
-    }
+    },
   },
   menuButton: {
     backgroundColor: '#e4eaec',
@@ -49,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#e4eaec90',
       borderColor: '#e4eaec90',
-    }
-  }
+    },
+  },
 }))
 
 export default useStyles
