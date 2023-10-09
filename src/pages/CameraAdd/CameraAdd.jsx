@@ -47,6 +47,7 @@ const CameraAdd = () => {
     port: '',
     type: '',
     treshold: 0,
+    cameraId: '',
   }
 
   const cameraOptions = [
@@ -99,12 +100,13 @@ const CameraAdd = () => {
   // HANDLE SAVE BUTTON
   const handleSaveButtonClick = async () => {
     const abortController = new AbortController()
-    const { ip, port, treshold, type, title } = formObject
+    const { ip, port, treshold, type, title, cameraId } = formObject
 
     // HANDLE ADD CAMERA
     if (!location.pathname.includes('edit')) {
       const bodyParams = {
         camera: title,
+        camera_id: cameraId,
         ip: ip,
         port: +port,
         status_fight_sholat: type === 'Sholat' ? 2 : 1,
@@ -225,8 +227,9 @@ const CameraAdd = () => {
       {/* HEADER */}
       <Header breadcrumbList={breadcrumbList} />
 
-      {/* EDIT CAMERA */}
+      {/* CONTENT */}
       <Stack className={classes.container}>
+        {/* TITLE */}
         <Stack className={classes.pageTitle}>
           <Stack width='100%' alignItems='flex-start'>
             <Typography className={classes.title}>{pageTitle}</Typography>
@@ -235,6 +238,7 @@ const CameraAdd = () => {
             </Typography>
           </Stack>
         </Stack>
+
         <Stack className={classes.cameraContainer}>
           {/* LEFT SECTION */}
           <Stack className={classes.leftSection}>
@@ -245,6 +249,15 @@ const CameraAdd = () => {
             >
               Nama Kamera
             </Typography>
+
+            <Typography
+              marginTop='45px'
+              align='right'
+              className={classes.leftSectionText}
+            >
+              ID Kamera
+            </Typography>
+
             <Typography
               marginTop='46.5px'
               align='right'
@@ -252,6 +265,7 @@ const CameraAdd = () => {
             >
               IP
             </Typography>
+
             <Typography
               marginTop='46.5px'
               align='right'
@@ -259,6 +273,7 @@ const CameraAdd = () => {
             >
               Port
             </Typography>
+
             <Typography
               marginTop='43px'
               align='right'
@@ -291,6 +306,22 @@ const CameraAdd = () => {
                 name='title'
                 value={formObject.title}
                 placeholder='Nama Kamera'
+                onChange={handleFormObjectChange}
+              />
+            </FormControl>
+
+            {/* CAMERA ID */}
+            <FormControl
+              required
+              variant='outlined'
+              className={classes.formItemInput}
+            >
+              <OutlinedInput
+                label=''
+                type='number'
+                name='cameraId'
+                value={formObject.cameraId}
+                placeholder='ID Kamera'
                 onChange={handleFormObjectChange}
               />
             </FormControl>
