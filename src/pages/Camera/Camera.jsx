@@ -50,7 +50,7 @@ const Camera = () => {
 
   const initialColumns = [
     {
-      field: 'id',
+      field: 'no',
       headerName: 'No',
       flex: 1,
       maxWidth: 100,
@@ -182,7 +182,7 @@ const Camera = () => {
       page: pageNumber,
       size: pageSize,
     }
-    
+
     const resultData = await getCameraList(
       inputSignal,
       inputToken,
@@ -220,6 +220,7 @@ const Camera = () => {
   useEffect(() => {
     setLoading(true)
     removeCameraDetailFromLocalStorage()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
