@@ -47,6 +47,8 @@ const CameraAdd = () => {
     port: '',
     type: '',
     treshold: 0,
+    cameraId: '',
+    link: '',
   }
 
   const cameraOptions = [
@@ -99,12 +101,13 @@ const CameraAdd = () => {
   // HANDLE SAVE BUTTON
   const handleSaveButtonClick = async () => {
     const abortController = new AbortController()
-    const { ip, port, treshold, type, title } = formObject
+    const { ip, port, treshold, type, title, cameraId, link } = formObject
 
     // HANDLE ADD CAMERA
     if (!location.pathname.includes('edit')) {
       const bodyParams = {
         camera: title,
+        camera_id: cameraId,
         ip: ip,
         port: +port,
         status_fight_sholat: type === 'Sholat' ? 2 : 1,
@@ -146,6 +149,7 @@ const CameraAdd = () => {
         fight_threshold: +treshold,
         timezone_offset: getTimeZoneOffset(),
         nama: title,
+        link: link,
       }
 
       const resultEditCamera = await putEditCamera(
@@ -206,6 +210,7 @@ const CameraAdd = () => {
         title: cameraData.nama,
         ip: cameraData.IP,
         port: cameraData.port,
+        link: cameraData.href_link,
         type:
           cameraData.status_fight_sholat === 1
             ? cameraOptions[0].name
@@ -225,8 +230,9 @@ const CameraAdd = () => {
       {/* HEADER */}
       <Header breadcrumbList={breadcrumbList} />
 
-      {/* EDIT CAMERA */}
+      {/* CONTENT */}
       <Stack className={classes.container}>
+        {/* TITLE */}
         <Stack className={classes.pageTitle}>
           <Stack width='100%' alignItems='flex-start'>
             <Typography className={classes.title}>{pageTitle}</Typography>
@@ -235,6 +241,7 @@ const CameraAdd = () => {
             </Typography>
           </Stack>
         </Stack>
+
         <Stack className={classes.cameraContainer}>
           {/* LEFT SECTION */}
           <Stack className={classes.leftSection}>
@@ -245,6 +252,27 @@ const CameraAdd = () => {
             >
               Nama Kamera
             </Typography>
+
+            {!location.pathname.includes('edit') && (
+              <Typography
+                marginTop='45px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                ID Kamera
+              </Typography>
+            )}
+
+            {location.pathname.includes('edit') && (
+              <Typography
+                marginTop='45px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Link
+              </Typography>
+            )}
+
             <Typography
               marginTop='46.5px'
               align='right'
@@ -252,6 +280,7 @@ const CameraAdd = () => {
             >
               IP
             </Typography>
+
             <Typography
               marginTop='46.5px'
               align='right'
@@ -259,6 +288,7 @@ const CameraAdd = () => {
             >
               Port
             </Typography>
+
             <Typography
               marginTop='43px'
               align='right'
@@ -294,6 +324,42 @@ const CameraAdd = () => {
                 onChange={handleFormObjectChange}
               />
             </FormControl>
+
+            {/* CAMERA ID */}
+            {!location.pathname.includes('edit') && (
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  label=''
+                  type='number'
+                  name='cameraId'
+                  value={formObject.cameraId}
+                  placeholder='ID Kamera'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+            )}
+
+            {/* LINK*/}
+            {location.pathname.includes('edit') && (
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  label=''
+                  type='text'
+                  name='link'
+                  value={formObject.link}
+                  placeholder='Link'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+            )}
 
             {/* CAMERA IP */}
             <FormControl

@@ -255,6 +255,7 @@ const CollapseSideBar = () => {
 
       {/* SETTING BUTTON */}
 
+      {/*
       <Stack
         width='90px'
         height='76px'
@@ -270,6 +271,7 @@ const CollapseSideBar = () => {
           <SettingsIcon sx={{ color: colors.textSecondary }} />
         </IconButton>
       </Stack>
+      */}
     </Stack>
   )
 }

@@ -13,11 +13,14 @@ import routes from 'routes/routes'
 
 // COMPONENTS
 import AuthenticationRoute from 'components/Routes/AuthenticationRoute'
+import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner'
 import PrivateRoute from 'components/Routes/PrivateRoute'
 import Snackbar from 'components/Snackbar/Snackbar'
 
 function App() {
   const { snackbarObject, setSnackbarObject } = useContext(AllPagesContext)
+
+  const { loading } = useContext(AllPagesContext)
 
   const getRouteComponent = (inputItem) => {
     if (inputItem.routeType === 'authentication') {
@@ -56,6 +59,8 @@ function App() {
         title={snackbarObject.title}
         message={snackbarObject.message}
       />
+
+      <LoadingSpinner loading={loading} />
     </>
   )
 }

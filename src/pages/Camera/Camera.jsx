@@ -46,11 +46,11 @@ import {
 const Camera = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-  const { auth, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
-      field: 'id',
+      field: 'no',
       headerName: 'No',
       flex: 1,
       maxWidth: 100,
@@ -182,6 +182,7 @@ const Camera = () => {
       page: pageNumber,
       size: pageSize,
     }
+
     const resultData = await getCameraList(
       inputSignal,
       inputToken,
@@ -199,6 +200,9 @@ const Camera = () => {
           }
         })
       )
+      setLoading(false)
+    } else {
+      setLoading(false)
     }
   }
 
@@ -214,7 +218,9 @@ const Camera = () => {
 
   // REMOVE CAMERA DATA FROM LOCAL STORAGE
   useEffect(() => {
+    setLoading(true)
     removeCameraDetailFromLocalStorage()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -249,11 +255,7 @@ const Camera = () => {
         </Stack>
 
         {/* DATA GRID */}
-        <Stack
-          minHeight={'34.7vw'}
-          height={tableData * 52 + 48}
-          padding='0px 30px 30px'
-        >
+        <Stack height='33vw' padding='0px 30px 30px'>
           <DataGridTable
             // BASE
             initialColumns={initialColumns}

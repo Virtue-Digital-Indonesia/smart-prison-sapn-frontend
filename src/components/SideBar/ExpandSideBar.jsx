@@ -230,7 +230,9 @@ const ExpandSideBar = () => {
         </Stack>
       </Fade>
 
+
       {/* SETTINGS */}
+      {/*
       <Fade in={isDrawerExpanded} timeout={2000}>
         <Stack direction='row'>
           {settingItems.map((item, index) => (
@@ -244,7 +246,10 @@ const ExpandSideBar = () => {
                 },
               }}
             >
-              {/* TOOLTIP */}
+      */}
+      
+      {/* TOOLTIP */}
+      {/*
               <Stack
                 display='none'
                 width='70px'
@@ -292,6 +297,7 @@ const ExpandSideBar = () => {
           ))}
         </Stack>
       </Fade>
+  */}
     </Stack>
   )
 }

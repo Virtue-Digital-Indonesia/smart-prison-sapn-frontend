@@ -33,7 +33,7 @@ export const getCameraList = async (
     const response = await axios.get(
       `/camera/search?globalSearch=${globalSearch}&${queryString.stringify(
         inputQueryParams
-      )}`,
+      )}&sort=id%2Cdesc`,
       {
         signal: inputSignal,
         headers: { Authorization: `Bearer ${inputToken}` },

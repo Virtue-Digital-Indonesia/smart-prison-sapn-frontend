@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // ASSETS
 import companyLogo from 'assets/logos/sapn-logo.png'
@@ -10,6 +11,9 @@ import { colors } from 'constants/colors'
 // CONTEXTS
 import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 import { AllPagesContext } from 'contexts/AllPagesContext'
+
+// DUMMY
+import { Notification } from 'components/AppBar/NotificationDummy'
 
 // STYLES
 import useStyles from './appBaruseStyles'
@@ -29,7 +33,9 @@ import {
 // MUI ICONS
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import FightingIcon from '@mui/icons-material/SportsKabaddi'
 import MenuIcon from '@mui/icons-material/Menu'
+import MosqueIcon from '@mui/icons-material/Mosque'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import SettingsIcon from '@mui/icons-material/Settings'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
@@ -47,9 +53,21 @@ const AppBar = () => {
   const [notificationmMenuAnchor, setNotificationMenuAnchor] = useState(null)
   const [profileMenuAnchor, setProfileMenuAnchor] = useState(null)
 
+  const [notificationList, setNotificationList] = useState(Notification)
+  const [notificationNumbers, setNotificationNumbers] = useState(Notification.length)
+
   const handleLogOutButton = () => {
     setAuth({})
     removeUserProfileFromLocalStorage({})
+  }
+
+  const navigate = useNavigate()
+
+  const handleNotificationClick = (inputParams) => {
+    // setNotificationDetailToLocalStorage(inputParams)
+    // navigate(`/notification/detail/${inputParams.id}`)
+    setNotificationMenuAnchor(null)
+    navigate('/notification/detail/1')
   }
 
   return (
@@ -124,7 +142,7 @@ const AppBar = () => {
             onClick={(e) => setNotificationMenuAnchor(e.currentTarget)}
             size='small'
           >
-            <Badge badgeContent={5} color='error'>
+            <Badge badgeContent={notificationNumbers} color='error'>
               <NotificationsIcon
                 sx={{
                   color: appTheme.navBarInverse ? 'white' : colors.textPrimary,
@@ -146,7 +164,35 @@ const AppBar = () => {
                   NOTIFICATIONS
                 </Typography>
               </Stack>
+              
+              <Stack flex={1}>
+                {notificationList.map((item, index) => (
+                  <Stack
+                    key={index}
+                    className={classes.notifications}
+                    onClick={() => handleNotificationClick(item)}
+                  >
+                    <Stack
+                      direction='row'
+                      className={classes.notificationContainer}
+                      borderBottom={`solid 1px ${colors.divider}`}>
+                      <Stack>
+                        {item.type === 'Sholat'?
+                          <MosqueIcon className={classes.sholat}/> :
+                          <FightingIcon className={classes.perkelahian}/>}
+                      </Stack>
+                      <Stack paddingLeft={'7px'} margin={'6px 0'}>
+                        <Typography>{item.type}</Typography>
+                        <Typography>Waktu: {item.waktu}</Typography>
+                        <Typography>Camera: {item.camera}</Typography>
+                      </Stack>
+                    </Stack>
+                  </Stack>
+                ))}
+              </Stack>
 
+              {/* ALL NOTIFICATION */}
+              {/*
               <Stack
                 padding='15px 20px'
                 direction='row'
@@ -163,6 +209,7 @@ const AppBar = () => {
                   <SettingsIcon sx={{ height: '18px' }} />
                 </IconButton>
               </Stack>
+              */}
             </Stack>
           </Menu>
 
