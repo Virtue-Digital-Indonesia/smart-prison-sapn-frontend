@@ -6,6 +6,7 @@ import { AllPagesContext } from 'contexts/AllPagesContext'
 //COMPONENTS
 import Camera from './Camera/Camera'
 import Options from './Options/Options'
+import Footer from 'components/Footer/Footer'
 
 // MUIS
 import Box from '@mui/material/Box'
@@ -71,16 +72,21 @@ const Home = () => {
 
   return (
     <Box className={classes.root}>
-      {/* OPTIONS */}
-      <Options
-        cameraFilter={cameraFilter}
-        setCameraFilter={setCameraFilter}
-        setCameraList={setCameraList}
-        tempCameraList={tempCameraList}
-      />
+      <Box>
+        {/* OPTIONS */}
+        <Options
+          cameraFilter={cameraFilter}
+          setCameraFilter={setCameraFilter}
+          setCameraList={setCameraList}
+          tempCameraList={tempCameraList}
+        />
 
-      {/* CAMERAS */}
-      <Camera cameraList={cameraList} />
+        {/* CAMERAS */}
+        <Camera cameraList={cameraList} />
+      </Box>
+
+      {/* FOOTER */}
+      <Footer />
     </Box>
   )
 }
