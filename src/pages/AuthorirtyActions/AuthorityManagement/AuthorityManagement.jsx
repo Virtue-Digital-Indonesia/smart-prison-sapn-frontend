@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 
 // COMPONENT
 import Header from './Header/Header'
+import Footer from 'components/Footer/Footer'
 
 // CONTEXTS
 import { AllPagesContext } from 'contexts/AllPagesContext'
@@ -128,168 +129,173 @@ const AuthorityManagement = () => {
 
   return (
     <Stack className={classes.root}>
-      {/* HEADER */}
-      <Header />
+      <Stack>
+        {/* HEADER */}
+        <Header />
 
-      {/* CONTENT */}
-      <Stack className={classes.container}>
-        {/* TABLE */}
-        <Table className={classes.table}>
-          {/* TABLE HEAD */}
-          <TableHead className={classes.tableHead}>
-            <TableRow>
-              <TableCell className={classes.tableHeadName}>
-                Nama Module
-              </TableCell>
-              <TableCell align='center' className={classes.tableHeadCell}>
-                Akses
-              </TableCell>
-              <TableCell align='center' className={classes.tableHeadCell}>
-                Tambah
-              </TableCell>
-              <TableCell align='center' className={classes.tableHeadCell}>
-                Melihat
-              </TableCell>
-              <TableCell align='center' className={classes.tableHeadCell}>
-                Edit
-              </TableCell>
-              <TableCell align='center' className={classes.tableHeadCell}>
-                Hapus
-              </TableCell>
-              <TableCell align='center' className={classes.tableHeadCell}>
-                Ex. Excel
-              </TableCell>
-              <TableCell
-                align='center'
-                sx={{ padding: '0px', maxWidth: '40px' }}
-              >
-                Ex. Pdf
-              </TableCell>
-            </TableRow>
-          </TableHead>
-
-          {/* TABLE BODY */}
-          <TableBody className={classes.tableBody}>
-            {listTable.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell className={classes.tableBodyName}>
-                  | {item.name}
+        {/* CONTENT */}
+        <Stack className={classes.container}>
+          {/* TABLE */}
+          <Table className={classes.table}>
+            {/* TABLE HEAD */}
+            <TableHead className={classes.tableHead}>
+              <TableRow>
+                <TableCell className={classes.tableHeadName}>
+                  Nama Module
                 </TableCell>
-                <TableCell align='center' className={classes.tableBodyCell}>
-                  <Checkbox
-                    disableRipple
-                    checked={item.akses === 1 ? true : false}
-                    name='akses'
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        item,
-                        e.target.checked,
-                        e.target.name
-                      )
-                    }
-                  />
+                <TableCell align='center' className={classes.tableHeadCell}>
+                  Akses
                 </TableCell>
-                <TableCell align='center' className={classes.tableBodyCell}>
-                  <Checkbox
-                    disableRipple
-                    checked={item.tambah === 1 ? true : false}
-                    name='tambah'
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        item,
-                        e.target.checked,
-                        e.target.name
-                      )
-                    }
-                  />
+                <TableCell align='center' className={classes.tableHeadCell}>
+                  Tambah
                 </TableCell>
-                <TableCell align='center' className={classes.tableBodyCell}>
-                  <Checkbox
-                    disableRipple
-                    checked={item.lihat === 1 ? true : false}
-                    name='lihat'
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        item,
-                        e.target.checked,
-                        e.target.name
-                      )
-                    }
-                  />
+                <TableCell align='center' className={classes.tableHeadCell}>
+                  Melihat
                 </TableCell>
-                <TableCell align='center' className={classes.tableBodyCell}>
-                  <Checkbox
-                    disableRipple
-                    checked={item.edit === 1 ? true : false}
-                    name='edit'
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        item,
-                        e.target.checked,
-                        e.target.name
-                      )
-                    }
-                  />
+                <TableCell align='center' className={classes.tableHeadCell}>
+                  Edit
                 </TableCell>
-                <TableCell align='center' className={classes.tableBodyCell}>
-                  <Checkbox
-                    disableRipple
-                    checked={item.hapus === 1 ? true : false}
-                    name='hapus'
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        item,
-                        e.target.checked,
-                        e.target.name
-                      )
-                    }
-                  />
+                <TableCell align='center' className={classes.tableHeadCell}>
+                  Hapus
                 </TableCell>
-                <TableCell align='center' className={classes.tableBodyCell}>
-                  <Checkbox
-                    disableRipple
-                    checked={item.ex_excel === 1 ? true : false}
-                    name='ex_excel'
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        item,
-                        e.target.checked,
-                        e.target.name
-                      )
-                    }
-                  />
+                <TableCell align='center' className={classes.tableHeadCell}>
+                  Ex. Excel
                 </TableCell>
-                <TableCell align='center' sx={{ padding: '0px' }}>
-                  <Checkbox
-                    disableRipple
-                    checked={item.ex_pdf === 1 ? true : false}
-                    name='ex_pdf'
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        item,
-                        e.target.checked,
-                        e.target.name
-                      )
-                    }
-                  />
+                <TableCell
+                  align='center'
+                  sx={{ padding: '0px', maxWidth: '40px' }}
+                >
+                  Ex. Pdf
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
 
-        {/* BUTTON */}
-        <Stack marginTop='24px' width='100px' marginLeft='24px'>
-          <Button
-            variant='contained'
-            size='large'
-            className={classes.buttonUpdate}
-            onClick={handleUpdateButton}
-          >
-            Update
-          </Button>
+            {/* TABLE BODY */}
+            <TableBody className={classes.tableBody}>
+              {listTable.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell className={classes.tableBodyName}>
+                    | {item.name}
+                  </TableCell>
+                  <TableCell align='center' className={classes.tableBodyCell}>
+                    <Checkbox
+                      disableRipple
+                      checked={item.akses === 1 ? true : false}
+                      name='akses'
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          item,
+                          e.target.checked,
+                          e.target.name
+                        )
+                      }
+                    />
+                  </TableCell>
+                  <TableCell align='center' className={classes.tableBodyCell}>
+                    <Checkbox
+                      disableRipple
+                      checked={item.tambah === 1 ? true : false}
+                      name='tambah'
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          item,
+                          e.target.checked,
+                          e.target.name
+                        )
+                      }
+                    />
+                  </TableCell>
+                  <TableCell align='center' className={classes.tableBodyCell}>
+                    <Checkbox
+                      disableRipple
+                      checked={item.lihat === 1 ? true : false}
+                      name='lihat'
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          item,
+                          e.target.checked,
+                          e.target.name
+                        )
+                      }
+                    />
+                  </TableCell>
+                  <TableCell align='center' className={classes.tableBodyCell}>
+                    <Checkbox
+                      disableRipple
+                      checked={item.edit === 1 ? true : false}
+                      name='edit'
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          item,
+                          e.target.checked,
+                          e.target.name
+                        )
+                      }
+                    />
+                  </TableCell>
+                  <TableCell align='center' className={classes.tableBodyCell}>
+                    <Checkbox
+                      disableRipple
+                      checked={item.hapus === 1 ? true : false}
+                      name='hapus'
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          item,
+                          e.target.checked,
+                          e.target.name
+                        )
+                      }
+                    />
+                  </TableCell>
+                  <TableCell align='center' className={classes.tableBodyCell}>
+                    <Checkbox
+                      disableRipple
+                      checked={item.ex_excel === 1 ? true : false}
+                      name='ex_excel'
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          item,
+                          e.target.checked,
+                          e.target.name
+                        )
+                      }
+                    />
+                  </TableCell>
+                  <TableCell align='center' sx={{ padding: '0px' }}>
+                    <Checkbox
+                      disableRipple
+                      checked={item.ex_pdf === 1 ? true : false}
+                      name='ex_pdf'
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          item,
+                          e.target.checked,
+                          e.target.name
+                        )
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+
+          {/* BUTTON */}
+          <Stack marginTop='24px' width='100px' marginLeft='24px'>
+            <Button
+              variant='contained'
+              size='large'
+              className={classes.buttonUpdate}
+              onClick={handleUpdateButton}
+            >
+              Update
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
+
+      {/* FOOTER */}
+      <Footer />
     </Stack>
   )
 }
