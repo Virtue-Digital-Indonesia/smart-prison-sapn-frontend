@@ -227,124 +227,90 @@ const CameraAdd = () => {
 
   return (
     <Stack className={classes.root}>
-      {/* HEADER */}
-      <Header breadcrumbList={breadcrumbList} />
+      <Stack>
+        {/* HEADER */}
+        <Header breadcrumbList={breadcrumbList} />
 
-      {/* CONTENT */}
-      <Stack className={classes.container}>
-        {/* TITLE */}
-        <Stack className={classes.pageTitle}>
-          <Stack width='100%' alignItems='flex-start'>
-            <Typography className={classes.title}>{pageTitle}</Typography>
-            <Typography className={classes.subtitle}>
-              ** Isi kolom di bawah dengan benar
-            </Typography>
-          </Stack>
-        </Stack>
-
-        <Stack className={classes.cameraContainer}>
-          {/* LEFT SECTION */}
-          <Stack className={classes.leftSection}>
-            <Typography
-              marginTop='15px'
-              align='right'
-              className={classes.leftSectionText}
-            >
-              Nama Kamera
-            </Typography>
-
-            {!location.pathname.includes('edit') && (
-              <Typography
-                marginTop='45px'
-                align='right'
-                className={classes.leftSectionText}
-              >
-                ID Kamera
+        {/* CONTENT */}
+        <Stack className={classes.container}>
+          {/* TITLE */}
+          <Stack className={classes.pageTitle}>
+            <Stack width='100%' alignItems='flex-start'>
+              <Typography className={classes.title}>{pageTitle}</Typography>
+              <Typography className={classes.subtitle}>
+                ** Isi kolom di bawah dengan benar
               </Typography>
-            )}
-
-            {location.pathname.includes('edit') && (
-              <Typography
-                marginTop='45px'
-                align='right'
-                className={classes.leftSectionText}
-              >
-                Link
-              </Typography>
-            )}
-
-            <Typography
-              marginTop='46.5px'
-              align='right'
-              className={classes.leftSectionText}
-            >
-              IP
-            </Typography>
-
-            <Typography
-              marginTop='46.5px'
-              align='right'
-              className={classes.leftSectionText}
-            >
-              Port
-            </Typography>
-
-            <Typography
-              marginTop='43px'
-              align='right'
-              className={classes.leftSectionText}
-            >
-              Status
-            </Typography>
-            {type === 'Perkelahian' && (
-              <Typography
-                marginTop='44px'
-                align='right'
-                className={classes.leftSectionText}
-              >
-                Treshold Perkelahian
-              </Typography>
-            )}
+            </Stack>
           </Stack>
 
-          {/* RIGHT SECTION */}
-          <Stack className={classes.rightSection}>
-            {/* CAMERA NAME */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                label=''
-                type='text'
-                name='title'
-                value={formObject.title}
-                placeholder='Nama Kamera'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
-
-            {/* CAMERA ID */}
-            {!location.pathname.includes('edit') && (
-              <FormControl
-                required
-                variant='outlined'
-                className={classes.formItemInput}
+          <Stack className={classes.cameraContainer}>
+            {/* LEFT SECTION */}
+            <Stack className={classes.leftSection}>
+              <Typography
+                marginTop='15px'
+                align='right'
+                className={classes.leftSectionText}
               >
-                <OutlinedInput
-                  label=''
-                  type='number'
-                  name='cameraId'
-                  value={formObject.cameraId}
-                  placeholder='ID Kamera'
-                  onChange={handleFormObjectChange}
-                />
-              </FormControl>
-            )}
+                Nama Kamera
+              </Typography>
 
-            {/* LINK*/}
-            {location.pathname.includes('edit') && (
+              {!location.pathname.includes('edit') && (
+                <Typography
+                  marginTop='45px'
+                  align='right'
+                  className={classes.leftSectionText}
+                >
+                  ID Kamera
+                </Typography>
+              )}
+
+              {location.pathname.includes('edit') && (
+                <Typography
+                  marginTop='45px'
+                  align='right'
+                  className={classes.leftSectionText}
+                >
+                  Link
+                </Typography>
+              )}
+
+              <Typography
+                marginTop='46.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                IP
+              </Typography>
+
+              <Typography
+                marginTop='46.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Port
+              </Typography>
+
+              <Typography
+                marginTop='43px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Status
+              </Typography>
+              {type === 'Perkelahian' && (
+                <Typography
+                  marginTop='44px'
+                  align='right'
+                  className={classes.leftSectionText}
+                >
+                  Treshold Perkelahian
+                </Typography>
+              )}
+            </Stack>
+
+            {/* RIGHT SECTION */}
+            <Stack className={classes.rightSection}>
+              {/* CAMERA NAME */}
               <FormControl
                 required
                 variant='outlined'
@@ -353,79 +319,66 @@ const CameraAdd = () => {
                 <OutlinedInput
                   label=''
                   type='text'
-                  name='link'
-                  value={formObject.link}
-                  placeholder='Link'
+                  name='title'
+                  value={formObject.title}
+                  placeholder='Nama Kamera'
                   onChange={handleFormObjectChange}
                 />
               </FormControl>
-            )}
 
-            {/* CAMERA IP */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                label=''
-                type='text'
-                name='ip'
-                value={formObject.ip}
-                placeholder='IP'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
-
-            {/* CAMERA PORT */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                label=''
-                type='number'
-                inputProps={{ min: 0 }}
-                name='port'
-                value={formObject.port}
-                placeholder='Port'
-                className={classes.portForm}
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
-
-            {/* CAMERA TYPE */}
-            <Autocomplete
-              disableClearable
-              value={formObject.type || null}
-              onChange={(event, newValue) =>
-                handleAutocompleteChangeType(event, newValue)
-              }
-              className={classes.formItemInput}
-              options={cameraOptions}
-              getOptionLabel={(option) => {
-                if (typeof option === 'string') {
-                  return option
-                }
-                if (option.inputValue) {
-                  return option.inputValue
-                }
-                return option.name
-              }}
-              isOptionEqualToValue={(option, value) => option.name === value}
-              renderOption={(props, option) => (
-                <ListItem {...props}>
-                  <ListItemText primary={option.name} />
-                </ListItem>
+              {/* CAMERA ID */}
+              {!location.pathname.includes('edit') && (
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    label=''
+                    type='number'
+                    name='cameraId'
+                    value={formObject.cameraId}
+                    placeholder='ID Kamera'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
               )}
-              renderInput={(params) => (
-                <TextField {...params} placeholder='Pilih' required />
-              )}
-            />
 
-            {/* CAMERA TRESHOLD */}
-            {type === 'Perkelahian' && (
+              {/* LINK*/}
+              {location.pathname.includes('edit') && (
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    label=''
+                    type='text'
+                    name='link'
+                    value={formObject.link}
+                    placeholder='Link'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
+              )}
+
+              {/* CAMERA IP */}
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  label=''
+                  type='text'
+                  name='ip'
+                  value={formObject.ip}
+                  placeholder='IP'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
+
+              {/* CAMERA PORT */}
               <FormControl
                 required
                 variant='outlined'
@@ -434,35 +387,84 @@ const CameraAdd = () => {
                 <OutlinedInput
                   label=''
                   type='number'
-                  inputProps={{ min: 0, max: 1, step: 0.01 }}
-                  name='treshold'
-                  value={formObject.treshold}
-                  placeholder='Treshold Perkelahian'
+                  inputProps={{ min: 0 }}
+                  name='port'
+                  value={formObject.port}
+                  placeholder='Port'
+                  className={classes.portForm}
                   onChange={handleFormObjectChange}
                 />
               </FormControl>
-            )}
 
-            <Stack direction='row' marginTop='20px'>
-              {/* SAVE BUTTON */}
-              <Button
-                variant='outlined'
-                size='large'
-                className={classes.saveButton}
-                onClick={() => handleSaveButtonClick()}
-              >
-                Simpan
-              </Button>
+              {/* CAMERA TYPE */}
+              <Autocomplete
+                disableClearable
+                value={formObject.type || null}
+                onChange={(event, newValue) =>
+                  handleAutocompleteChangeType(event, newValue)
+                }
+                className={classes.formItemInput}
+                options={cameraOptions}
+                getOptionLabel={(option) => {
+                  if (typeof option === 'string') {
+                    return option
+                  }
+                  if (option.inputValue) {
+                    return option.inputValue
+                  }
+                  return option.name
+                }}
+                isOptionEqualToValue={(option, value) => option.name === value}
+                renderOption={(props, option) => (
+                  <ListItem {...props}>
+                    <ListItemText primary={option.name} />
+                  </ListItem>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} placeholder='Pilih' required />
+                )}
+              />
 
-              {/* RESET BUTTON */}
-              <Button
-                variant='outlined'
-                size='large'
-                className={classes.resetButton}
-                onClick={() => handleResetButtonClick()}
-              >
-                Setel Ulang
-              </Button>
+              {/* CAMERA TRESHOLD */}
+              {type === 'Perkelahian' && (
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 1, step: 0.01 }}
+                    name='treshold'
+                    value={formObject.treshold}
+                    placeholder='Treshold Perkelahian'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
+              )}
+
+              <Stack direction='row' marginTop='20px'>
+                {/* SAVE BUTTON */}
+                <Button
+                  variant='outlined'
+                  size='large'
+                  className={classes.saveButton}
+                  onClick={() => handleSaveButtonClick()}
+                >
+                  Simpan
+                </Button>
+
+                {/* RESET BUTTON */}
+                <Button
+                  variant='outlined'
+                  size='large'
+                  className={classes.resetButton}
+                  onClick={() => handleResetButtonClick()}
+                >
+                  Setel Ulang
+                </Button>
+              </Stack>
             </Stack>
           </Stack>
         </Stack>

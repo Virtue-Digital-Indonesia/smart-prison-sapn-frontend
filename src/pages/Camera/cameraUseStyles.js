@@ -8,7 +8,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: '#f1f4f5',
-    padding: '30px',
+    padding: '30px 30px 0px',
+    minHeight: '100%',
+    justifyContent: 'space-between',
   },
   pageTitle: {
     fontSize: '35px',

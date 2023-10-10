@@ -225,130 +225,138 @@ const Camera = () => {
 
   return (
     <Stack className={classes.root}>
-      {/* HEADER */}
-      <Header breadcrumbList={[cameraRoutes[0], cameraRoutes[1]]} />
+      <Stack>
+        {/* HEADER */}
+        <Header breadcrumbList={[cameraRoutes[0], cameraRoutes[1]]} />
 
-      {/* TABLE */}
-      <Stack className={classes.tableContainer}>
-        {/* TITLE */}
-        <Stack className={classes.titleTableContainer}>
-          <Typography fontSize={18} sx={{ color: 'white' }}>
-            Daftar Data Kamera
-          </Typography>
-        </Stack>
+        {/* TABLE */}
+        <Stack className={classes.tableContainer}>
+          {/* TITLE */}
+          <Stack className={classes.titleTableContainer}>
+            <Typography fontSize={18} sx={{ color: 'white' }}>
+              Daftar Data Kamera
+            </Typography>
+          </Stack>
 
-        {/* SEARCH BAR */}
-        <Stack
-          direction='row'
-          width='100%'
-          justifyContent='flex-end'
-          margin='20px 0 10px'
-          paddingRight='30px'
-        >
-          <TextField
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            variant='outlined'
-            placeholder='Search..'
-            size='small'
-          />
-        </Stack>
+          {/* SEARCH BAR */}
+          <Stack
+            direction='row'
+            width='100%'
+            justifyContent='flex-end'
+            margin='20px 0 10px'
+            paddingRight='30px'
+          >
+            <TextField
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              variant='outlined'
+              placeholder='Search..'
+              size='small'
+            />
+          </Stack>
 
-        {/* DATA GRID */}
-        <Stack height='33vw' padding='0px 30px 30px'>
-          <DataGridTable
-            // BASE
-            initialColumns={initialColumns}
-            selectedColumnList={selectedColumnList}
-            setSelectedColumnList={setSelectedColumnList}
-            rows={tableData}
-            // PAGINATION
-            total={totalRow}
-            page={pageNumber}
-            setPage={setPageNumber}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            // ORDER
-            order={order}
-            setOrder={setOrder}
-            orderBy={orderBy}
-            setOrderBy={setOrderBy}
-          />
-        </Stack>
+          {/* DATA GRID */}
+          <Stack height='33vw' padding='0px 30px 30px'>
+            <DataGridTable
+              // BASE
+              initialColumns={initialColumns}
+              selectedColumnList={selectedColumnList}
+              setSelectedColumnList={setSelectedColumnList}
+              rows={tableData}
+              // PAGINATION
+              total={totalRow}
+              page={pageNumber}
+              setPage={setPageNumber}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              // ORDER
+              order={order}
+              setOrder={setOrder}
+              orderBy={orderBy}
+              setOrderBy={setOrderBy}
+            />
+          </Stack>
 
-        <Menu
-          anchorEl={anchorEditButton}
-          open={Boolean(anchorEditButton)}
-          onClose={() => setAnchorEditButton(null)}
-          className='no-zoom'
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          sx={{
-            '@media only screen and (max-height: 820px)': {
-              '& .MuiMenuItem-root': {
-                zoom: 0.85,
-                padding: '2.5px 5px',
-                '&:first-of-type': { paddingBottom: 0, paddingTop: '7px' },
-                '&:last-child': { paddingTop: 0, paddingBottom: '7px' },
+          <Menu
+            anchorEl={anchorEditButton}
+            open={Boolean(anchorEditButton)}
+            onClose={() => setAnchorEditButton(null)}
+            className='no-zoom'
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            sx={{
+              '@media only screen and (max-height: 820px)': {
+                '& .MuiMenuItem-root': {
+                  zoom: 0.85,
+                  padding: '2.5px 5px',
+                  '&:first-of-type': { paddingBottom: 0, paddingTop: '7px' },
+                  '&:last-child': { paddingTop: 0, paddingBottom: '7px' },
+                },
               },
-            },
-            '& .MuiList-root': {
-              padding: 0,
-            },
-          }}
-        >
-          {/* EDIT */}
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
-            }}
-            onClick={() => handleEditButtonClick()}
-          >
-            <Button className={classes.menuButton} startIcon={<EditNoteIcon />}>
-              Edit
-            </Button>
-          </MenuItem>
-
-          {/* HAPUS */}
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
-            }}
-            onClick={() => {
-              setAnchorEditButton(null)
-              setDialogDeleteCamera(true)
+              '& .MuiList-root': {
+                padding: 0,
+              },
             }}
           >
-            <Button className={classes.menuButton} startIcon={<ClearIcon />}>
-              Hapus
-            </Button>
-          </MenuItem>
-
-          {/* RESTART */}
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
-            }}
-            onClick={() => setAnchorEditButton(null)}
-          >
-            <Button
-              className={classes.menuButton}
-              startIcon={<PlayArrowIcon />}
+            {/* EDIT */}
+            <MenuItem
+              sx={{
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
+              }}
+              onClick={() => handleEditButtonClick()}
             >
-              Restart Service
-            </Button>
-          </MenuItem>
-        </Menu>
+              <Button
+                className={classes.menuButton}
+                startIcon={<EditNoteIcon />}
+              >
+                Edit
+              </Button>
+            </MenuItem>
+
+            {/* HAPUS */}
+            <MenuItem
+              sx={{
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
+              }}
+              onClick={() => {
+                setAnchorEditButton(null)
+                setDialogDeleteCamera(true)
+              }}
+            >
+              <Button className={classes.menuButton} startIcon={<ClearIcon />}>
+                Hapus
+              </Button>
+            </MenuItem>
+
+            {/* RESTART */}
+            <MenuItem
+              sx={{
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
+              }}
+              onClick={() => setAnchorEditButton(null)}
+            >
+              <Button
+                className={classes.menuButton}
+                startIcon={<PlayArrowIcon />}
+              >
+                Restart Service
+              </Button>
+            </MenuItem>
+          </Menu>
+        </Stack>
       </Stack>
+
+      {/* FOOTER */}
+      <Footer />
 
       {/* DIALOG DELETE AUTHORITY */}
       <DialogDelete
@@ -357,9 +365,6 @@ const Camera = () => {
         title='Apakah Anda yakin akan menghapus data ini ?'
         handleOkButtonClick={handleDeleteCamera}
       />
-
-      {/* FOOTER */}
-      <Footer />
     </Stack>
   )
 }
