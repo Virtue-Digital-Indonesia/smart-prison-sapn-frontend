@@ -64,6 +64,24 @@ export const putEditAuthority = async (
   }
 }
 
+// MANAGE USER ACCESS
+export const putManageUserAccess = async (
+  inputSignal,
+  inputToken,
+  inputBodyParams
+) => {
+  try {
+    const response = await axios.put('/group/manage', inputBodyParams, {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
+
 // DELETE THE AUTHORITY
 export const deleteAuthority = async (
   inputSignal,
@@ -75,6 +93,20 @@ export const deleteAuthority = async (
       signal: inputSignal,
       headers: { Authorization: `Bearer ${inputToken}` },
       data: inputBodyParams,
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
+
+// GET USER ACCESS
+export const getUserAccess = async (inputSignal, inputToken, inputID) => {
+  try {
+    const response = await axios.get(`/user-access?group_id=${inputID}`, {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
     })
     return response
   } catch (error) {
