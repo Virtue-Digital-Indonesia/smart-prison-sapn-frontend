@@ -14,10 +14,18 @@ import IconVisibilityOff from '@mui/icons-material/VisibilityOff'
 
 // MUIS
 import {
-  Autocomplete, Button, FormControl,
-  IconButton, InputAdornment, ListItem,
-  ListItemText, OutlinedInput, Stack,
-  TextField, Typography } from '@mui/material/'
+  Autocomplete,
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  ListItem,
+  ListItemText,
+  OutlinedInput,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material/'
 
 // SERVICES
 import { postCreateNewUser, putEditUser, getGroupRoleData } from 'services/user'
@@ -34,7 +42,7 @@ const UserAction = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const { auth, setLoading, setSnackbarObject  } = useContext(AllPagesContext)
+  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialFormObject = {
     // BASIC DETAILS
@@ -60,11 +68,10 @@ const UserAction = () => {
   const handleAutocompleteChangeType = (e, newVal) => {
     let newGroup, newIdGroup
 
-    if(newVal !== null) {
+    if (newVal !== null) {
       newGroup = newVal.name_group
       newIdGroup = newVal.id_group
-    }
-    else{
+    } else {
       newGroup = newVal
       newIdGroup = ''
     }
@@ -117,8 +124,7 @@ const UserAction = () => {
     }
 
     // HANDLE CREATE NEW USER
-    if(location.pathname.includes('add-user')){
-
+    if (location.pathname.includes('add-user')) {
       const resultCreateNewUser = await postCreateNewUser(
         abortController.signal,
         auth?.accessToken,
@@ -173,10 +179,9 @@ const UserAction = () => {
   }
 
   const handleResetButtonClick = () => {
-    if(location.pathname.includes('add-user')){
+    if (location.pathname.includes('add-user')) {
       setFormObject(initialFormObject)
-    }
-    else{
+    } else {
       setFormObject(selectedData)
     }
   }
@@ -194,7 +199,7 @@ const UserAction = () => {
     if (
       Object.keys(userSettingData).length > 0 &&
       location.pathname.includes('edit')
-    ){
+    ) {
       //getGroupRoleID(userSettingData)
       setFormObject(userSettingData)
       setSelectedData(userSettingData)
@@ -204,150 +209,173 @@ const UserAction = () => {
 
   let pageTitle
 
-  if(location.pathname.includes('add-user')){
+  if (location.pathname.includes('add-user')) {
     pageTitle = 'Tambah Data Pengguna'
-  }
-  else{ 
+  } else {
     pageTitle = 'Edit Data Pengguna'
   }
 
   return (
     <Stack className={classes.root}>
-      {/* HEADER */}
-      <Header />
+      <Stack>
+        {/* HEADER */}
+        <Header />
 
-      {/* EDIT PENGGUNA */}
-      <Stack className={classes.container}>
-        <Stack className={classes.pageTitle}>
-          <Stack
-            width='100%'
-            alignItems='flex-start'
-          >
-            <Typography className={classes.title}>{pageTitle}</Typography>
+        {/* EDIT PENGGUNA */}
+        <Stack className={classes.container}>
+          <Stack className={classes.pageTitle}>
+            <Stack width='100%' alignItems='flex-start'>
+              <Typography className={classes.title}>{pageTitle}</Typography>
+            </Stack>
           </Stack>
-        </Stack>
-        <Stack className={classes.cameraContainer}>
+          <Stack className={classes.cameraContainer}>
+            {/* LEFT SECTION */}
+            <Stack className={classes.leftSection}>
+              <Typography
+                marginTop='15px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Kewenangan
+              </Typography>
+              <Typography
+                marginTop='46.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Nama
+              </Typography>
+              <Typography
+                marginTop='41.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Username
+              </Typography>
+              <Typography
+                marginTop='46.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Password
+              </Typography>
+            </Stack>
 
-          {/* LEFT SECTION */} 
-          <Stack className={classes.leftSection}>
-            <Typography marginTop='15px' align='right' className={classes.leftSectionText}>Kewenangan</Typography>
-            <Typography marginTop='46.5px' align='right' className={classes.leftSectionText}>Nama</Typography>
-            <Typography marginTop='41.5px' align='right' className={classes.leftSectionText}>Username</Typography>
-            <Typography marginTop='46.5px' align='right' className={classes.leftSectionText}>Password</Typography>
-          </Stack>
+            {/* RIGHT SECTION */}
+            <Stack className={classes.rightSection}>
+              {/* KEWENANGAN */}
+              <Autocomplete
+                value={formObject.name_group || null}
+                onChange={(event, newValue) =>
+                  handleAutocompleteChangeType(event, newValue)
+                }
+                className={classes.formItemInput}
+                options={authorityOptions}
+                getOptionLabel={(option) => {
+                  if (typeof option === 'string') {
+                    return option
+                  }
+                  if (option.inputValue) {
+                    return option.inputValue
+                  }
+                  return option.name_group
+                }}
+                isOptionEqualToValue={(option, value) =>
+                  option.name_group === value
+                }
+                renderOption={(props, option) => (
+                  <ListItem {...props}>
+                    <ListItemText primary={option.name_group} />
+                  </ListItem>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} placeholder='Pilih' required />
+                )}
+              />
 
-          {/* RIGHT SECTION */} 
-          <Stack className={classes.rightSection}>
-            {/* KEWENANGAN */}
-            <Autocomplete
-              value={formObject.name_group || null}
-              onChange={(event, newValue) =>
-                handleAutocompleteChangeType(event, newValue)
-              }
-              className={classes.formItemInput}
-              options={authorityOptions}
-              getOptionLabel={(option) => {
-                if (typeof option === 'string') {
-                  return option
-                }
-                if (option.inputValue) {
-                  return option.inputValue
-                }
-                return option.name_group
-              }}
-              isOptionEqualToValue={(option, value) => option.name_group === value}
-              renderOption={(props, option) => (
-                <ListItem {...props}>
-                  <ListItemText primary={option.name_group} />
-                </ListItem>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder='Pilih'
-                  required
+              {/* NAMA */}
+              <FormControl
+                required
+                variant='outlined'
+                className={classes.formItemInput}
+              >
+                <OutlinedInput
+                  label=''
+                  type='text'
+                  name='name_user'
+                  value={formObject.name_user}
+                  placeholder='Nama'
+                  onChange={handleFormObjectChange}
                 />
-              )}
-            />
-              
-            {/* NAMA */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                label=''
-                type='text'
-                name='name_user'
-                value={formObject.name_user}
-                placeholder='Nama'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
+              </FormControl>
 
-            {/* USERNAME */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                label=''
-                type='text'
-                name='username'
-                value={formObject.username}
-                placeholder='Username'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
-
-            {/* PASSWORD */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                label=''
-                type={showPassword ? 'text' : 'password'}
-                name='password'
-                value={formObject.password}
-                placeholder='Password'
-                onChange={handleFormObjectChange}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      onClick={() => setShowPassword((current) => !current)}
-                      edge='end'
-                    >
-                      {showPassword ? <IconVisibilityOff /> : <IconVisibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-
-            <Stack direction='row' marginTop='20px'>
-              {/* SAVE BUTTON */}
-              <Button
+              {/* USERNAME */}
+              <FormControl
+                required
                 variant='outlined'
-                size='large'
-                className={classes.saveButton}
-                onClick={() => handleSaveButtonClick()}
+                className={classes.formItemInput}
               >
-                Simpan
-              </Button>
+                <OutlinedInput
+                  label=''
+                  type='text'
+                  name='username'
+                  value={formObject.username}
+                  placeholder='Username'
+                  onChange={handleFormObjectChange}
+                />
+              </FormControl>
 
-              {/* RESET BUTTON */}
-              <Button
+              {/* PASSWORD */}
+              <FormControl
+                required
                 variant='outlined'
-                size='large'
-                className={classes.resetButton}
-                onClick={() => handleResetButtonClick()}
+                className={classes.formItemInput}
               >
-                Setel Ulang
-              </Button>
+                <OutlinedInput
+                  label=''
+                  type={showPassword ? 'text' : 'password'}
+                  name='password'
+                  value={formObject.password}
+                  placeholder='Password'
+                  onChange={handleFormObjectChange}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() => setShowPassword((current) => !current)}
+                        edge='end'
+                      >
+                        {showPassword ? (
+                          <IconVisibilityOff />
+                        ) : (
+                          <IconVisibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+
+              <Stack direction='row' marginTop='20px'>
+                {/* SAVE BUTTON */}
+                <Button
+                  variant='outlined'
+                  size='large'
+                  className={classes.saveButton}
+                  onClick={() => handleSaveButtonClick()}
+                >
+                  Simpan
+                </Button>
+
+                {/* RESET BUTTON */}
+                <Button
+                  variant='outlined'
+                  size='large'
+                  className={classes.resetButton}
+                  onClick={() => handleResetButtonClick()}
+                >
+                  Setel Ulang
+                </Button>
+              </Stack>
             </Stack>
           </Stack>
         </Stack>
