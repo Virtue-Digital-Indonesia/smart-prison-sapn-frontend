@@ -259,159 +259,161 @@ const ValueSetting = () => {
 
   return (
     <Stack className={classes.root}>
-      {/* HEADER */}
-      <Header />
+      <Stack>
+        {/* HEADER */}
+        <Header />
 
-      {/* TABLE */}
-      <Stack className={classes.tableContainer}>
-        {/* TITLE */}
-        <Stack className={classes.titleTableContainer}>
-          <Typography fontSize={18} sx={{ color: 'white' }}>
-            Daftar Data Nilai Sholat
-          </Typography>
-        </Stack>
+        {/* TABLE */}
+        <Stack className={classes.tableContainer}>
+          {/* TITLE */}
+          <Stack className={classes.titleTableContainer}>
+            <Typography fontSize={18} sx={{ color: 'white' }}>
+              Daftar Data Nilai Sholat
+            </Typography>
+          </Stack>
 
-        {/* SEARCH BAR */}
-        <Stack
-          direction='row'
-          width='100%'
-          justifyContent='flex-end'
-          marginTop='20px'
-          paddingRight='30px'
-        >
-          <TextField
-            variant='outlined'
-            placeholder='Search..'
-            size='small'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </Stack>
+          {/* SEARCH BAR */}
+          <Stack
+            direction='row'
+            width='100%'
+            justifyContent='flex-end'
+            marginTop='20px'
+            paddingRight='30px'
+          >
+            <TextField
+              variant='outlined'
+              placeholder='Search..'
+              size='small'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </Stack>
 
-        {/* DATA GRID */}
-        <Stack padding='0px 30px 30px 30px' height='33vw'>
-          <DataGridTable
-            // BASE
-            initialColumns={initialColumns}
-            selectedColumnList={selectedColumnList}
-            setSelectedColumnList={setSelectedColumnList}
-            rows={tableData}
-            // PAGINATION
-            total={totalRow}
-            page={pageNumber}
-            setPage={setPageNumber}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            // ORDER
-            order={order}
-            setOrder={setOrder}
-            orderBy={orderBy}
-            setOrderBy={setOrderBy}
-            // COLUMN GROUPING MODEL
-            columnGroupingModel={columnGroupingModel}
-          />
-        </Stack>
+          {/* DATA GRID */}
+          <Stack padding='0px 30px 30px 30px' height='33vw'>
+            <DataGridTable
+              // BASE
+              initialColumns={initialColumns}
+              selectedColumnList={selectedColumnList}
+              setSelectedColumnList={setSelectedColumnList}
+              rows={tableData}
+              // PAGINATION
+              total={totalRow}
+              page={pageNumber}
+              setPage={setPageNumber}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              // ORDER
+              order={order}
+              setOrder={setOrder}
+              orderBy={orderBy}
+              setOrderBy={setOrderBy}
+              // COLUMN GROUPING MODEL
+              columnGroupingModel={columnGroupingModel}
+            />
+          </Stack>
 
-        {/* MENU ITEM */}
-        <Menu
-          anchorEl={anchorOptionButton}
-          open={Boolean(anchorOptionButton)}
-          onClose={() => setAnchorOptionButton(null)}
-          className='no-zoom'
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          sx={{
-            '@media only screen and (max-height: 820px)': {
-              '& .MuiMenuItem-root': { zoom: 0.85 },
-            },
-            '& .MuiList-root': {
-              paddingTop: 0,
-              paddingBottom: 0,
-            },
-            '& .MuiButtonBase-root': {
-              paddingRight: 1,
-              paddingLeft: 1,
-            },
-          }}
-        >
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
+          {/* MENU ITEM */}
+          <Menu
+            anchorEl={anchorOptionButton}
+            open={Boolean(anchorOptionButton)}
+            onClose={() => setAnchorOptionButton(null)}
+            className='no-zoom'
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
             }}
-            onClick={() => {
-              setValueSettingToLocalStorage(valueTempData)
-              valueTempData.id &&
-                navigate(`/value-setting/edit/${valueTempData.id}`)
-              setAnchorOptionButton(null)
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            sx={{
+              '@media only screen and (max-height: 820px)': {
+                '& .MuiMenuItem-root': { zoom: 0.85 },
+              },
+              '& .MuiList-root': {
+                paddingTop: 0,
+                paddingBottom: 0,
+              },
+              '& .MuiButtonBase-root': {
+                paddingRight: 1,
+                paddingLeft: 1,
+              },
             }}
           >
-            <Stack
-              width={104}
-              height={40}
+            <MenuItem
               sx={{
-                backgroundColor: '#e4eaec',
-                color: '#76838f',
-                paddingLeft: '7px',
-                ':hover': { backgroundColor: '#f3f7f9' },
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
               }}
-              borderRadius='4px'
-              direction='row'
-              alignItems='center'
-              justifyContent='left'
-              spacing={1}
+              onClick={() => {
+                setValueSettingToLocalStorage(valueTempData)
+                valueTempData.id &&
+                  navigate(`/value-setting/edit/${valueTempData.id}`)
+                setAnchorOptionButton(null)
+              }}
             >
-              <EditNoteIcon />
-              <Typography>Edit</Typography>
-            </Stack>
-          </MenuItem>
+              <Stack
+                width={104}
+                height={40}
+                sx={{
+                  backgroundColor: '#e4eaec',
+                  color: '#76838f',
+                  paddingLeft: '7px',
+                  ':hover': { backgroundColor: '#f3f7f9' },
+                }}
+                borderRadius='4px'
+                direction='row'
+                alignItems='center'
+                justifyContent='left'
+                spacing={1}
+              >
+                <EditNoteIcon />
+                <Typography>Edit</Typography>
+              </Stack>
+            </MenuItem>
 
-          {/* DELETE */}
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
-            }}
-            onClick={() => {
-              setAnchorOptionButton(null)
-              setDialogDeleteValue(true)
-            }}
-          >
-            <Stack
-              width={104}
-              height={40}
+            {/* DELETE */}
+            <MenuItem
               sx={{
-                backgroundColor: '#e4eaec',
-                color: '#76838f',
-                paddingLeft: '7px',
-                ':hover': { backgroundColor: '#f3f7f9' },
-                marginTop: -1,
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
               }}
-              borderRadius='4px'
-              direction='row'
-              alignItems='center'
-              justifyContent='left'
-              spacing={1}
+              onClick={() => {
+                setAnchorOptionButton(null)
+                setDialogDeleteValue(true)
+              }}
             >
-              <CloseIcon />
-              <Typography>Hapus</Typography>
-            </Stack>
-          </MenuItem>
-        </Menu>
+              <Stack
+                width={104}
+                height={40}
+                sx={{
+                  backgroundColor: '#e4eaec',
+                  color: '#76838f',
+                  paddingLeft: '7px',
+                  ':hover': { backgroundColor: '#f3f7f9' },
+                  marginTop: -1,
+                }}
+                borderRadius='4px'
+                direction='row'
+                alignItems='center'
+                justifyContent='left'
+                spacing={1}
+              >
+                <CloseIcon />
+                <Typography>Hapus</Typography>
+              </Stack>
+            </MenuItem>
+          </Menu>
 
-        {/* DIALOG DELETE VALUE */}
-        <DialogDelete
-          dialogDelete={dialogDeleteValue}
-          setDialogDelete={setDialogDeleteValue}
-          title='Apakah Anda yakin akan menghapus data ini ?'
-          handleOkButtonClick={handleDeleteValue}
-        />
+          {/* DIALOG DELETE VALUE */}
+          <DialogDelete
+            dialogDelete={dialogDeleteValue}
+            setDialogDelete={setDialogDeleteValue}
+            title='Apakah Anda yakin akan menghapus data ini ?'
+            handleOkButtonClick={handleDeleteValue}
+          />
+        </Stack>
       </Stack>
 
       {/* FOOTER */}

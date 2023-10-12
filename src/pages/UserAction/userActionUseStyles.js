@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f1f4f5',
     padding: '30px 30px 0',
     position: 'relative',
+    justifyContent: 'space-between',
   },
   container: {
     width: '99.3%',
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#e4eaec80',
       borderColor: '#e4eaec80',
-    }
+    },
   },
   cameraContainer: {
     flexDirection: 'row',
@@ -53,8 +54,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 40,
     width: 150,
   },
-  rightSection: {
-  },
+  rightSection: {},
   leftSectionText: {
     color: '#76838f',
     fontSize: '16px',

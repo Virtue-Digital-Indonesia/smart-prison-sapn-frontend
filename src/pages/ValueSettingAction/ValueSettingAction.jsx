@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
@@ -10,8 +11,12 @@ import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import {
-  Button, FormControl, OutlinedInput,
-  Stack, Typography } from '@mui/material/'
+  Button,
+  FormControl,
+  OutlinedInput,
+  Stack,
+  Typography,
+} from '@mui/material/'
 
 // SERVICES
 import { postCreateNewValue, putEditValue } from 'services/valueSetting'
@@ -27,7 +32,7 @@ const ValueSettingAction = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const { auth, setLoading, setSnackbarObject  } = useContext(AllPagesContext)
+  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
   const { id } = useParams()
 
   const initialFormObject = {
@@ -61,31 +66,39 @@ const ValueSettingAction = () => {
       [event.target.name]: event.target.value,
     }))
 
-    if(event.target.name === 'item' ||
-      (event.target.value <= 10 && event.target.value >= 0)){
+    if (
+      event.target.name === 'item' ||
+      (event.target.value <= 10 && event.target.value >= 0)
+    ) {
       setErrorValue((current) => ({
         ...current,
-        [event.target.name]: false}))
+        [event.target.name]: false,
+      }))
     }
     // HANDLE NUMBER LESS THAN 0 AND MORE THAN 10
-    else{
+    else {
       setErrorValue((current) => ({
         ...current,
-        [event.target.name]: true}))
+        [event.target.name]: true,
+      }))
     }
   }
 
   const handleErrorValueCheck = () => {
-    errorValue.item || errorValue.takbir || errorValue.berdiri ||
-    errorValue.sedekap || errorValue.rukuk || errorValue.duduk ||
-    errorValue.score ?
-      setSnackbarObject({
-        open: true,
-        severity: 'error',
-        title: 'Ada data yang salah',
-        message: '',
-      }) :
-      handleSaveButtonClick()
+    errorValue.item ||
+    errorValue.takbir ||
+    errorValue.berdiri ||
+    errorValue.sedekap ||
+    errorValue.rukuk ||
+    errorValue.duduk ||
+    errorValue.score
+      ? setSnackbarObject({
+          open: true,
+          severity: 'error',
+          title: 'Ada data yang salah',
+          message: '',
+        })
+      : handleSaveButtonClick()
   }
 
   const handleSaveButtonClick = async () => {
@@ -96,14 +109,14 @@ const ValueSettingAction = () => {
       ...formObject,
       id: id,
     }
-    
-    if(location.pathname.includes('add-value')){
+
+    if (location.pathname.includes('add-value')) {
       const resultCreateNewValue = await postCreateNewValue(
         abortController.signal,
         auth.accessToken,
         bodyParams
       )
-  
+
       if (resultCreateNewValue.status === 201) {
         setLoading(false)
         setFormObject(initialFormObject)
@@ -122,15 +135,14 @@ const ValueSettingAction = () => {
           title: `Error ${resultCreateNewValue?.data?.status_code}`,
           message: '',
         })
-      } 
-    }
-    else{ 
+      }
+    } else {
       const resultEditValue = await putEditValue(
         abortController.signal,
         auth.accessToken,
         bodyParams
       )
-  
+
       if (resultEditValue.status === 200) {
         setLoading(false)
         setFormObject(initialFormObject)
@@ -155,11 +167,10 @@ const ValueSettingAction = () => {
     abortController.abort()
   }
 
-  const handleResetButtonClick = () => { 
-    if(location.pathname.includes('add-value')){
+  const handleResetButtonClick = () => {
+    if (location.pathname.includes('add-value')) {
       setFormObject(initialFormObject)
-    }
-    else{
+    } else {
       setFormObject(selectedData)
     }
     setErrorValue(initialErrorValue)
@@ -167,10 +178,9 @@ const ValueSettingAction = () => {
 
   let pageTitle
 
-  if(location.pathname.includes('add-value')){
+  if (location.pathname.includes('add-value')) {
     pageTitle = 'Tambah Data Nilai Sholat Baru'
-  }
-  else{ 
+  } else {
     pageTitle = 'Edit Nilai Sholat'
   }
 
@@ -180,7 +190,7 @@ const ValueSettingAction = () => {
     if (
       Object.keys(valueSettingData).length > 0 &&
       location.pathname.includes('edit')
-    ){
+    ) {
       setFormObject(valueSettingData)
       setSelectedData(valueSettingData)
     }
@@ -189,220 +199,272 @@ const ValueSettingAction = () => {
 
   return (
     <Stack className={classes.root}>
-      {/* HEADER */}
-      <Header />
+      <Stack>
+        {/* HEADER */}
+        <Header />
 
-      {/* EDIT NILAI SHOLAT */}
-      <Stack className={classes.container}>
-        <Stack className={classes.pageTitle}>
-          <Stack
-            width='100%'
-            alignItems='flex-start'
-          >
-            <Typography className={classes.title}>{pageTitle}</Typography>
+        {/* EDIT NILAI SHOLAT */}
+        <Stack className={classes.container}>
+          <Stack className={classes.pageTitle}>
+            <Stack width='100%' alignItems='flex-start'>
+              <Typography className={classes.title}>{pageTitle}</Typography>
+            </Stack>
           </Stack>
-        </Stack>
-        <Stack className={classes.cameraContainer}>
+          <Stack className={classes.cameraContainer}>
+            {/* LEFT SECTION */}
+            <Stack className={classes.leftSection}>
+              <Typography
+                marginTop='15px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Sholat
+              </Typography>
+              <Typography
+                marginTop='46.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Takbir
+              </Typography>
+              <Typography
+                marginTop='43.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Berdiri
+              </Typography>
+              <Typography
+                marginTop='46.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Sedekap
+              </Typography>
+              <Typography
+                marginTop='46.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Rukuk
+              </Typography>
+              <Typography
+                marginTop='43px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Duduk
+              </Typography>
+              <Typography
+                marginTop='44px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Nilai
+              </Typography>
+            </Stack>
 
-          {/* LEFT SECTION */} 
-          <Stack className={classes.leftSection}>
-            <Typography marginTop='15px' align='right' className={classes.leftSectionText}>Sholat</Typography>
-            <Typography marginTop='46.5px' align='right' className={classes.leftSectionText}>Takbir</Typography>
-            <Typography marginTop='43.5px' align='right' className={classes.leftSectionText}>Berdiri</Typography>
-            <Typography marginTop='46.5px' align='right' className={classes.leftSectionText}>Sedekap</Typography>
-            <Typography marginTop='46.5px' align='right' className={classes.leftSectionText}>Rukuk</Typography>
-            <Typography marginTop='43px' align='right' className={classes.leftSectionText}>Duduk</Typography>
-            <Typography marginTop='44px' align='right' className={classes.leftSectionText}>Nilai</Typography>
-          </Stack>
-
-          {/* RIGHT SECTION */} 
-          <Stack className={classes.rightSection}>
-            {/* SHOLAT */}
-            <FormControl
-              required
-              variant='outlined'
-              className={classes.formItemInput}
-            >
-              <OutlinedInput
-                label=''
-                type='text'
-                name='item'
-                value={formObject.item}
-                placeholder='Sholat'
-                onChange={handleFormObjectChange}
-              />
-            </FormControl>
-              
-            {/* TAKBIR */}
-            <Stack direction='row'>
+            {/* RIGHT SECTION */}
+            <Stack className={classes.rightSection}>
+              {/* SHOLAT */}
               <FormControl
                 required
                 variant='outlined'
                 className={classes.formItemInput}
               >
                 <OutlinedInput
-                  error={errorValue.takbir}
-                  id={errorValue.takbir? null : 'outlined-error'}
                   label=''
-                  type='number'
-                  inputProps={{min: 0, max: 10}}
-                  name='takbir'
-                  value={formObject.takbir}
-                  placeholder='Takbir'
-                  onChange={handleFormObjectChange}
-                />
-              </FormControl>
-            
-              {errorValue.takbir &&
-              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-              }
-            </Stack>
-
-            {/* BERDIRI */}
-            <Stack direction='row'>
-              <FormControl
-                required
-                variant='outlined'
-                className={classes.formItemInput}
-              >
-                <OutlinedInput
-                  error={errorValue.berdiri}
-                  id={errorValue.berdiri? null : 'outlined-error'}
-                  label=''
-                  type='number'
-                  inputProps={{min: 0, max: 10}}
-                  name='berdiri'
-                  value={formObject.berdiri}
-                  placeholder='Berdiri'
-                  onChange={handleFormObjectChange}
-                />
-              </FormControl>
-              
-              {errorValue.berdiri &&
-              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-              }
-            </Stack>
-              
-            {/*SEDEKAP */}
-            <Stack direction='row'>
-              <FormControl
-                required
-                variant='outlined'
-                className={classes.formItemInput}
-              >
-                <OutlinedInput
-                  error={errorValue.sedekap}
-                  id={errorValue.sedekap? null : 'outlined-error'}
-                  label=''
-                  type='number'
-                  inputProps={{min: 0, max: 10}}
-                  name='sedekap'
-                  value={formObject.sedekap}
-                  placeholder='Sedekap'
-                  onChange={handleFormObjectChange}
-                />
-              </FormControl>
-            
-              {errorValue.sedekap &&
-              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-              }
-            </Stack>
-              
-            {/* RUKUK */}
-            <Stack direction='row'>
-              <FormControl
-                required
-                variant='outlined'
-                className={classes.formItemInput}
-              >
-                <OutlinedInput
-                  error={errorValue.rukuk}
-                  id={errorValue.rukuk? null : 'outlined-error'}
-                  label=''
-                  type='number'
-                  inputProps={{min: 0, max: 10}}
-                  name='rukuk'
-                  value={formObject.rukuk}
-                  placeholder='Rukuk'
-                  onChange={handleFormObjectChange}
-                />
-              </FormControl>
-            
-              {errorValue.rukuk &&
-              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-              }
-            </Stack>
-            
-            {/* DUDUK */}
-            <Stack direction='row'>
-              <FormControl
-                required
-                variant='outlined'
-                className={classes.formItemInput}
-              >
-                <OutlinedInput
-                  error={errorValue.duduk}
-                  id={errorValue.duduk? null : 'outlined-error'}
-                  label=''
-                  type='number'
-                  inputProps={{min: 0, max: 10}}
-                  name='duduk'
-                  value={formObject.duduk}
-                  placeholder='Duduk'
+                  type='text'
+                  name='item'
+                  value={formObject.item}
+                  placeholder='Sholat'
                   onChange={handleFormObjectChange}
                 />
               </FormControl>
 
-              {errorValue.duduk &&
-                <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-              }
-            </Stack>
+              {/* TAKBIR */}
+              <Stack direction='row'>
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    error={errorValue.takbir}
+                    id={errorValue.takbir ? null : 'outlined-error'}
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 10 }}
+                    name='takbir'
+                    value={formObject.takbir}
+                    placeholder='Takbir'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
 
-            {/* NILAI */}
-            <Stack direction='row'>
-              <FormControl
-                required
-                variant='outlined'
-                className={classes.formItemInput}
-              >
-                <OutlinedInput
-                  error={errorValue.score}
-                  id={errorValue.score? null : 'outlined-error'}
-                  label=''
-                  type='number'
-                  inputProps={{min: 0, max: 10}}
-                  name='score'
-                  value={formObject.score}
-                  placeholder='Nilai'
-                  onChange={handleFormObjectChange}
-                />
-              </FormControl>
+                {errorValue.takbir && (
+                  <Typography align='right' className={classes.cautionText}>
+                    Harus nilai 0-10
+                  </Typography>
+                )}
+              </Stack>
 
-              {errorValue.score &&
-              <Typography align='right' className={classes.cautionText}>Harus nilai 0-10</Typography>
-              }
-            </Stack>
+              {/* BERDIRI */}
+              <Stack direction='row'>
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    error={errorValue.berdiri}
+                    id={errorValue.berdiri ? null : 'outlined-error'}
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 10 }}
+                    name='berdiri'
+                    value={formObject.berdiri}
+                    placeholder='Berdiri'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
 
-            <Stack direction='row' marginTop='20px'>
-              {/* SAVE BUTTON */}
-              <Button
-                variant='outlined'
-                size='large'
-                className={classes.saveButton}
-                onClick={() => handleErrorValueCheck()}
-              >
-                Simpan
-              </Button>
+                {errorValue.berdiri && (
+                  <Typography align='right' className={classes.cautionText}>
+                    Harus nilai 0-10
+                  </Typography>
+                )}
+              </Stack>
 
-              {/* RESET BUTTON */}
-              <Button
-                variant='outlined'
-                size='large'
-                className={classes.resetButton}
-                onClick={() => handleResetButtonClick()}
-              >
-                Setel Ulang
-              </Button>
+              {/*SEDEKAP */}
+              <Stack direction='row'>
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    error={errorValue.sedekap}
+                    id={errorValue.sedekap ? null : 'outlined-error'}
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 10 }}
+                    name='sedekap'
+                    value={formObject.sedekap}
+                    placeholder='Sedekap'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
+
+                {errorValue.sedekap && (
+                  <Typography align='right' className={classes.cautionText}>
+                    Harus nilai 0-10
+                  </Typography>
+                )}
+              </Stack>
+
+              {/* RUKUK */}
+              <Stack direction='row'>
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    error={errorValue.rukuk}
+                    id={errorValue.rukuk ? null : 'outlined-error'}
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 10 }}
+                    name='rukuk'
+                    value={formObject.rukuk}
+                    placeholder='Rukuk'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
+
+                {errorValue.rukuk && (
+                  <Typography align='right' className={classes.cautionText}>
+                    Harus nilai 0-10
+                  </Typography>
+                )}
+              </Stack>
+
+              {/* DUDUK */}
+              <Stack direction='row'>
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    error={errorValue.duduk}
+                    id={errorValue.duduk ? null : 'outlined-error'}
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 10 }}
+                    name='duduk'
+                    value={formObject.duduk}
+                    placeholder='Duduk'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
+
+                {errorValue.duduk && (
+                  <Typography align='right' className={classes.cautionText}>
+                    Harus nilai 0-10
+                  </Typography>
+                )}
+              </Stack>
+
+              {/* NILAI */}
+              <Stack direction='row'>
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    error={errorValue.score}
+                    id={errorValue.score ? null : 'outlined-error'}
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 10 }}
+                    name='score'
+                    value={formObject.score}
+                    placeholder='Nilai'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
+
+                {errorValue.score && (
+                  <Typography align='right' className={classes.cautionText}>
+                    Harus nilai 0-10
+                  </Typography>
+                )}
+              </Stack>
+
+              <Stack direction='row' marginTop='20px'>
+                {/* SAVE BUTTON */}
+                <Button
+                  variant='outlined'
+                  size='large'
+                  className={classes.saveButton}
+                  onClick={() => handleErrorValueCheck()}
+                >
+                  Simpan
+                </Button>
+
+                {/* RESET BUTTON */}
+                <Button
+                  variant='outlined'
+                  size='large'
+                  className={classes.resetButton}
+                  onClick={() => handleResetButtonClick()}
+                >
+                  Setel Ulang
+                </Button>
+              </Stack>
             </Stack>
           </Stack>
         </Stack>

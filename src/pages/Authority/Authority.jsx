@@ -210,188 +210,190 @@ const Authority = () => {
 
   return (
     <Stack className={classes.root}>
-      {/* HEADER */}
-      <Header />
+      <Stack>
+        {/* HEADER */}
+        <Header />
 
-      {/* TABLE */}
-      <Stack className={classes.tableContainer}>
-        {/* TITLE */}
-        <Stack className={classes.titleTableContainer}>
-          <Typography fontSize={18} sx={{ color: 'white' }}>
-            Daftar Data Kewenangan
-          </Typography>
-        </Stack>
+        {/* TABLE */}
+        <Stack className={classes.tableContainer}>
+          {/* TITLE */}
+          <Stack className={classes.titleTableContainer}>
+            <Typography fontSize={18} sx={{ color: 'white' }}>
+              Daftar Data Kewenangan
+            </Typography>
+          </Stack>
 
-        {/* SEARCH BAR */}
-        <Stack
-          direction='row'
-          width='100%'
-          justifyContent='flex-end'
-          marginTop='20px'
-          paddingRight='30px'
-        >
-          <TextField
-            variant='outlined'
-            placeholder='Search..'
-            size='small'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+          {/* SEARCH BAR */}
+          <Stack
+            direction='row'
+            width='100%'
+            justifyContent='flex-end'
+            marginTop='20px'
+            paddingRight='30px'
+          >
+            <TextField
+              variant='outlined'
+              placeholder='Search..'
+              size='small'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </Stack>
+
+          {/* DATA GRID */}
+          <Stack padding='0px 30px 30px 30px' minHeight='60vh'>
+            <DataGridTable
+              // BASE
+              initialColumns={initialColumns}
+              selectedColumnList={selectedColumnList}
+              setSelectedColumnList={setSelectedColumnList}
+              rows={tableData}
+              // PAGINATION
+              total={totalRow}
+              page={pageNumber}
+              setPage={setPageNumber}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              // ORDER
+              order={order}
+              setOrder={setOrder}
+              orderBy={orderBy}
+              setOrderBy={setOrderBy}
+            />
+          </Stack>
+
+          {/* MENU ITEM */}
+          <Menu
+            anchorEl={anchorOptionButton}
+            open={Boolean(anchorOptionButton)}
+            onClose={() => setAnchorOptionButton(null)}
+            className='no-zoom'
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            sx={{
+              '@media only screen and (max-height: 820px)': {
+                '& .MuiMenuItem-root': { zoom: 0.85 },
+              },
+              '& .MuiList-root': {
+                paddingTop: 0,
+                paddingBottom: 0,
+              },
+              '& .MuiButtonBase-root': {
+                paddingRight: 1,
+                paddingLeft: 1,
+              },
+            }}
+          >
+            {/* KELOLA */}
+            <MenuItem
+              sx={{
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
+              }}
+              onClick={() => {
+                authorityTempData.id &&
+                  navigate(`/authority/manage/${authorityTempData.id}`)
+                setAnchorOptionButton(null)
+              }}
+            >
+              <Stack
+                width={84}
+                height={40}
+                sx={{
+                  backgroundColor: '#e4eaec',
+                  color: '#76838f',
+                  ':hover': { backgroundColor: '#f3f7f9' },
+                }}
+                borderRadius='4px'
+                direction='row'
+                alignItems='center'
+                justifyContent='center'
+                spacing={1}
+              >
+                <SettingsIcon />
+                <Typography>Kelola</Typography>
+              </Stack>
+            </MenuItem>
+
+            {/* EDIT */}
+            <MenuItem
+              sx={{
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
+              }}
+              onClick={() => {
+                setAuthorityToLocalStorage(authorityTempData)
+                authorityTempData.id &&
+                  navigate(`/authority/edit-authority/${authorityTempData.id}`)
+                setAnchorOptionButton(null)
+              }}
+            >
+              <Stack
+                width={84}
+                height={40}
+                sx={{
+                  backgroundColor: '#e4eaec',
+                  color: '#76838f',
+                  ':hover': { backgroundColor: '#f3f7f9' },
+                  marginTop: -1,
+                }}
+                borderRadius='4px'
+                direction='row'
+                alignItems='center'
+                justifyContent='center'
+                spacing={1}
+              >
+                <EditNoteIcon />
+                <Typography>Edit</Typography>
+              </Stack>
+            </MenuItem>
+
+            {/* HAPUS */}
+            <MenuItem
+              sx={{
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
+              }}
+              onClick={() => {
+                setAnchorOptionButton(null)
+                setDialogDeleteAuthority(true)
+              }}
+            >
+              <Stack
+                width={84}
+                height={40}
+                sx={{
+                  backgroundColor: '#e4eaec',
+                  color: '#76838f',
+                  ':hover': { backgroundColor: '#f3f7f9' },
+                  marginTop: -1,
+                }}
+                borderRadius='4px'
+                direction='row'
+                alignItems='center'
+                justifyContent='center'
+                spacing={1}
+              >
+                <CloseIcon />
+                <Typography>Hapus</Typography>
+              </Stack>
+            </MenuItem>
+          </Menu>
+
+          {/* DIALOG DELETE AUTHORITY */}
+          <DialogDelete
+            dialogDelete={dialogDeleteAuthority}
+            setDialogDelete={setDialogDeleteAuthority}
+            title='Apakah Anda yakin akan menghapus data ini ?'
+            handleOkButtonClick={handleDeleteAuthority}
           />
         </Stack>
-
-        {/* DATA GRID */}
-        <Stack padding='0px 30px 30px 30px' minHeight='60vh'>
-          <DataGridTable
-            // BASE
-            initialColumns={initialColumns}
-            selectedColumnList={selectedColumnList}
-            setSelectedColumnList={setSelectedColumnList}
-            rows={tableData}
-            // PAGINATION
-            total={totalRow}
-            page={pageNumber}
-            setPage={setPageNumber}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            // ORDER
-            order={order}
-            setOrder={setOrder}
-            orderBy={orderBy}
-            setOrderBy={setOrderBy}
-          />
-        </Stack>
-
-        {/* MENU ITEM */}
-        <Menu
-          anchorEl={anchorOptionButton}
-          open={Boolean(anchorOptionButton)}
-          onClose={() => setAnchorOptionButton(null)}
-          className='no-zoom'
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          sx={{
-            '@media only screen and (max-height: 820px)': {
-              '& .MuiMenuItem-root': { zoom: 0.85 },
-            },
-            '& .MuiList-root': {
-              paddingTop: 0,
-              paddingBottom: 0,
-            },
-            '& .MuiButtonBase-root': {
-              paddingRight: 1,
-              paddingLeft: 1,
-            },
-          }}
-        >
-          {/* KELOLA */}
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
-            }}
-            onClick={() => {
-              authorityTempData.id &&
-                navigate(`/authority/manage/${authorityTempData.id}`)
-              setAnchorOptionButton(null)
-            }}
-          >
-            <Stack
-              width={84}
-              height={40}
-              sx={{
-                backgroundColor: '#e4eaec',
-                color: '#76838f',
-                ':hover': { backgroundColor: '#f3f7f9' },
-              }}
-              borderRadius='4px'
-              direction='row'
-              alignItems='center'
-              justifyContent='center'
-              spacing={1}
-            >
-              <SettingsIcon />
-              <Typography>Kelola</Typography>
-            </Stack>
-          </MenuItem>
-
-          {/* EDIT */}
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
-            }}
-            onClick={() => {
-              setAuthorityToLocalStorage(authorityTempData)
-              authorityTempData.id &&
-                navigate(`/authority/edit-authority/${authorityTempData.id}`)
-              setAnchorOptionButton(null)
-            }}
-          >
-            <Stack
-              width={84}
-              height={40}
-              sx={{
-                backgroundColor: '#e4eaec',
-                color: '#76838f',
-                ':hover': { backgroundColor: '#f3f7f9' },
-                marginTop: -1,
-              }}
-              borderRadius='4px'
-              direction='row'
-              alignItems='center'
-              justifyContent='center'
-              spacing={1}
-            >
-              <EditNoteIcon />
-              <Typography>Edit</Typography>
-            </Stack>
-          </MenuItem>
-
-          {/* HAPUS */}
-          <MenuItem
-            sx={{
-              backgroundColor: 'white',
-              ':hover': { backgroundColor: 'white' },
-            }}
-            onClick={() => {
-              setAnchorOptionButton(null)
-              setDialogDeleteAuthority(true)
-            }}
-          >
-            <Stack
-              width={84}
-              height={40}
-              sx={{
-                backgroundColor: '#e4eaec',
-                color: '#76838f',
-                ':hover': { backgroundColor: '#f3f7f9' },
-                marginTop: -1,
-              }}
-              borderRadius='4px'
-              direction='row'
-              alignItems='center'
-              justifyContent='center'
-              spacing={1}
-            >
-              <CloseIcon />
-              <Typography>Hapus</Typography>
-            </Stack>
-          </MenuItem>
-        </Menu>
-
-        {/* DIALOG DELETE AUTHORITY */}
-        <DialogDelete
-          dialogDelete={dialogDeleteAuthority}
-          setDialogDelete={setDialogDeleteAuthority}
-          title='Apakah Anda yakin akan menghapus data ini ?'
-          handleOkButtonClick={handleDeleteAuthority}
-        />
       </Stack>
 
       {/* FOOTER */}

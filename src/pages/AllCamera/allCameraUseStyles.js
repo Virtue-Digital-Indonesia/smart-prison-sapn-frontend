@@ -5,6 +5,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: '#f1f4f5',
+    minHeight: '100%',
+    justifyContent: 'space-between',
   },
   pageTitle: {
     fontSize: '35px',

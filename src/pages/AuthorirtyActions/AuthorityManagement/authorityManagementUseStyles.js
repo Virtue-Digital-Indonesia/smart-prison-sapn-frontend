@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f1f4f5',
     padding: '30px 30px 0',
     position: 'relative',
+    justifyContent: 'space-between',
   },
   container: {
     width: '100%',

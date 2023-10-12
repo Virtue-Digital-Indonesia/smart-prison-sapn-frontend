@@ -10,6 +10,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f1f4f5',
     padding: '30px 30px 0px 30px',
     position: 'relative',
+    minHeight: '100%',
+    justifyContent: 'space-between',
   },
   tableContainer: {
     backgroundColor: 'white',

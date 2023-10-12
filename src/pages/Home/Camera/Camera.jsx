@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-//COMPONENTS
-import Footer from 'components/Footer/Footer'
-
 // MUIS
 import {
   Divider,
@@ -115,8 +112,6 @@ const Camera = (props) => {
           </Stack>
         </Stack>
       </Stack>
-      {/* FOOTER */}
-      <Footer />
 
       {/* MEDIA PLAYER */}
       <Backdrop
