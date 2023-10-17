@@ -17,22 +17,4 @@ export const Notification = [
     camera: '-',
     image: 'asstes/images/dummy/florian-krumm-euZ2n8dGUcQ-unsplash.jpg',
   },
-  {
-    type: 'Perkelahian',
-    waktu: '26-09-2023 15:52:25',
-    camera: '-',
-    image: 'assets/images/dummy/notif-01.jpg',
-  },
-  {
-    type: 'Perkelahian',
-    waktu: '26-09-2023 16:42:55',
-    camera: '-',
-    image: 'assets/images/dummy/notif-01.jpg',
-  },
-  {
-    type: 'Perkelahian',
-    waktu: '26-09-2023 19:21:22',
-    camera: '-',
-    image: 'assets/images/dummy/notif-01.jpg',
-  },
 ]
