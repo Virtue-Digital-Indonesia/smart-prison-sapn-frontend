@@ -10,6 +10,8 @@ const PrivateLayoutContextProvider = (props) => {
   const [isDrawerExpanded, setIsDrawerExpanded] = useState(false) // BOOLEAN
   // REPLACEMENT THEME WIDGET
   const [appTheme, setAppTheme] = useState(readSapnThemeFromLocalStorage())
+  // PRAYING NOTIFIATION DATA
+  const [prayingListNotification, setPrayingListNotification] = useState([])
 
   return (
     <PrivateLayoutContext.Provider
@@ -20,6 +22,9 @@ const PrivateLayoutContextProvider = (props) => {
         // REPLACEMENT THEME WIDGET
         appTheme,
         setAppTheme,
+        // PRAYING NOTIFIATION DATA
+        prayingListNotification,
+        setPrayingListNotification,
       }}
     >
       {props.children}

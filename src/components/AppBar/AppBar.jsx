@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
 
 // ASSETS
 import companyLogo from 'assets/logos/sapn-logo.png'
@@ -38,7 +39,7 @@ import FightingIcon from '@mui/icons-material/SportsKabaddi'
 import MenuIcon from '@mui/icons-material/Menu'
 import MosqueIcon from '@mui/icons-material/Mosque'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import SettingsIcon from '@mui/icons-material/Settings'
+// import SettingsIcon from '@mui/icons-material/Settings'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
@@ -48,8 +49,12 @@ import { removeUserProfileFromLocalStorage } from 'utilities/localStorage'
 const AppBar = () => {
   const classes = useStyles()
 
-  const { isDrawerExpanded, setIsDrawerExpanded, appTheme } =
-    useContext(PrivateLayoutContext)
+  const {
+    isDrawerExpanded,
+    setIsDrawerExpanded,
+    appTheme,
+    prayingListNotification,
+  } = useContext(PrivateLayoutContext)
   const { setAuth, auth } = useContext(AllPagesContext)
 
   const [notificationmMenuAnchor, setNotificationMenuAnchor] = useState(null)
@@ -63,6 +68,7 @@ const AppBar = () => {
   const [isFightingNotificationExpanded, setIsFightingNotificationExpanded] =
     useState(true)
 
+  // HANDE LOG OUT BUTTON
   const handleLogOutButton = () => {
     setAuth({})
     removeUserProfileFromLocalStorage({})
@@ -70,6 +76,7 @@ const AppBar = () => {
 
   const navigate = useNavigate()
 
+  // HANDLE NOTIFICATION CLICK
   const handleNotificationClick = (inputParams) => {
     // setNotificationDetailToLocalStorage(inputParams)
     // navigate(`/notification/detail/${inputParams.id}`)
@@ -186,7 +193,7 @@ const AppBar = () => {
                   }
                   borderBottom={`1px solid ${colors.divider}`}
                 >
-                  <Typography fontWeight='bold' fontSize={16}>
+                  <Typography fontWeight={500} fontSize={20}>
                     Shalat
                   </Typography>
                   <KeyboardArrowDownIcon
@@ -198,7 +205,7 @@ const AppBar = () => {
                 </Stack>
 
                 <Collapse in={isPrayingNotificationExpanded}>
-                  {notificationList.map((item, index) => (
+                  {prayingListNotification.map((item, index) => (
                     <Stack
                       key={index}
                       className={classes.notifications}
@@ -209,17 +216,14 @@ const AppBar = () => {
                         className={classes.notificationContainer}
                         borderBottom={`solid 1px ${colors.divider}`}
                       >
-                        <Stack>
-                          {item.type === 'Sholat' ? (
-                            <MosqueIcon className={classes.sholat} />
-                          ) : (
-                            <FightingIcon className={classes.perkelahian} />
-                          )}
-                        </Stack>
+                        <MosqueIcon className={classes.sholat} />
                         <Stack paddingLeft={'7px'} margin={'6px 0'}>
-                          <Typography>{item.type}</Typography>
-                          <Typography>Waktu: {item.waktu}</Typography>
-                          <Typography>Camera: {item.camera}</Typography>
+                          <Typography>Shalat</Typography>
+                          <Typography>
+                            Waktu:{' '}
+                            {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}
+                          </Typography>
+                          <Typography>Camera: -</Typography>
                         </Stack>
                       </Stack>
                     </Stack>
@@ -241,7 +245,7 @@ const AppBar = () => {
                   }
                   borderBottom={`1px solid ${colors.divider}`}
                 >
-                  <Typography fontWeight='bold' fontSize={16}>
+                  <Typography fontWeight={500} fontSize={20}>
                     Perkelahian
                   </Typography>
                   <KeyboardArrowDownIcon

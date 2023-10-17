@@ -19,16 +19,16 @@ const useStyles = makeStyles((theme) => ({
   },
   notifications: {
     '&:hover': {
-      color: 'white',
+      color: 'white !important',
       backgroundColor: 'grey',
-      cusrsor: 'pointer',
-    }
+      cursor: 'pointer',
+    },
   },
   notificationContainer: {
     padding: 10,
     '&:hover': {
       cursor: 'pointer',
-    }
+    },
   },
   sholat: {
     padding: 2,
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'red',
     borderRadius: 5,
     pointerEvents: 'none',
-  }
+  },
 }))
 
 export default useStyles
