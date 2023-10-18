@@ -13,6 +13,7 @@ import {
   Backdrop,
   IconButton,
   Box,
+  CircularProgress,
 } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/system'
 
@@ -32,7 +33,7 @@ const Camera = (props) => {
   const classes = useStyles()
   const navigate = useNavigate()
   const { fightingListNotification } = useContext(PrivateLayoutContext)
-
+  console.log(fightingListNotification)
   const { cameraList } = props
 
   const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)
@@ -125,23 +126,36 @@ const Camera = (props) => {
           {/* CONTENT */}
           <Stack sx={{ overflowY: 'auto' }}>
             <Stack paddingBottom='8px'>
-              {fightingListNotification.map((item, index) => (
-                <Stack
-                  key={index}
-                  height='130px'
-                  margin='8px'
-                  marginBottom={0}
-                  sx={{ backgroundColor: 'GrayText', cursor: 'pointer' }}
-                  onClick={() => navigate(`/notification/detail/${item.id}`)}
-                >
-                  <Box
-                    component='img'
-                    src={`data:image/jpeg;base64,${item.foto}`}
+              {fightingListNotification.length > 0 ? (
+                fightingListNotification.map((item, index) => (
+                  <Stack
+                    key={index}
                     height='130px'
-                    alt='perkelahian'
-                  />
+                    margin='8px'
+                    marginBottom={0}
+                    sx={{ backgroundColor: 'GrayText', cursor: 'pointer' }}
+                    onClick={() =>
+                      navigate(`/notification/detail/fighting-${item.id}`)
+                    }
+                  >
+                    <Box
+                      component='img'
+                      src={`data:image/jpeg;base64,${item.foto}`}
+                      height='130px'
+                      alt='perkelahian'
+                    />
+                  </Stack>
+                ))
+              ) : (
+                <Stack
+                  width='250px'
+                  height='380px'
+                  justifyContent='center'
+                  alignItems='center'
+                >
+                  <CircularProgress />
                 </Stack>
-              ))}
+              )}
             </Stack>
           </Stack>
         </Stack>

@@ -71,8 +71,8 @@ const AppBar = () => {
   const navigate = useNavigate()
 
   // HANDLE NOTIFICATION CLICK
-  const handleNotificationClick = (inputParams) => {
-    navigate(`/notification/detail/${inputParams.id}`)
+  const handleNotificationClick = (inputParams, inputActivity) => {
+    navigate(`/notification/detail/${inputActivity}-${inputParams.id}`)
     setNotificationMenuAnchor(null)
   }
 
@@ -208,7 +208,7 @@ const AppBar = () => {
                     <Stack
                       key={index}
                       className={classes.notifications}
-                      onClick={() => handleNotificationClick(item)}
+                      onClick={() => handleNotificationClick(item, 'praying')}
                     >
                       <Stack
                         direction='row'
@@ -263,7 +263,9 @@ const AppBar = () => {
                       <Stack
                         key={index}
                         className={classes.notifications}
-                        onClick={() => handleNotificationClick(item)}
+                        onClick={() =>
+                          handleNotificationClick(item, 'fighting')
+                        }
                       >
                         <Stack
                           direction='row'
