@@ -12,6 +12,8 @@ const PrivateLayoutContextProvider = (props) => {
   const [appTheme, setAppTheme] = useState(readSapnThemeFromLocalStorage())
   // PRAYING NOTIFIATION DATA
   const [prayingListNotification, setPrayingListNotification] = useState([])
+  // FIGHTING NOTIFIATION DATA
+  const [fightingListNotification, setFightingListNotification] = useState([])
 
   return (
     <PrivateLayoutContext.Provider
@@ -25,6 +27,9 @@ const PrivateLayoutContextProvider = (props) => {
         // PRAYING NOTIFIATION DATA
         prayingListNotification,
         setPrayingListNotification,
+        // FIGHTING
+        fightingListNotification,
+        setFightingListNotification,
       }}
     >
       {props.children}

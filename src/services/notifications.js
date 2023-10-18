@@ -14,3 +14,17 @@ export const getPrayingNotifications = async (inputSignal, inputToken) => {
     else return error.response
   }
 }
+
+// GET ALL FIGHTING NOTIFICATIONS
+export const getFightingNotifications = async (inputSignal, inputToken) => {
+  try {
+    const response = await axios.get('/perkelahian', {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}

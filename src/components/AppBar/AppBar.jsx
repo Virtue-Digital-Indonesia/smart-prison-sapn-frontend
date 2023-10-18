@@ -13,9 +13,6 @@ import { colors } from 'constants/colors'
 import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 import { AllPagesContext } from 'contexts/AllPagesContext'
 
-// DUMMY
-import { Notification } from 'components/AppBar/NotificationDummy'
-
 // STYLES
 import useStyles from './appBaruseStyles'
 
@@ -54,15 +51,12 @@ const AppBar = () => {
     setIsDrawerExpanded,
     appTheme,
     prayingListNotification,
+    fightingListNotification,
   } = useContext(PrivateLayoutContext)
   const { setAuth, auth } = useContext(AllPagesContext)
 
   const [notificationmMenuAnchor, setNotificationMenuAnchor] = useState(null)
   const [profileMenuAnchor, setProfileMenuAnchor] = useState(null)
-  const [notificationList, setNotificationList] = useState(Notification)
-  const [notificationNumbers, setNotificationNumbers] = useState(
-    Notification.length
-  )
   const [isPrayingNotificationExpanded, setIsPrayingNotificationExpanded] =
     useState(true)
   const [isFightingNotificationExpanded, setIsFightingNotificationExpanded] =
@@ -78,10 +72,15 @@ const AppBar = () => {
 
   // HANDLE NOTIFICATION CLICK
   const handleNotificationClick = (inputParams) => {
-    // setNotificationDetailToLocalStorage(inputParams)
-    // navigate(`/notification/detail/${inputParams.id}`)
+    navigate(`/notification/detail/${inputParams.id}`)
     setNotificationMenuAnchor(null)
-    navigate('/notification/detail/1')
+  }
+
+  // LIST NOTIFICATION TOTAL
+  let totalNotifications = 0
+  if (prayingListNotification && fightingListNotification) {
+    totalNotifications =
+      prayingListNotification.length + fightingListNotification.length
   }
 
   return (
@@ -156,7 +155,7 @@ const AppBar = () => {
             onClick={(e) => setNotificationMenuAnchor(e.currentTarget)}
             size='small'
           >
-            <Badge badgeContent={notificationNumbers} color='error'>
+            <Badge badgeContent={totalNotifications} color='error'>
               <NotificationsIcon
                 sx={{
                   color: appTheme.navBarInverse ? 'white' : colors.textPrimary,
@@ -260,7 +259,7 @@ const AppBar = () => {
 
                 <Collapse in={isFightingNotificationExpanded}>
                   <Stack>
-                    {notificationList.map((item, index) => (
+                    {fightingListNotification.map((item, index) => (
                       <Stack
                         key={index}
                         className={classes.notifications}
@@ -279,9 +278,12 @@ const AppBar = () => {
                             )}
                           </Stack>
                           <Stack paddingLeft={'7px'} margin={'6px 0'}>
-                            <Typography>{item.type}</Typography>
-                            <Typography>Waktu: {item.waktu}</Typography>
-                            <Typography>Camera: {item.camera}</Typography>
+                            <Typography>Perkelahian</Typography>
+                            <Typography>
+                              Waktu:{' '}
+                              {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}
+                            </Typography>
+                            <Typography>Camera: -</Typography>
                           </Stack>
                         </Stack>
                       </Stack>

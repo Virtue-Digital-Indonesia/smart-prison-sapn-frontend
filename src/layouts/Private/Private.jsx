@@ -16,7 +16,10 @@ import CssBaseline from '@mui/material/CssBaseline'
 
 // SERVICE
 import { getAccessUser } from 'services/auth'
-import { getPrayingNotifications } from 'services/notifications'
+import {
+  getPrayingNotifications,
+  getFightingNotifications,
+} from 'services/notifications'
 
 // STYLES
 import useStyles from './privateUseStyles'
@@ -30,7 +33,8 @@ import {
 const Private = ({ children }) => {
   const classes = useStyles()
   const { auth, setAuth } = useContext(AllPagesContext)
-  const { setPrayingListNotification } = useContext(PrivateLayoutContext)
+  const { setPrayingListNotification, setFightingListNotification } =
+    useContext(PrivateLayoutContext)
   const location = useLocation()
 
   // GET USER ACCESS DATA
@@ -61,9 +65,19 @@ const Private = ({ children }) => {
     }
   }
 
+  // FETCH ALL FIGHTING NOTIFICATION DATA
+  const getFightingNotificationData = async (inputSignal, inputToken) => {
+    const resultData = await getFightingNotifications(inputSignal, inputToken)
+
+    if (resultData.status === 200) {
+      setFightingListNotification(resultData?.data?.data)
+    }
+  }
+
   useEffect(() => {
     const abortController = new AbortController()
     getPrayingNotificationData(abortController.signal, auth.accessToken)
+    getFightingNotificationData(abortController.signal, auth.accessToken)
 
     return () => {
       abortController.abort()
