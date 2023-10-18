@@ -27,22 +27,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'grey',
     },
   },
-  perkelahian: {
-    backgroundColor: 'white',
-    boxShadow: '0 4px 10px -10px',
-    width: '250px',
-    height: '70%',
-    maxHeight: 460,
-    right: 45,
-    position: 'absolute',
-  },
-  perkelahianTitle: {
-    padding: '20px 30px',
-  },
-  perkelahianBottom: {
-    backgroundColor: 'white',
-    height: '450px',
-  },
   mediaPlayerContainer: {
     zIndex: 9,
     cursor: 'zoom-out',
