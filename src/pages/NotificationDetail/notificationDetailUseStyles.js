@@ -5,6 +5,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: '#f1f4f5',
+    justifyContent: 'space-between',
+    minHeight: '100%',
   },
   container: {
     margin: '20px 40px',
@@ -31,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#e4eaec80',
       borderColor: '#e4eaec80',
-    }
+    },
   },
   detailContainer: {
     margin: '40px',
   },
   foto: {
-    width: '15%',
-    border: '2px solid black',
+    width: '40%',
+    border: '1px solid black',
   },
 }))
 

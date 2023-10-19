@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+// CONTEXTS
+import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
 
 // MUIS
 import {
@@ -9,6 +12,8 @@ import {
   Typography,
   Backdrop,
   IconButton,
+  Box,
+  CircularProgress,
 } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/system'
 
@@ -27,7 +32,8 @@ import {
 const Camera = (props) => {
   const classes = useStyles()
   const navigate = useNavigate()
-
+  const { fightingListNotification } = useContext(PrivateLayoutContext)
+  console.log(fightingListNotification)
   const { cameraList } = props
 
   const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)
@@ -99,16 +105,58 @@ const Camera = (props) => {
             </Grid>
           </Stack>
         </ThemeProvider>
+
         {/* RIGH SECTION */}
-        <Stack width='250px'>
-          <Stack className={classes.perkelahian}>
-            <Stack className={classes.perkelahianTitle}>
+        <Stack
+          width='250px'
+          height='470px'
+          sx={{ backgroundColor: 'white' }}
+          position='relative'
+        >
+          {/* TITLE */}
+          <Stack>
+            <Stack paddingLeft='20px' height='70px' justifyContent='center'>
               <Typography className={classes.cameraTitle}>
                 Perkelahian
               </Typography>
             </Stack>
-            <Divider variant='fullWidth' />
-            <Stack className={classes.perkelahianBottom}></Stack>
+            <Divider />
+          </Stack>
+
+          {/* CONTENT */}
+          <Stack sx={{ overflowY: 'auto' }}>
+            <Stack paddingBottom='8px'>
+              {fightingListNotification.length > 0 ? (
+                fightingListNotification.map((item, index) => (
+                  <Stack
+                    key={index}
+                    height='130px'
+                    margin='8px'
+                    marginBottom={0}
+                    sx={{ backgroundColor: 'GrayText', cursor: 'pointer' }}
+                    onClick={() =>
+                      navigate(`/notification/detail/fighting-${item.id}`)
+                    }
+                  >
+                    <Box
+                      component='img'
+                      src={`data:image/jpeg;base64,${item.foto}`}
+                      height='130px'
+                      alt='perkelahian'
+                    />
+                  </Stack>
+                ))
+              ) : (
+                <Stack
+                  width='250px'
+                  height='380px'
+                  justifyContent='center'
+                  alignItems='center'
+                >
+                  <CircularProgress />
+                </Stack>
+              )}
+            </Stack>
           </Stack>
         </Stack>
       </Stack>
