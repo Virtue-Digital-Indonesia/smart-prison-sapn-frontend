@@ -29,7 +29,11 @@ import Header from './Header/Header'
 import DialogDelete from 'components/DialogDelete/DialogDelete'
 
 // SERVICE
-import { getCameraList, deleteCamera } from 'services/camera'
+import {
+  getCameraList,
+  deleteCamera,
+  getRestartCameraService,
+} from 'services/camera'
 
 // STYLES
 import useStyles from './cameraUseStyles'
@@ -174,6 +178,37 @@ const Camera = () => {
       })
       setDialogDeleteCamera(null)
     }
+  }
+
+  // HANDLE RESTART SERVICE
+  const handleRestartService = async () => {
+    setLoading(true)
+    const abortController = new AbortController()
+
+    const resultRestartService = await getRestartCameraService(
+      abortController.signal,
+      auth.accessToken,
+      cameraTempData.id
+    )
+
+    if (resultRestartService.status === 200) {
+      setSnackbarObject({
+        open: true,
+        severity: 'success',
+        title: 'Service kamera berhasil direstart.',
+        message: '',
+      })
+      setLoading(false)
+    } else {
+      setSnackbarObject({
+        open: true,
+        severity: 'error',
+        title: 'Service kamera gagal direstart.',
+        message: '',
+      })
+      setLoading(false)
+    }
+    abortController.abort()
   }
 
   // GET CAMERA LIST
@@ -347,6 +382,7 @@ const Camera = () => {
               <Button
                 className={classes.menuButton}
                 startIcon={<PlayArrowIcon />}
+                onClick={handleRestartService}
               >
                 Restart Service
               </Button>
