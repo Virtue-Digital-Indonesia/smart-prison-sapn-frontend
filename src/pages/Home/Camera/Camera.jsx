@@ -33,7 +33,7 @@ const Camera = (props) => {
   const classes = useStyles()
   const navigate = useNavigate()
   const { fightingListNotification } = useContext(PrivateLayoutContext)
-  console.log(fightingListNotification)
+
   const { cameraList } = props
 
   const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)

@@ -66,7 +66,7 @@ const NotificationDetail = () => {
     if (resultData.status === 200)
       setDetailNotifications(resultData?.data?.data)
   }
-  console.log(detailNotifications)
+
   useEffect(() => {
     const abortController = new AbortController()
     const detailParams = id.split('-')

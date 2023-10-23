@@ -10,7 +10,7 @@ import { colors } from 'constants/colors'
 
 //MUIS
 import { IconButton, Stack, Tab, Tabs } from '@mui/material'
-import ClickAwayListener from '@mui/base/ClickAwayListener/ClickAwayListener'
+import { ClickAwayListener } from '@mui/base/ClickAwayListener'
 
 // MUI ICONS
 import SettingsIcon from '@mui/icons-material/Settings'
