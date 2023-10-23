@@ -17,8 +17,8 @@ import CssBaseline from '@mui/material/CssBaseline'
 // SERVICE
 import { getAccessUser } from 'services/auth'
 import {
-  getPrayingNotifications,
-  getFightingNotifications,
+  getPrayingNotificationCounts,
+  getFightingNotificationCounts,
 } from 'services/notifications'
 
 // STYLES
@@ -33,8 +33,10 @@ import {
 const Private = ({ children }) => {
   const classes = useStyles()
   const { auth, setAuth } = useContext(AllPagesContext)
-  const { setPrayingListNotification, setFightingListNotification } =
-    useContext(PrivateLayoutContext)
+  const {
+    setPrayingListNotificationCounts,
+    setFightingListNotificationCounts,
+  } = useContext(PrivateLayoutContext)
   const location = useLocation()
 
   // GET USER ACCESS DATA
@@ -58,37 +60,34 @@ const Private = ({ children }) => {
 
   // FETCH ALL PRAYING NOTIFICATION DATA
   const getPrayingNotificationData = async (inputSignal, inputToken) => {
-    const resultData = await getPrayingNotifications(inputSignal, inputToken)
+    const resultData = await getPrayingNotificationCounts(
+      inputSignal,
+      inputToken
+    )
 
     if (resultData.status === 200) {
-      setPrayingListNotification(resultData?.data?.data)
+      setPrayingListNotificationCounts(resultData?.data?.data)
     }
   }
 
   // FETCH ALL FIGHTING NOTIFICATION DATA
   const getFightingNotificationData = async (inputSignal, inputToken) => {
-    const resultData = await getFightingNotifications(inputSignal, inputToken)
+    const resultData = await getFightingNotificationCounts(
+      inputSignal,
+      inputToken
+    )
 
     if (resultData.status === 200) {
-      setFightingListNotification(resultData?.data?.data)
+      setFightingListNotificationCounts(resultData?.data?.data)
     }
   }
 
   useEffect(() => {
     const abortController = new AbortController()
-    getPrayingNotificationData(abortController.signal, auth.accessToken)
-    getFightingNotificationData(abortController.signal, auth.accessToken)
-
-    return () => {
-      abortController.abort()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    const abortController = new AbortController()
 
     getUserAccessData(abortController.signal, auth.accessToken)
+    getPrayingNotificationData(abortController.signal, auth.accessToken)
+    getFightingNotificationData(abortController.signal, auth.accessToken)
 
     return () => {
       abortController.abort()

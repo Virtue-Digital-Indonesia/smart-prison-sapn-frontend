@@ -15,6 +15,20 @@ export const getPrayingNotifications = async (inputSignal, inputToken) => {
   }
 }
 
+// GET PRAYING NOTIFICATION COUNTS
+export const getPrayingNotificationCounts = async (inputSignal, inputToken) => {
+  try {
+    const response = await axios.get('/sholat/count', {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
+
 // GET DETAILS PRAYING NOTIFICATION
 export const getDetailPrayingNotifications = async (
   inputSignal,
@@ -37,6 +51,23 @@ export const getDetailPrayingNotifications = async (
 export const getFightingNotifications = async (inputSignal, inputToken) => {
   try {
     const response = await axios.get('/perkelahian', {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
+
+// GET FIGHTING NOTIFICATIONS
+export const getFightingNotificationCounts = async (
+  inputSignal,
+  inputToken
+) => {
+  try {
+    const response = await axios.get('/perkelahian/count', {
       signal: inputSignal,
       headers: { Authorization: `Bearer ${inputToken}` },
     })

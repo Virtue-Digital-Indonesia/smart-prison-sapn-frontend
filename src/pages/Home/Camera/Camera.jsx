@@ -1,9 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// CONTEXTS
-import { PrivateLayoutContext } from 'contexts/PrivateLayoutContext'
-
 // MUIS
 import {
   Divider,
@@ -17,8 +14,14 @@ import {
 } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/system'
 
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
+
 // MUI ICONS
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+
+// SERVICES
+import { getFightingNotifications } from 'services/notifications'
 
 // STYLES
 import useStyles from './cameraUseStyles'
@@ -32,19 +35,35 @@ import {
 const Camera = (props) => {
   const classes = useStyles()
   const navigate = useNavigate()
-  const { fightingListNotification } = useContext(PrivateLayoutContext)
+  const { auth } = useContext(AllPagesContext)
 
   const { cameraList } = props
 
   const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)
+  const [fightingListNotification, setFightingListNotification] = useState([])
 
   const handleCameraNameClick = (inputParams) => {
     setCameraDetailToLocalStorage(inputParams)
     navigate(`/camera/detail/${inputParams.id}`)
   }
 
+  // FETCH PRAYING NOTIFICATION LIST DATA
+  const getFightingNotificationListData = async (inputSignal, inputToken) => {
+    const resultData = await getFightingNotifications(inputSignal, inputToken)
+
+    if (resultData.status === 200) {
+      setFightingListNotification(resultData?.data?.data)
+    }
+  }
+
   useEffect(() => {
+    const abortController = new AbortController()
     removeCameraDetailFromLocalStorage()
+    getFightingNotificationListData(abortController.signal, auth.accessToken)
+
+    return () => {
+      abortController.abort()
+    }
   }, [])
 
   return (
