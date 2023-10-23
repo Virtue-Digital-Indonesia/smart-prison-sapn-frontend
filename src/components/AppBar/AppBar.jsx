@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 
@@ -23,6 +23,7 @@ import {
   Box,
   Button,
   Collapse,
+  CircularProgress,
   IconButton,
   Menu,
   Stack,
@@ -40,6 +41,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
+// SERVICES
+import {
+  getPrayingNotifications,
+  getFightingNotifications,
+} from 'services/notifications'
+
 // UTILS
 import { removeUserProfileFromLocalStorage } from 'utilities/localStorage'
 
@@ -50,8 +57,8 @@ const AppBar = () => {
     isDrawerExpanded,
     setIsDrawerExpanded,
     appTheme,
-    prayingListNotification,
-    fightingListNotification,
+    prayingListNotificationCounts,
+    fightingListNotificationCounts,
   } = useContext(PrivateLayoutContext)
   const { setAuth, auth } = useContext(AllPagesContext)
 
@@ -61,6 +68,9 @@ const AppBar = () => {
     useState(true)
   const [isFightingNotificationExpanded, setIsFightingNotificationExpanded] =
     useState(true)
+
+  const [prayingListNotification, setPrayingListNotification] = useState([])
+  const [fightingListNotification, setFightingListNotification] = useState([])
 
   // HANDE LOG OUT BUTTON
   const handleLogOutButton = () => {
@@ -78,10 +88,45 @@ const AppBar = () => {
 
   // LIST NOTIFICATION TOTAL
   let totalNotifications = 0
-  if (prayingListNotification && fightingListNotification) {
+  if (prayingListNotificationCounts && fightingListNotificationCounts) {
     totalNotifications =
-      prayingListNotification.length + fightingListNotification.length
+      prayingListNotificationCounts + fightingListNotificationCounts
   }
+
+  // FETCH PRAYING NOTIFICATION LIST DATA
+  const getPrayingNotificationListData = async (inputSignal, inputToken) => {
+    const resultData = await getPrayingNotifications(inputSignal, inputToken)
+
+    if (resultData.status === 200) {
+      setPrayingListNotification(resultData?.data?.data)
+    }
+  }
+
+  // FETCH PRAYING NOTIFICATION LIST DATA
+  const getFightingNotificationListData = async (inputSignal, inputToken) => {
+    const resultData = await getFightingNotifications(inputSignal, inputToken)
+
+    if (resultData.status === 200) {
+      setFightingListNotification(resultData?.data?.data)
+    }
+  }
+
+  useEffect(() => {
+    const checkIsNotificationShown = Boolean(notificationmMenuAnchor)
+    const abortController = new AbortController()
+
+    if (checkIsNotificationShown) {
+      getPrayingNotificationListData(abortController.signal, auth.accessToken)
+      getFightingNotificationListData(abortController.signal, auth.accessToken)
+    } else {
+      setPrayingListNotification([])
+      setFightingListNotification([])
+      setIsPrayingNotificationExpanded(true)
+      setIsFightingNotificationExpanded(true)
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notificationmMenuAnchor])
 
   return (
     <Stack
@@ -203,31 +248,42 @@ const AppBar = () => {
                   />
                 </Stack>
 
-                <Collapse in={isPrayingNotificationExpanded}>
-                  {prayingListNotification.map((item, index) => (
-                    <Stack
-                      key={index}
-                      className={classes.notifications}
-                      onClick={() => handleNotificationClick(item, 'praying')}
-                    >
+                {prayingListNotification.length > 0 ? (
+                  <Collapse in={isPrayingNotificationExpanded}>
+                    {prayingListNotification.map((item, index) => (
                       <Stack
-                        direction='row'
-                        className={classes.notificationContainer}
-                        borderBottom={`solid 1px ${colors.divider}`}
+                        key={index}
+                        className={classes.notifications}
+                        onClick={() => handleNotificationClick(item, 'praying')}
                       >
-                        <MosqueIcon className={classes.sholat} />
-                        <Stack paddingLeft={'7px'} margin={'6px 0'}>
-                          <Typography>Shalat</Typography>
-                          <Typography>
-                            Waktu:{' '}
-                            {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}
-                          </Typography>
-                          <Typography>Camera: -</Typography>
+                        <Stack
+                          direction='row'
+                          className={classes.notificationContainer}
+                          borderBottom={`solid 1px ${colors.divider}`}
+                        >
+                          <MosqueIcon className={classes.sholat} />
+                          <Stack paddingLeft={'7px'} margin={'6px 0'}>
+                            <Typography>Shalat</Typography>
+                            <Typography>
+                              Waktu:{' '}
+                              {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}
+                            </Typography>
+                            <Typography>Camera: -</Typography>
+                          </Stack>
                         </Stack>
                       </Stack>
-                    </Stack>
-                  ))}
-                </Collapse>
+                    ))}
+                  </Collapse>
+                ) : (
+                  <Stack
+                    width='100%'
+                    height='80px'
+                    justifyContent='center'
+                    alignItems='center'
+                  >
+                    <CircularProgress />
+                  </Stack>
+                )}
               </Stack>
 
               {/* FIGHTING */}
@@ -257,62 +313,56 @@ const AppBar = () => {
                   />
                 </Stack>
 
-                <Collapse in={isFightingNotificationExpanded}>
-                  <Stack>
-                    {fightingListNotification.map((item, index) => (
-                      <Stack
-                        key={index}
-                        className={classes.notifications}
-                        onClick={() =>
-                          handleNotificationClick(item, 'fighting')
-                        }
-                      >
+                {fightingListNotification.length > 0 ? (
+                  <Collapse in={isFightingNotificationExpanded}>
+                    <Stack>
+                      {fightingListNotification.map((item, index) => (
                         <Stack
-                          direction='row'
-                          className={classes.notificationContainer}
-                          borderBottom={`solid 1px ${colors.divider}`}
+                          key={index}
+                          className={classes.notifications}
+                          onClick={() =>
+                            handleNotificationClick(item, 'fighting')
+                          }
                         >
-                          <Stack>
-                            {item.type === 'Sholat' ? (
-                              <MosqueIcon className={classes.sholat} />
-                            ) : (
-                              <FightingIcon className={classes.perkelahian} />
-                            )}
-                          </Stack>
-                          <Stack paddingLeft={'7px'} margin={'6px 0'}>
-                            <Typography>Perkelahian</Typography>
-                            <Typography>
-                              Waktu:{' '}
-                              {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}
-                            </Typography>
-                            <Typography>Camera: -</Typography>
+                          <Stack
+                            direction='row'
+                            className={classes.notificationContainer}
+                            borderBottom={`solid 1px ${colors.divider}`}
+                          >
+                            <Stack>
+                              {item.type === 'Sholat' ? (
+                                <MosqueIcon className={classes.sholat} />
+                              ) : (
+                                <FightingIcon className={classes.perkelahian} />
+                              )}
+                            </Stack>
+                            <Stack paddingLeft={'7px'} margin={'6px 0'}>
+                              <Typography>Perkelahian</Typography>
+                              <Typography>
+                                Waktu:{' '}
+                                {moment(item.waktu).format(
+                                  'YYYY-MM-DD HH:mm:ss'
+                                )}
+                              </Typography>
+                              <Typography>Camera: -</Typography>
+                            </Stack>
                           </Stack>
                         </Stack>
-                      </Stack>
-                    ))}
+                      ))}
+                    </Stack>
+                  </Collapse>
+                ) : (
+                  <Stack
+                    width='100%'
+                    height='100px'
+                    justifyContent='center'
+                    alignItems='center'
+                    marginBottom='12px'
+                  >
+                    <CircularProgress />
                   </Stack>
-                </Collapse>
+                )}
               </Stack>
-
-              {/* ALL NOTIFICATION */}
-              {/*
-              <Stack
-                padding='15px 20px'
-                direction='row'
-                justifyContent='space-between'
-                alignItems='center'
-                sx={{
-                  backgroundColor: colors.backgroundGrey,
-                  color: colors.textPrimary,
-                }}
-              >
-                <Typography variant='body2'>All notifications</Typography>
-
-                <IconButton disableRipple>
-                  <SettingsIcon sx={{ height: '18px' }} />
-                </IconButton>
-              </Stack>
-              */}
             </Stack>
           </Menu>
 
