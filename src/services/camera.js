@@ -46,6 +46,24 @@ export const getCameraList = async (
   }
 }
 
+// RESTART CAMERA SERVICE
+export const getRestartCameraService = async (
+  inputSignal,
+  inputToken,
+  inputID
+) => {
+  try {
+    const response = await axios.get(`/camera/restart-service?id=${inputID}`, {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
+
 // EDIT THE CAMERA
 export const putEditCamera = async (
   inputSignal,

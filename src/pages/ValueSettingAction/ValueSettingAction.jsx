@@ -42,6 +42,7 @@ const ValueSettingAction = () => {
     berdiri: '',
     sedekap: '',
     rukuk: '',
+    sujud: '',
     duduk: '',
     score: '',
   }
@@ -52,6 +53,7 @@ const ValueSettingAction = () => {
     berdiri: false,
     sedekap: false,
     rukuk: false,
+    sujud: false,
     duduk: false,
     score: false,
   }
@@ -90,7 +92,9 @@ const ValueSettingAction = () => {
     errorValue.berdiri ||
     errorValue.sedekap ||
     errorValue.rukuk ||
+    errorValue.sujud ||
     errorValue.duduk ||
+    errorValue.salam ||
     errorValue.score
       ? setSnackbarObject({
           open: true,
@@ -249,11 +253,25 @@ const ValueSettingAction = () => {
                 Rukuk
               </Typography>
               <Typography
+                marginTop='46.5px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Sujud
+              </Typography>
+              <Typography
                 marginTop='43px'
                 align='right'
                 className={classes.leftSectionText}
               >
                 Duduk
+              </Typography>
+              <Typography
+                marginTop='43px'
+                align='right'
+                className={classes.leftSectionText}
+              >
+                Salam
               </Typography>
               <Typography
                 marginTop='44px'
@@ -390,6 +408,33 @@ const ValueSettingAction = () => {
                 )}
               </Stack>
 
+              {/* SUJUD */}
+              <Stack direction='row'>
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    error={errorValue.sujud}
+                    id={errorValue.sujud ? null : 'outlined-error'}
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 10 }}
+                    name='sujud'
+                    value={formObject.sujud}
+                    placeholder='Sujud'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
+
+                {errorValue.sujud && (
+                  <Typography align='right' className={classes.cautionText}>
+                    Harus nilai 0-10
+                  </Typography>
+                )}
+              </Stack>
+
               {/* DUDUK */}
               <Stack direction='row'>
                 <FormControl
@@ -411,6 +456,33 @@ const ValueSettingAction = () => {
                 </FormControl>
 
                 {errorValue.duduk && (
+                  <Typography align='right' className={classes.cautionText}>
+                    Harus nilai 0-10
+                  </Typography>
+                )}
+              </Stack>
+
+              {/* SALAM */}
+              <Stack direction='row'>
+                <FormControl
+                  required
+                  variant='outlined'
+                  className={classes.formItemInput}
+                >
+                  <OutlinedInput
+                    error={errorValue.salam}
+                    id={errorValue.salam ? null : 'outlined-error'}
+                    label=''
+                    type='number'
+                    inputProps={{ min: 0, max: 10 }}
+                    name='salam'
+                    value={formObject.salam}
+                    placeholder='Salam'
+                    onChange={handleFormObjectChange}
+                  />
+                </FormControl>
+
+                {errorValue.salam && (
                   <Typography align='right' className={classes.cautionText}>
                     Harus nilai 0-10
                   </Typography>
