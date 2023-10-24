@@ -44,7 +44,25 @@ const useStyles = makeStyles((theme) => ({
     margin: '40px',
   },
   icon: {
-    width: '10%',
+    width: '200px',
+    height: '200px'
+  },
+  '@keyframes slide': {
+    '0%': {
+      transform: 'translateX(0)',
+    },
+    '100%': {
+      transform: 'translateX(-100%)',
+    },
+  },
+  logListContainer: {
+    margin: '0 0 0 20px',
+    overflow: 'hidden',
+    animation: 'slide 30s ease infinite',
+  },
+  logList: {
+    width: 160,
+    margin: '0 20px 0 20px'
   },
 }))
 

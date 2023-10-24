@@ -9,6 +9,9 @@ import IconUnknown from 'assets/images/icons/unknown.png'
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 
+// DUMMY ASSETS
+import Foto from 'assets/images/dummy/notif-01.jpg'
+
 // MUIS
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
 
@@ -23,6 +26,73 @@ const CameraDetail = () => {
   const navigate = useNavigate()
 
   const cameraDetail = readCameraDetailFromLocalStorage()
+
+  const logList = [
+    {
+      id: 1,
+      foto: Foto,
+      nama: 'Test Test Satu Dua Tiga',
+      date: '17-03-2023 14:00.45 (Zuhur)',
+      id_event: '480989999',
+      id_camera:  'SP-NGKAMFD-04',
+    },
+    {
+      id: 2,
+      foto: Foto,
+      nama: 'Test Test Satu Dua Tiga',
+      date: '17-03-2023 14:00.45 (Zuhur)',
+      id_event: '480989999',
+      id_camera:  'SP-NGKAMFD-04',
+    },
+    {
+      id: 3,
+      foto: Foto,
+      nama: 'Test Test Satu Dua Tiga',
+      date: '17-03-2023 14:00.45 (Zuhur)',
+      id_event: '480989999',
+      id_camera:  'SP-NGKAMFD-04',
+    },
+    {
+      id: 4,
+      foto: Foto,
+      nama: 'Test Test Satu Dua Tiga',
+      date: '17-03-2023 14:00.45 (Zuhur)',
+      id_event: '480989999',
+      id_camera:  'SP-NGKAMFD-04',
+    },
+    {
+      id: 5,
+      foto: Foto,
+      nama: 'Test Test Satu Dua Tiga',
+      date: '17-03-2023 14:00.45 (Zuhur)',
+      id_event: '480989999',
+      id_camera:  'SP-NGKAMFD-04',
+    },
+    {
+      id: 6,
+      foto: Foto,
+      nama: 'Test Test Satu Dua Tiga',
+      date: '17-03-2023 14:00.45 (Zuhur)',
+      id_event: '480989999',
+      id_camera:  'SP-NGKAMFD-04',
+    },
+    {
+      id: 7,
+      foto: Foto,
+      nama: 'Test Test Satu Dua Tiga',
+      date: '17-03-2023 14:00.45 (Zuhur)',
+      id_event: '480989999',
+      id_camera:  'SP-NGKAMFD-04',
+    },
+    {
+      id: 8,
+      foto: Foto,
+      nama: 'Test Test Satu Dua Tiga',
+      date: '17-03-2023 14:00.45 (Zuhur)',
+      id_event: '480989999',
+      id_camera:  'SP-NGKAMFD-04',
+    },
+  ]
 
   const handleButtonClick = () => {
     navigate('/')
@@ -66,7 +136,7 @@ const CameraDetail = () => {
       <Stack className={classes.container}>
         <Typography className={classes.title}>Log {cameraDetail.type}</Typography>
         <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
-        <Stack className={classes.logContainer}>
+        <Stack direction='row' className={classes.logContainer}>
           {/* ICON */}
           <Box
             component='img'
@@ -78,6 +148,28 @@ const CameraDetail = () => {
             alt=''
             className={classes.icon}
           />
+          {/* LIST OF LOG */}
+          <Stack direction='row' className={classes.logListContainer}>
+            {logList.map((item, index) => (
+              <Stack key={index} className={classes.logList}>
+                <Box
+                  component='img'
+                  src={item.foto}
+                  alt='foto'
+                  className={classes.foto}
+                />
+                <Typography
+                  marginTop='10px'
+                  fontWeight='bold'
+                >
+                  {item.nama}
+                </Typography>
+                <Typography marginTop='10px'>{item.date}</Typography>
+                <Typography marginTop='10px'>{item.id_event}</Typography>
+                <Typography marginTop='10px'>{item.id_camera}</Typography>
+              </Stack>
+            ))}
+          </Stack>
         </Stack>
       </Stack>
 
