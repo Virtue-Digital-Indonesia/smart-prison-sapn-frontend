@@ -108,6 +108,11 @@ const routes = [
     element: <NotificationDetail />,
     routeType: 'private',
   },
+  {
+    path: '/log/detail/:id',
+    element: <NotificationDetail />,
+    routeType: 'private',
+  },
 ]
 
 export default routes
