@@ -266,8 +266,10 @@ const AppBar = () => {
                             <Typography>Shalat</Typography>
                             <Typography>
                               Waktu:{' '}
-                              {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}
+                              {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}{' '}
+                              {'(Isya)'}
                             </Typography>
+                            <Typography>Nama: -</Typography>
                             <Typography>Camera: -</Typography>
                           </Stack>
                         </Stack>
