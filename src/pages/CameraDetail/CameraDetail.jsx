@@ -28,16 +28,6 @@ const CameraDetail = () => {
 
   const cameraDetail = readCameraDetailFromLocalStorage()
 
-  const [isLogContentHovered, setIsLogContentHovered] = useState(false)
-
-  const handleChildHover = () => {
-    setIsLogContentHovered(true)
-  }
-
-  const handleChildLeave = () => {
-    setIsLogContentHovered(false)
-  }
-
   const logList = [
     {
       id: 1,
@@ -163,51 +153,43 @@ const CameraDetail = () => {
           />
           {/* LIST OF LOG */}
           <Stack className={classes.logListContainer}>
-            <Stack direction='row' className={classes.logListSlider}>
-              {logList.map((item, index) => (
-                <Stack
-                  key={index}
-                  className={classes.logList}
-                  onMouseEnter={handleChildHover}
-                  onMouseLeave={handleChildLeave}
-                >
-                  <Box
-                    component='img'
-                    src={item.foto}
-                    alt='foto'
-                    className={classes.foto}
-                  />
-                  <Typography marginTop='10px' fontWeight='bold'>
-                    {item.nama}
-                  </Typography>
-                  <Typography marginTop='10px'>{item.date}</Typography>
-                  <Typography marginTop='10px'>{item.id_event}</Typography>
-                  <Typography marginTop='10px'>{item.id_camera}</Typography>
-                </Stack>
-              ))}
-            </Stack>
-            <Stack direction='row' className={classes.logListSlider}>
-              {logList.map((item, index) => (
-                <Stack
-                  key={index}
-                  className={classes.logList}
-                  onMouseEnter={handleChildHover}
-                  onMouseLeave={handleChildLeave}
-                >
-                  <Box
-                    component='img'
-                    src={item.foto}
-                    alt='foto'
-                    className={classes.foto}
-                  />
-                  <Typography marginTop='10px' fontWeight='bold'>
-                    {item.nama}
-                  </Typography>
-                  <Typography marginTop='10px'>{item.date}</Typography>
-                  <Typography marginTop='10px'>{item.id_event}</Typography>
-                  <Typography marginTop='10px'>{item.id_camera}</Typography>
-                </Stack>
-              ))}
+            <Stack direction='row' className={classes.sliderPause}>
+              <Stack direction='row' className={classes.logListSlider}>
+                {logList.map((item, index) => (
+                  <Stack key={index} className={classes.logList}>
+                    <Box
+                      component='img'
+                      src={item.foto}
+                      alt='foto'
+                      className={classes.foto}
+                    />
+                    <Typography marginTop='10px' fontWeight='bold'>
+                      {item.nama}
+                    </Typography>
+                    <Typography marginTop='10px'>{item.date}</Typography>
+                    <Typography marginTop='10px'>{item.id_event}</Typography>
+                    <Typography marginTop='10px'>{item.id_camera}</Typography>
+                  </Stack>
+                ))}
+              </Stack>
+              <Stack direction='row' className={classes.logListSlider}>
+                {logList.map((item, index) => (
+                  <Stack key={index} className={classes.logList}>
+                    <Box
+                      component='img'
+                      src={item.foto}
+                      alt='foto'
+                      className={classes.foto}
+                    />
+                    <Typography marginTop='10px' fontWeight='bold'>
+                      {item.nama}
+                    </Typography>
+                    <Typography marginTop='10px'>{item.date}</Typography>
+                    <Typography marginTop='10px'>{item.id_event}</Typography>
+                    <Typography marginTop='10px'>{item.id_camera}</Typography>
+                  </Stack>
+                ))}
+              </Stack>
             </Stack>
           </Stack>
         </Stack>

@@ -51,15 +51,20 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 0 0 20px',
     overflow: 'hidden',
     flexDirection: 'row',
+    cursor: 'pointer',
   },
   '@keyframes slide': {
     from: { transform: 'translateX(0)' },
     to: { transform: 'translateX(-100%)' },
   },
   logListSlider: {
-    animation: '$slide 5s infinite linear',
+    animation: '$slide 15s infinite linear',
+  },
+  sliderPause: {
     '&:hover': {
-      animationPlayState: 'paused',
+      '& $logListSlider': {
+        animationPlayState: 'paused',
+      },
     },
   },
   logList: {
