@@ -267,10 +267,10 @@ const AppBar = () => {
                             <Typography>
                               Waktu:{' '}
                               {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}{' '}
-                              {'(Isya)'}
+                              {`(${item.sholat})`}
                             </Typography>
-                            <Typography>Nama: -</Typography>
-                            <Typography>Camera: -</Typography>
+                            <Typography>Nama: {item.nama}</Typography>
+                            <Typography>Camera: {item.camera}</Typography>
                           </Stack>
                         </Stack>
                       </Stack>
@@ -346,7 +346,7 @@ const AppBar = () => {
                                   'YYYY-MM-DD HH:mm:ss'
                                 )}
                               </Typography>
-                              <Typography>Camera: -</Typography>
+                              <Typography>Camera: {item.camera}</Typography>
                             </Stack>
                           </Stack>
                         </Stack>
