@@ -99,6 +99,14 @@ const CameraDetail = () => {
     navigate('/')
   }
 
+  const handleLogListClick = (inputItem) => {
+    let tempLogType
+    if (cameraDetail.type === 'Sholat') tempLogType = 'praying'
+    else tempLogType = 'fighting'
+
+    navigate(`/log/detail/${tempLogType}-${inputItem.id}`)
+  }
+
   return (
     <Stack className={classes.root}>
       {/* CAMERA */}
@@ -156,7 +164,11 @@ const CameraDetail = () => {
             <Stack direction='row' className={classes.sliderPause}>
               <Stack direction='row' className={classes.logListSlider}>
                 {logList.map((item, index) => (
-                  <Stack key={index} className={classes.logList}>
+                  <Stack
+                    key={index}
+                    className={classes.logList}
+                    onClick={() => handleLogListClick(item)}
+                  >
                     <Box
                       component='img'
                       src={item.foto}
@@ -174,7 +186,11 @@ const CameraDetail = () => {
               </Stack>
               <Stack direction='row' className={classes.logListSlider}>
                 {logList.map((item, index) => (
-                  <Stack key={index} className={classes.logList}>
+                  <Stack
+                    key={index}
+                    className={classes.logList}
+                    onClick={() => handleLogListClick(item)}
+                  >
                     <Box
                       component='img'
                       src={item.foto}
