@@ -1,6 +1,7 @@
 /* eslint-disable indent */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
 
 // ASSETS
 import IconSholat from 'assets/images/icons/sholat.png'
@@ -10,11 +11,17 @@ import IconUnknown from 'assets/images/icons/unknown.png'
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
+
 // DUMMY ASSETS
 import Foto from 'assets/images/dummy/notif-01.jpg'
 
 // MUIS
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
+
+// SERVICE
+import { getLogSholatByID, getLogPerkelahianByID } from 'services/log'
 
 // STYLES
 import useStyles from './cameraDetailUseStyles'
@@ -26,9 +33,11 @@ const CameraDetail = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
+  const { auth, setLoading } = useContext(AllPagesContext)
+
   const cameraDetail = readCameraDetailFromLocalStorage()
 
-  const logList = [
+  const initalLogList = [
     {
       id: 1,
       foto: Foto,
@@ -95,6 +104,8 @@ const CameraDetail = () => {
     },
   ]
 
+  const [logList, setLogList] = useState(initalLogList)
+
   const handleButtonClick = () => {
     navigate('/')
   }
@@ -106,6 +117,61 @@ const CameraDetail = () => {
 
     navigate(`/log/detail/${tempLogType}-${inputItem.id}`)
   }
+
+  const getLog = async (inputSignal) => {
+    setLoading(true)
+
+    let resultData
+
+    // if (cameraDetail.type === 'Sholat'){
+      resultData = await getLogSholatByID(
+        inputSignal,
+        auth?.accessToken,
+        cameraDetail.id
+      )
+    // }
+    // else {
+    //   resultData = await getLogPerkelahianByID(
+    //     inputSignal,
+    //     auth?.accessToken,
+    //     cameraDetail.id
+    //   )
+    // }
+
+    if (resultData.status === 200 &&
+      resultData?.data?.data.length !== 0
+    ) {
+      const newLogList = resultData?.data?.data?.map((item) => {
+        return {
+          ...item,
+          foto: Foto,
+          date: `${moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')} (${item.sholat})`,
+          id_event: item.id_profil,
+          id_camera: item.camera,
+        }
+      })
+      setLogList(newLogList)
+      setLoading(false)
+    } else {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    if (cameraDetail.type === 'Sholat' ||
+    cameraDetail.type === 'Perkelahian'
+    ){
+      getLog(abortController.signal)
+    }
+
+    return () => {
+      abortController.abort()
+    }
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Stack className={classes.root}>
