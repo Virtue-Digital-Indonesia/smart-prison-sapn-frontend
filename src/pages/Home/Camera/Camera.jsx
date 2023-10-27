@@ -21,7 +21,7 @@ import { AllPagesContext } from 'contexts/AllPagesContext'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 
 // SERVICES
-import { getFightingNotifications } from 'services/notifications'
+import { getLastNotificationImages } from 'services/notifications'
 
 // STYLES
 import useStyles from './cameraUseStyles'
@@ -49,7 +49,7 @@ const Camera = (props) => {
 
   // FETCH PRAYING NOTIFICATION LIST DATA
   const getFightingNotificationListData = async (inputSignal, inputToken) => {
-    const resultData = await getFightingNotifications(inputSignal, inputToken)
+    const resultData = await getLastNotificationImages(inputSignal, inputToken)
 
     if (resultData.status === 200) {
       setFightingListNotification(resultData?.data?.data)
@@ -128,7 +128,7 @@ const Camera = (props) => {
         {/* RIGH SECTION */}
         <Stack
           width='250px'
-          height='470px'
+          height='493px'
           sx={{ backgroundColor: 'white' }}
           position='relative'
         >
