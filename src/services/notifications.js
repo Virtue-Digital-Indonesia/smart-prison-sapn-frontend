@@ -61,13 +61,27 @@ export const getFightingNotifications = async (inputSignal, inputToken) => {
   }
 }
 
-// GET FIGHTING NOTIFICATIONS
+// GET FIGHTING NOTIFICATION COUNTS
 export const getFightingNotificationCounts = async (
   inputSignal,
   inputToken
 ) => {
   try {
     const response = await axios.get('/perkelahian/count', {
+      signal: inputSignal,
+      headers: { Authorization: `Bearer ${inputToken}` },
+    })
+    return response
+  } catch (error) {
+    if (!error.response) return { status: 'No Server Response' }
+    else return error.response
+  }
+}
+
+// GET LAST FIGHTING NOTIFICATIONS IMAGES
+export const getLastNotificationImages = async (inputSignal, inputToken) => {
+  try {
+    const response = await axios.get('/perkelahian/latest', {
       signal: inputSignal,
       headers: { Authorization: `Bearer ${inputToken}` },
     })
