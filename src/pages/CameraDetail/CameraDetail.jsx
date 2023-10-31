@@ -1,6 +1,7 @@
 /* eslint-disable indent */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
 
 // ASSETS
 import IconSholat from 'assets/images/icons/sholat.png'
@@ -10,11 +11,14 @@ import IconUnknown from 'assets/images/icons/unknown.png'
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 
-// DUMMY ASSETS
-import Foto from 'assets/images/dummy/notif-01.jpg'
+// CONTEXTS
+import { AllPagesContext } from 'contexts/AllPagesContext'
 
 // MUIS
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
+
+// SERVICE
+import { getLogSholatByID, getLogPerkelahianByID } from 'services/log'
 
 // STYLES
 import useStyles from './cameraDetailUseStyles'
@@ -26,74 +30,11 @@ const CameraDetail = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
+  const { auth, setLoading } = useContext(AllPagesContext)
+
   const cameraDetail = readCameraDetailFromLocalStorage()
 
-  const logList = [
-    {
-      id: 1,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 2,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 3,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 4,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 5,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 6,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 7,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 8,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-  ]
+  const [logList, setLogList] = useState([])
 
   const handleButtonClick = () => {
     navigate('/')
@@ -106,6 +47,60 @@ const CameraDetail = () => {
 
     navigate(`/log/detail/${tempLogType}-${inputItem.id}`)
   }
+
+  const getLog = async (inputSignal) => {
+    setLoading(true)
+
+    let resultData
+
+    if (cameraDetail.type === 'Sholat'){
+      resultData = await getLogSholatByID(
+        inputSignal,
+        auth?.accessToken,
+        cameraDetail.id
+      )
+    }
+    else {
+      resultData = await getLogPerkelahianByID(
+        inputSignal,
+        auth?.accessToken,
+        cameraDetail.id
+      )
+    }
+
+    if (resultData.status === 200 &&
+      resultData?.data?.data.length !== 0
+    ) {
+      const newLogList = resultData?.data?.data?.map((item) => {
+        return {
+          ...item,
+          date: `${moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')} (${item.sholat})`,
+          id_event: item.id_profil,
+          id_camera: item.camera,
+        }
+      })
+      setLogList(newLogList)
+      setLoading(false)
+    } else {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    if (cameraDetail.type === 'Sholat' ||
+    cameraDetail.type === 'Perkelahian'
+    ){
+      getLog(abortController.signal)
+    }
+
+    return () => {
+      abortController.abort()
+    }
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Stack className={classes.root}>
@@ -160,9 +155,20 @@ const CameraDetail = () => {
             className={classes.icon}
           />
           {/* LIST OF LOG */}
-          <Stack className={classes.logListContainer}>
+          <Stack
+            className={classes.logListContainer}
+            sx={{
+              overflow: logList.length < 6 ? 'auto' : 'hidden'
+            }}
+          >
             <Stack direction='row' className={classes.sliderPause}>
-              <Stack direction='row' className={classes.logListSlider}>
+              <Stack
+                direction='row'
+                className={
+                  logList.length < 6 ? null :
+                  classes.logListSlider
+                }
+              >
                 {logList.map((item, index) => (
                   <Stack
                     key={index}
@@ -171,8 +177,8 @@ const CameraDetail = () => {
                   >
                     <Box
                       component='img'
-                      src={item.foto}
-                      alt='foto'
+                      src={`data:image/jpeg;base64,${item.foto}`}
+                      alt={cameraDetail.type === 'Sholat' ? 'Sholat' : 'Perkelahian'}
                       className={classes.foto}
                     />
                     <Typography marginTop='10px' fontWeight='bold'>
@@ -184,6 +190,7 @@ const CameraDetail = () => {
                   </Stack>
                 ))}
               </Stack>
+              {logList.length < 6 ? null :
               <Stack direction='row' className={classes.logListSlider}>
                 {logList.map((item, index) => (
                   <Stack
@@ -193,8 +200,8 @@ const CameraDetail = () => {
                   >
                     <Box
                       component='img'
-                      src={item.foto}
-                      alt='foto'
+                      src={`data:image/jpeg;base64,${item.foto}`}
+                      alt={cameraDetail.type === 'Sholat' ? 'Sholat' : 'Perkelahian'}
                       className={classes.foto}
                     />
                     <Typography marginTop='10px' fontWeight='bold'>
@@ -206,6 +213,7 @@ const CameraDetail = () => {
                   </Stack>
                 ))}
               </Stack>
+            }
             </Stack>
           </Stack>
         </Stack>

@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
   },
   logListContainer: {
     margin: '0 0 0 20px',
-    overflow: 'hidden',
     flexDirection: 'row',
     cursor: 'pointer',
   },
@@ -71,6 +70,12 @@ const useStyles = makeStyles((theme) => ({
     width: 160,
     margin: '0 20px 0 20px',
   },
+  foto: {
+    backgroundColor: 'GrayText',
+    objectFit: 'cover',
+    width: 170,
+    height: 170,
+  }
 }))
 
 export default useStyles
