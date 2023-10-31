@@ -226,12 +226,17 @@ const CameraDetail = () => {
             className={classes.icon}
           />
           {/* LIST OF LOG */}
-          <Stack className={classes.logListContainer}>
+          <Stack
+            className={classes.logListContainer}
+            sx={{
+              overflow: logList.length < 6 ? 'auto' : 'hidden'
+            }}
+          >
             <Stack direction='row' className={classes.sliderPause}>
               <Stack
                 direction='row'
                 className={
-                  logList.length < 7 ? null :
+                  logList.length < 6 ? null :
                   classes.logListSlider
                 }
               >
@@ -256,7 +261,7 @@ const CameraDetail = () => {
                   </Stack>
                 ))}
               </Stack>
-              {logList.length < 7 ? null :
+              {logList.length < 6 ? null :
               <Stack direction='row' className={classes.logListSlider}>
                 {logList.map((item, index) => (
                   <Stack

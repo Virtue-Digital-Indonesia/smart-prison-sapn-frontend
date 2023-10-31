@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
   },
   logListContainer: {
     margin: '0 0 0 20px',
-    overflow: 'hidden',
     flexDirection: 'row',
     cursor: 'pointer',
   },
