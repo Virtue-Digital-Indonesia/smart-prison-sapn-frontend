@@ -144,7 +144,7 @@ const CameraDetail = () => {
       const newLogList = resultData?.data?.data?.map((item) => {
         return {
           ...item,
-          foto: Foto,
+          // foto: Foto,
           date: `${moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')} (${item.sholat})`,
           id_event: item.id_profil,
           id_camera: item.camera,
@@ -228,7 +228,13 @@ const CameraDetail = () => {
           {/* LIST OF LOG */}
           <Stack className={classes.logListContainer}>
             <Stack direction='row' className={classes.sliderPause}>
-              <Stack direction='row' className={classes.logListSlider}>
+              <Stack
+                direction='row'
+                className={
+                  logList.length < 7 ? null :
+                  classes.logListSlider
+                }
+              >
                 {logList.map((item, index) => (
                   <Stack
                     key={index}
@@ -237,8 +243,8 @@ const CameraDetail = () => {
                   >
                     <Box
                       component='img'
-                      src={item.foto}
-                      alt='foto'
+                      src={`data:image/jpeg;base64,${item.foto}`}
+                      alt={cameraDetail.type === 'Sholat' ? 'Sholat' : 'Perkelahian'}
                       className={classes.foto}
                     />
                     <Typography marginTop='10px' fontWeight='bold'>
@@ -250,6 +256,7 @@ const CameraDetail = () => {
                   </Stack>
                 ))}
               </Stack>
+              {logList.length < 7 ? null :
               <Stack direction='row' className={classes.logListSlider}>
                 {logList.map((item, index) => (
                   <Stack
@@ -259,8 +266,8 @@ const CameraDetail = () => {
                   >
                     <Box
                       component='img'
-                      src={item.foto}
-                      alt='foto'
+                      src={`data:image/jpeg;base64,${item.foto}`}
+                      alt={cameraDetail.type === 'Sholat' ? 'Sholat' : 'Perkelahian'}
                       className={classes.foto}
                     />
                     <Typography marginTop='10px' fontWeight='bold'>
@@ -272,6 +279,7 @@ const CameraDetail = () => {
                   </Stack>
                 ))}
               </Stack>
+            }
             </Stack>
           </Stack>
         </Stack>

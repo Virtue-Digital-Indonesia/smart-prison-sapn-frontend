@@ -71,6 +71,12 @@ const useStyles = makeStyles((theme) => ({
     width: 160,
     margin: '0 20px 0 20px',
   },
+  foto: {
+    backgroundColor: 'GrayText',
+    objectFit: 'cover',
+    width: 170,
+    height: 170,
+  }
 }))
 
 export default useStyles
