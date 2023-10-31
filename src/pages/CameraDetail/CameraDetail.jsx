@@ -123,20 +123,20 @@ const CameraDetail = () => {
 
     let resultData
 
-    // if (cameraDetail.type === 'Sholat'){
+    if (cameraDetail.type === 'Sholat'){
       resultData = await getLogSholatByID(
         inputSignal,
         auth?.accessToken,
         cameraDetail.id
       )
-    // }
-    // else {
-    //   resultData = await getLogPerkelahianByID(
-    //     inputSignal,
-    //     auth?.accessToken,
-    //     cameraDetail.id
-    //   )
-    // }
+    }
+    else {
+      resultData = await getLogPerkelahianByID(
+        inputSignal,
+        auth?.accessToken,
+        cameraDetail.id
+      )
+    }
 
     if (resultData.status === 200 &&
       resultData?.data?.data.length !== 0
