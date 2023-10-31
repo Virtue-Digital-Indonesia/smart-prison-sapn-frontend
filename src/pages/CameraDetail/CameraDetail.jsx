@@ -14,9 +14,6 @@ import Footer from 'components/Footer/Footer'
 // CONTEXTS
 import { AllPagesContext } from 'contexts/AllPagesContext'
 
-// DUMMY ASSETS
-import Foto from 'assets/images/dummy/notif-01.jpg'
-
 // MUIS
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
 
@@ -37,74 +34,7 @@ const CameraDetail = () => {
 
   const cameraDetail = readCameraDetailFromLocalStorage()
 
-  const initalLogList = [
-    {
-      id: 1,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 2,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 3,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 4,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 5,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 6,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 7,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-    {
-      id: 8,
-      foto: Foto,
-      nama: 'Test Test Satu Dua Tiga',
-      date: '17-03-2023 14:00.45 (Zuhur)',
-      id_event: '480989999',
-      id_camera: 'SP-NGKAMFD-04',
-    },
-  ]
-
-  const [logList, setLogList] = useState(initalLogList)
+  const [logList, setLogList] = useState([])
 
   const handleButtonClick = () => {
     navigate('/')
@@ -144,7 +74,6 @@ const CameraDetail = () => {
       const newLogList = resultData?.data?.data?.map((item) => {
         return {
           ...item,
-          // foto: Foto,
           date: `${moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')} (${item.sholat})`,
           id_event: item.id_profil,
           id_camera: item.camera,
