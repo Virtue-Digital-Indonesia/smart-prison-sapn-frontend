@@ -41,18 +41,41 @@ const Camera = (props) => {
 
   const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)
   const [fightingListNotification, setFightingListNotification] = useState([])
+  const [tempLiveStreamingUrl, setTempLiveStreamingUrl] = useState(null)
 
   const handleCameraNameClick = (inputParams) => {
     setCameraDetailToLocalStorage(inputParams)
     navigate(`/camera/detail/${inputParams.id}`)
   }
 
-  // FETCH PRAYING NOTIFICATION LIST DATA
+  // FETCH LAST FIGHTING LIST DATA
   const getFightingNotificationListData = async (inputSignal, inputToken) => {
     const resultData = await getLastNotificationImages(inputSignal, inputToken)
 
     if (resultData.status === 200) {
       setFightingListNotification(resultData?.data?.data)
+    }
+  }
+
+  // HANDLE NEXT BUTTON
+  const handleNextButton = () => {
+    const findIndex = cameraList.findIndex(
+      (item) => item.id === tempLiveStreamingUrl.id
+    )
+
+    if (findIndex !== cameraList.length - 1) {
+      setTempLiveStreamingUrl(cameraList[findIndex + 1])
+    }
+  }
+
+  // HANDLE PREVIOUS BUTTON
+  const handlePreviousButton = () => {
+    const findIndex = cameraList.findIndex(
+      (item) => item.id === tempLiveStreamingUrl.id
+    )
+
+    if (findIndex !== 0) {
+      setTempLiveStreamingUrl(cameraList[findIndex - 1])
     }
   }
 
@@ -64,6 +87,7 @@ const Camera = (props) => {
     return () => {
       abortController.abort()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -112,11 +136,40 @@ const Camera = (props) => {
                       </Typography>
                     </Stack>
                     <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
-                    <Stack
-                      onClick={() => setIsMediaPlayerActive(true)}
-                      className={classes.cameraScreen}
-                    >
-                      Camera
+                    <Stack className={classes.cameraScreen}>
+                      {item.href_link.length > 1 && (
+                        <Box position='relative' height='100%' width='100%'>
+                          <Box
+                            name={item.title}
+                            title={item.title}
+                            component='iframe'
+                            src={item?.href_link}
+                            width='100%'
+                            height='100%'
+                            style={{ border: 'none' }}
+                          />
+
+                          {/* IFRAME INSIDE ACTION CLICK */}
+                          <Stack
+                            position='absolute'
+                            top={0}
+                            left={0}
+                            padding='6px 0px'
+                            sx={{ backgroundColor: 'transparent' }}
+                            width='100%'
+                            height='80%'
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setTempLiveStreamingUrl(item)
+                              setIsMediaPlayerActive(true)
+                            }}
+                          />
+                        </Box>
+                      )}
+
+                      {item.href_link.length < 1 && (
+                        <Typography>Media not found</Typography>
+                      )}
                     </Stack>
                   </Stack>
                 </Grid>
@@ -187,14 +240,18 @@ const Camera = (props) => {
         onClick={(e) => {
           e.stopPropagation()
           setIsMediaPlayerActive(false)
+          setTempLiveStreamingUrl(null)
         }}
       >
-        <Stack direction='row' width='100%'>
+        <Stack direction='row' width='100%' height='80%' alignItems='center'>
           {/* PREVIOUS BUTTON */}
           <IconButton
             size='large'
-            sx={{ marginLeft: '16px' }}
-            onClick={(e) => e.stopPropagation()}
+            sx={{ margin: '0px 16px', height: '60px' }}
+            onClick={(e) => {
+              e.stopPropagation()
+              handlePreviousButton()
+            }}
           >
             <PlayArrowIcon
               fontSize='large'
@@ -203,15 +260,37 @@ const Camera = (props) => {
           </IconButton>
 
           {/* CONTENT */}
-          <Stack flex={1} justifyContent='center' alignItems='center'>
-            The image could not be loaded.
+          <Stack
+            flex={1}
+            justifyContent='center'
+            alignItems='center'
+            height='100%'
+            sx={{ backgroundColor: 'white' }}
+          >
+            {tempLiveStreamingUrl?.href_link.length > 0 && (
+              <Box
+                name={tempLiveStreamingUrl?.title}
+                title={tempLiveStreamingUrl?.title}
+                component='iframe'
+                src={tempLiveStreamingUrl?.href_link}
+                width='100%'
+                height='100%'
+                style={{ border: 'none' }}
+              />
+            )}
+            {tempLiveStreamingUrl?.href_link.length < 1 && (
+              <Typography sx={{ color: 'black' }}>Media not found</Typography>
+            )}
           </Stack>
 
           {/* NEXT BUTTON */}
           <IconButton
             size='large'
-            sx={{ marginRight: '16px' }}
-            onClick={(e) => e.stopPropagation()}
+            sx={{ margin: '0px 16px', height: '60px' }}
+            onClick={(e) => {
+              e.stopPropagation()
+              handleNextButton()
+            }}
           >
             <PlayArrowIcon fontSize='large' sx={{ color: 'white' }} />
           </IconButton>
