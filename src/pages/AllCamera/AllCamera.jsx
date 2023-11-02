@@ -8,6 +8,7 @@ import Footer from 'components/Footer/Footer'
 
 // MUIS
 import {
+  Box,
   Backdrop,
   Divider,
   Grid,
@@ -31,6 +32,7 @@ const AllCamera = () => {
 
   const [allCameraList, setAllCameraList] = useState([])
   const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)
+  const [tempLiveStreamingUrl, setTempLiveStreamingUrl] = useState(null)
 
   const { auth, setLoading } = useContext(AllPagesContext)
 
@@ -62,6 +64,28 @@ const AllCamera = () => {
       setLoading(false)
     } else {
       setLoading(false)
+    }
+  }
+
+  // HANDLE NEXT BUTTON
+  const handleNextButton = () => {
+    const findIndex = allCameraList.findIndex(
+      (item) => item.id === tempLiveStreamingUrl.id
+    )
+
+    if (findIndex !== allCameraList.length - 1) {
+      setTempLiveStreamingUrl(allCameraList[findIndex + 1])
+    }
+  }
+
+  // HANDLE PREVIOUS BUTTON
+  const handlePreviousButton = () => {
+    const findIndex = allCameraList.findIndex(
+      (item) => item.id === tempLiveStreamingUrl.id
+    )
+
+    if (findIndex !== 0) {
+      setTempLiveStreamingUrl(allCameraList[findIndex - 1])
     }
   }
 
@@ -121,11 +145,40 @@ const AllCamera = () => {
                         variant='fullWidth'
                         sx={{ color: '#0000001f' }}
                       />
-                      <Stack
-                        className={classes.cameraScreen}
-                        onClick={() => setIsMediaPlayerActive(true)}
-                      >
-                        Camera
+                      <Stack className={classes.cameraScreen}>
+                        {item.href_link.length > 1 && (
+                          <Box position='relative' height='100%' width='100%'>
+                            <Box
+                              name={item.title}
+                              title={item.title}
+                              component='iframe'
+                              src={item?.href_link}
+                              width='100%'
+                              height='100%'
+                              style={{ border: 'none' }}
+                            />
+
+                            {/* IFRAME INSIDE ACTION CLICK */}
+                            <Stack
+                              position='absolute'
+                              top={0}
+                              left={0}
+                              padding='6px 0px'
+                              sx={{ backgroundColor: 'transparent' }}
+                              width='100%'
+                              height='80%'
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setTempLiveStreamingUrl(item)
+                                setIsMediaPlayerActive(true)
+                              }}
+                            />
+                          </Box>
+                        )}
+
+                        {item.href_link.length < 1 && (
+                          <Typography>Media not found</Typography>
+                        )}
                       </Stack>
                     </Stack>
                   </Grid>
@@ -148,12 +201,15 @@ const AllCamera = () => {
           setIsMediaPlayerActive(false)
         }}
       >
-        <Stack direction='row' width='100%'>
+        <Stack direction='row' width='100%' height='80%' alignItems='center'>
           {/* PREVIOUS BUTTON */}
           <IconButton
             size='large'
-            sx={{ marginLeft: '16px' }}
-            onClick={(e) => e.stopPropagation()}
+            sx={{ margin: '0px 16px', height: '60px' }}
+            onClick={(e) => {
+              e.stopPropagation()
+              handlePreviousButton()
+            }}
           >
             <PlayArrowIcon
               fontSize='large'
@@ -162,15 +218,37 @@ const AllCamera = () => {
           </IconButton>
 
           {/* CONTENT */}
-          <Stack flex={1} justifyContent='center' alignItems='center'>
-            The image could not be loaded.
+          <Stack
+            flex={1}
+            justifyContent='center'
+            alignItems='center'
+            height='100%'
+            sx={{ backgroundColor: 'white' }}
+          >
+            {tempLiveStreamingUrl?.href_link.length > 0 && (
+              <Box
+                name={tempLiveStreamingUrl?.title}
+                title={tempLiveStreamingUrl?.title}
+                component='iframe'
+                src={tempLiveStreamingUrl?.href_link}
+                width='100%'
+                height='100%'
+                style={{ border: 'none' }}
+              />
+            )}
+            {tempLiveStreamingUrl?.href_link.length < 1 && (
+              <Typography sx={{ color: 'black' }}>Media not found</Typography>
+            )}
           </Stack>
 
           {/* NEXT BUTTON */}
           <IconButton
             size='large'
-            sx={{ marginRight: '16px' }}
-            onClick={(e) => e.stopPropagation()}
+            sx={{ margin: '0px 16px', height: '60px' }}
+            onClick={(e) => {
+              e.stopPropagation()
+              handleNextButton()
+            }}
           >
             <PlayArrowIcon fontSize='large' sx={{ color: 'white' }} />
           </IconButton>
