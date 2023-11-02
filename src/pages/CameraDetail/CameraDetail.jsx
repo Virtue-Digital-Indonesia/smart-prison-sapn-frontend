@@ -53,14 +53,13 @@ const CameraDetail = () => {
 
     let resultData
 
-    if (cameraDetail.type === 'Sholat'){
+    if (cameraDetail.type === 'Sholat') {
       resultData = await getLogSholatByID(
         inputSignal,
         auth?.accessToken,
         cameraDetail.id
       )
-    }
-    else {
+    } else {
       resultData = await getLogPerkelahianByID(
         inputSignal,
         auth?.accessToken,
@@ -68,13 +67,13 @@ const CameraDetail = () => {
       )
     }
 
-    if (resultData.status === 200 &&
-      resultData?.data?.data.length !== 0
-    ) {
+    if (resultData.status === 200 && resultData?.data?.data.length !== 0) {
       const newLogList = resultData?.data?.data?.map((item) => {
         return {
           ...item,
-          date: `${moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')} (${item.sholat})`,
+          date: `${moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')} (${
+            item.sholat
+          })`,
           id_event: item.id_profil,
           id_camera: item.camera,
         }
@@ -89,16 +88,14 @@ const CameraDetail = () => {
   useEffect(() => {
     const abortController = new AbortController()
 
-    if (cameraDetail.type === 'Sholat' ||
-    cameraDetail.type === 'Perkelahian'
-    ){
+    if (cameraDetail.type === 'Sholat' || cameraDetail.type === 'Perkelahian') {
       getLog(abortController.signal)
     }
 
     return () => {
       abortController.abort()
     }
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -130,7 +127,17 @@ const CameraDetail = () => {
         </Stack>
         <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
         <Stack className={classes.cameraContainer}>
-          <Stack className={classes.camera}></Stack>
+          <Stack className={classes.camera}>
+            <Box
+              name={cameraDetail?.title}
+              title={cameraDetail?.title}
+              component='iframe'
+              src={cameraDetail?.href_link}
+              width='100%'
+              height='100%'
+              style={{ border: 'none' }}
+            />
+          </Stack>
         </Stack>
       </Stack>
 
@@ -158,16 +165,13 @@ const CameraDetail = () => {
           <Stack
             className={classes.logListContainer}
             sx={{
-              overflow: logList.length < 6 ? 'auto' : 'hidden'
+              overflow: logList.length < 6 ? 'auto' : 'hidden',
             }}
           >
             <Stack direction='row' className={classes.sliderPause}>
               <Stack
                 direction='row'
-                className={
-                  logList.length < 6 ? null :
-                  classes.logListSlider
-                }
+                className={logList.length < 6 ? null : classes.logListSlider}
               >
                 {logList.map((item, index) => (
                   <Stack
@@ -178,7 +182,11 @@ const CameraDetail = () => {
                     <Box
                       component='img'
                       src={`data:image/jpeg;base64,${item.foto}`}
-                      alt={cameraDetail.type === 'Sholat' ? 'Sholat' : 'Perkelahian'}
+                      alt={
+                        cameraDetail.type === 'Sholat'
+                          ? 'Sholat'
+                          : 'Perkelahian'
+                      }
                       className={classes.foto}
                     />
                     <Typography marginTop='10px' fontWeight='bold'>
@@ -190,30 +198,34 @@ const CameraDetail = () => {
                   </Stack>
                 ))}
               </Stack>
-              {logList.length < 6 ? null :
-              <Stack direction='row' className={classes.logListSlider}>
-                {logList.map((item, index) => (
-                  <Stack
-                    key={index}
-                    className={classes.logList}
-                    onClick={() => handleLogListClick(item)}
-                  >
-                    <Box
-                      component='img'
-                      src={`data:image/jpeg;base64,${item.foto}`}
-                      alt={cameraDetail.type === 'Sholat' ? 'Sholat' : 'Perkelahian'}
-                      className={classes.foto}
-                    />
-                    <Typography marginTop='10px' fontWeight='bold'>
-                      {item.nama}
-                    </Typography>
-                    <Typography marginTop='10px'>{item.date}</Typography>
-                    <Typography marginTop='10px'>{item.id_event}</Typography>
-                    <Typography marginTop='10px'>{item.id_camera}</Typography>
-                  </Stack>
-                ))}
-              </Stack>
-            }
+              {logList.length < 6 ? null : (
+                <Stack direction='row' className={classes.logListSlider}>
+                  {logList.map((item, index) => (
+                    <Stack
+                      key={index}
+                      className={classes.logList}
+                      onClick={() => handleLogListClick(item)}
+                    >
+                      <Box
+                        component='img'
+                        src={`data:image/jpeg;base64,${item.foto}`}
+                        alt={
+                          cameraDetail.type === 'Sholat'
+                            ? 'Sholat'
+                            : 'Perkelahian'
+                        }
+                        className={classes.foto}
+                      />
+                      <Typography marginTop='10px' fontWeight='bold'>
+                        {item.nama}
+                      </Typography>
+                      <Typography marginTop='10px'>{item.date}</Typography>
+                      <Typography marginTop='10px'>{item.id_event}</Typography>
+                      <Typography marginTop='10px'>{item.id_camera}</Typography>
+                    </Stack>
+                  ))}
+                </Stack>
+              )}
             </Stack>
           </Stack>
         </Stack>

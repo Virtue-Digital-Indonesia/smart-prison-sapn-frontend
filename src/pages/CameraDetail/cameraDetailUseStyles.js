@@ -35,10 +35,15 @@ const useStyles = makeStyles((theme) => ({
   },
   cameraContainer: {
     margin: '40px',
+    alignItems: 'center',
   },
   camera: {
-    height: 440,
+    height: 540,
     border: '3px solid black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxWidth: '1200px',
+    width: '100%',
   },
   logContainer: {
     margin: '40px',
@@ -75,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     width: 170,
     height: 170,
-  }
+  },
 }))
 
 export default useStyles
