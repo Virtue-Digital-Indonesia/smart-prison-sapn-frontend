@@ -42,6 +42,11 @@ const Camera = (props) => {
   const [isMediaPlayerActive, setIsMediaPlayerActive] = useState(false)
   const [fightingListNotification, setFightingListNotification] = useState([])
   const [tempLiveStreamingUrl, setTempLiveStreamingUrl] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [
+    isFetchingListNotificationFailed,
+    setIsFetchingListNotificationFailed,
+  ] = useState(false)
 
   const handleCameraNameClick = (inputParams) => {
     setCameraDetailToLocalStorage(inputParams)
@@ -50,10 +55,15 @@ const Camera = (props) => {
 
   // FETCH LAST FIGHTING LIST DATA
   const getFightingNotificationListData = async (inputSignal, inputToken) => {
+    setIsLoading(true)
     const resultData = await getLastNotificationImages(inputSignal, inputToken)
 
     if (resultData.status === 200) {
       setFightingListNotification(resultData?.data?.data)
+      setIsLoading(false)
+    } else {
+      setIsFetchingListNotificationFailed(true)
+      setIsLoading(false)
     }
   }
 
@@ -86,6 +96,7 @@ const Camera = (props) => {
 
     return () => {
       abortController.abort()
+      setIsFetchingListNotificationFailed(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -198,27 +209,27 @@ const Camera = (props) => {
           {/* CONTENT */}
           <Stack sx={{ overflowY: 'auto' }}>
             <Stack paddingBottom='8px'>
-              {fightingListNotification.length > 0 ? (
-                fightingListNotification.map((item, index) => (
-                  <Stack
-                    key={index}
+              {fightingListNotification.map((item, index) => (
+                <Stack
+                  key={index}
+                  height='130px'
+                  margin='8px'
+                  marginBottom={0}
+                  sx={{ backgroundColor: 'GrayText', cursor: 'pointer' }}
+                  onClick={() =>
+                    navigate(`/notification/detail/fighting-${item.id}`)
+                  }
+                >
+                  <Box
+                    component='img'
+                    src={`data:image/jpeg;base64,${item.foto}`}
                     height='130px'
-                    margin='8px'
-                    marginBottom={0}
-                    sx={{ backgroundColor: 'GrayText', cursor: 'pointer' }}
-                    onClick={() =>
-                      navigate(`/notification/detail/fighting-${item.id}`)
-                    }
-                  >
-                    <Box
-                      component='img'
-                      src={`data:image/jpeg;base64,${item.foto}`}
-                      height='130px'
-                      alt='perkelahian'
-                    />
-                  </Stack>
-                ))
-              ) : (
+                    alt='perkelahian'
+                  />
+                </Stack>
+              ))}
+
+              {isLoading && (
                 <Stack
                   width='250px'
                   height='380px'
@@ -226,6 +237,20 @@ const Camera = (props) => {
                   alignItems='center'
                 >
                   <CircularProgress />
+                </Stack>
+              )}
+
+              {isFetchingListNotificationFailed && (
+                <Stack
+                  width='250px'
+                  height='380px'
+                  justifyContent='center'
+                  alignItems='center'
+                  paddingLeft='12px'
+                >
+                  <Typography>
+                    An error occurred during the API request.
+                  </Typography>
                 </Stack>
               )}
             </Stack>

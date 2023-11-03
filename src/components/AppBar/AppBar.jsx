@@ -70,7 +70,11 @@ const AppBar = () => {
     useState(true)
 
   const [prayingListNotification, setPrayingListNotification] = useState([])
+  const [isFetchingPrayingDataFailed, setIsFetchingPrayingDataFailed] =
+    useState(false)
   const [fightingListNotification, setFightingListNotification] = useState([])
+  const [isFetchingFightingDataFailed, setIsFetchingFightingDataFailed] =
+    useState(false)
 
   // HANDE LOG OUT BUTTON
   const handleLogOutButton = () => {
@@ -98,16 +102,22 @@ const AppBar = () => {
     const resultData = await getPrayingNotifications(inputSignal, inputToken)
 
     if (resultData.status === 200) {
+      setIsFetchingPrayingDataFailed(false)
       setPrayingListNotification(resultData?.data?.data)
+    } else {
+      setIsFetchingPrayingDataFailed(true)
     }
   }
 
-  // FETCH PRAYING NOTIFICATION LIST DATA
+  // FETCH FIGHTING NOTIFICATION LIST DATA
   const getFightingNotificationListData = async (inputSignal, inputToken) => {
     const resultData = await getFightingNotifications(inputSignal, inputToken)
 
     if (resultData.status === 200) {
+      setIsFetchingFightingDataFailed(false)
       setFightingListNotification(resultData?.data?.data)
+    } else {
+      setIsFetchingFightingDataFailed(true)
     }
   }
 
@@ -248,7 +258,8 @@ const AppBar = () => {
                   />
                 </Stack>
 
-                {prayingListNotification.length > 0 ? (
+                {/* PRAYING LIST NOTIFICATION */}
+                {prayingListNotification.length > 0 && (
                   <Collapse in={isPrayingNotificationExpanded}>
                     {prayingListNotification.map((item, index) => (
                       <Stack
@@ -276,14 +287,17 @@ const AppBar = () => {
                       </Stack>
                     ))}
                   </Collapse>
-                ) : (
+                )}
+                {isFetchingPrayingDataFailed && (
                   <Stack
                     width='100%'
                     height='80px'
                     justifyContent='center'
                     alignItems='center'
                   >
-                    <CircularProgress />
+                    <Typography>
+                      An error occurred during the API request.
+                    </Typography>
                   </Stack>
                 )}
               </Stack>
@@ -315,7 +329,8 @@ const AppBar = () => {
                   />
                 </Stack>
 
-                {fightingListNotification.length > 0 ? (
+                {/* PRAYING LIST NOTIFICATION */}
+                {fightingListNotification.length > 0 && (
                   <Collapse in={isFightingNotificationExpanded}>
                     <Stack>
                       {fightingListNotification.map((item, index) => (
@@ -353,15 +368,17 @@ const AppBar = () => {
                       ))}
                     </Stack>
                   </Collapse>
-                ) : (
+                )}
+                {isFetchingFightingDataFailed && (
                   <Stack
                     width='100%'
-                    height='100px'
+                    height='80px'
                     justifyContent='center'
                     alignItems='center'
-                    marginBottom='12px'
                   >
-                    <CircularProgress />
+                    <Typography>
+                      An error occurred during the API request.
+                    </Typography>
                   </Stack>
                 )}
               </Stack>
