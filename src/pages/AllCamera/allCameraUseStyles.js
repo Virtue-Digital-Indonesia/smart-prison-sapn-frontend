@@ -16,10 +16,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     boxShadow: '0 4px 10px -10px',
     backgroundColor: 'white',
-
-    '&:hover': {
-      cursor: 'pointer',
-    },
   },
   cameraTitle: {
     fontSize: '20px',
@@ -36,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
     '&:hover': {
       backgroundColor: 'grey',
+      cursor: 'pointer',
     },
   },
   mediaPlayerContainer: {

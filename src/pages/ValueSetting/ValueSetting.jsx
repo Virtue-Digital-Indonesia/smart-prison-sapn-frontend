@@ -46,7 +46,7 @@ const ValueSetting = () => {
 
   const initialColumns = [
     {
-      field: 'id',
+      field: 'no',
       headerName: 'ID',
       minWidth: 15,
       hide: false,
@@ -249,9 +249,10 @@ const ValueSetting = () => {
     )
 
     if (resultData.status === 200) {
-      const newTableData = resultData?.data?.rows?.map((item) => {
+      const newTableData = resultData?.data?.rows?.map((item, index) => {
         return {
           ...item,
+          no: index + 1,
         }
       })
       setTableData(newTableData)

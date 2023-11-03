@@ -11,9 +11,11 @@ const PrivateLayoutContextProvider = (props) => {
   // REPLACEMENT THEME WIDGET
   const [appTheme, setAppTheme] = useState(readSapnThemeFromLocalStorage())
   // PRAYING NOTIFIATION DATA
-  const [prayingListNotification, setPrayingListNotification] = useState([])
+  const [prayingListNotificationCounts, setPrayingListNotificationCounts] =
+    useState(0)
   // FIGHTING NOTIFIATION DATA
-  const [fightingListNotification, setFightingListNotification] = useState([])
+  const [fightingListNotificationCounts, setFightingListNotificationCounts] =
+    useState(0)
 
   return (
     <PrivateLayoutContext.Provider
@@ -25,11 +27,11 @@ const PrivateLayoutContextProvider = (props) => {
         appTheme,
         setAppTheme,
         // PRAYING NOTIFIATION DATA
-        prayingListNotification,
-        setPrayingListNotification,
+        prayingListNotificationCounts,
+        setPrayingListNotificationCounts,
         // FIGHTING
-        fightingListNotification,
-        setFightingListNotification,
+        fightingListNotificationCounts,
+        setFightingListNotificationCounts,
       }}
     >
       {props.children}

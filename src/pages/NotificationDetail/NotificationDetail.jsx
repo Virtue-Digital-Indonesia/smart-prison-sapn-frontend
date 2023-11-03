@@ -141,7 +141,7 @@ const NotificationDetail = () => {
                   'YYYY-MM-DD HH:mm:ss'
                 )}
               </Typography>
-              <Typography>: -</Typography>
+              <Typography>: {detailNotifications?.nama}</Typography>
             </Stack>
           </Stack>
         </Stack>

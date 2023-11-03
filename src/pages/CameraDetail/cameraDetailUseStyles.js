@@ -31,20 +31,55 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#e4eaec80',
       borderColor: '#e4eaec80',
-    }
+    },
   },
   cameraContainer: {
     margin: '40px',
+    alignItems: 'center',
   },
   camera: {
-    height: 440,
+    height: 540,
     border: '3px solid black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxWidth: '1200px',
+    width: '100%',
   },
   logContainer: {
     margin: '40px',
   },
   icon: {
-    width: '10%',
+    width: '200px',
+    height: '200px',
+  },
+  logListContainer: {
+    margin: '0 0 0 20px',
+    flexDirection: 'row',
+    cursor: 'pointer',
+  },
+  '@keyframes slide': {
+    from: { transform: 'translateX(0)' },
+    to: { transform: 'translateX(-100%)' },
+  },
+  logListSlider: {
+    animation: '$slide 15s infinite linear',
+  },
+  sliderPause: {
+    '&:hover': {
+      '& $logListSlider': {
+        animationPlayState: 'paused',
+      },
+    },
+  },
+  logList: {
+    width: 160,
+    margin: '0 20px 0 20px',
+  },
+  foto: {
+    backgroundColor: 'GrayText',
+    objectFit: 'cover',
+    width: 170,
+    height: 170,
   },
 }))
 
