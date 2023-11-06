@@ -131,9 +131,11 @@ const Authority = () => {
   const [authorityTempData, setAuthorityTempData] = useState(null)
   const [search, setSearch] = useState('')
   const [dialogDeleteAuthority, setDialogDeleteAuthority] = useState(null)
+  const [isDataGridLoading, setIsDataGridLoading] = useState(false)
 
   // HANDLE DELETE AUTHORITY
   const handleDeleteAuthority = async () => {
+    setLoading(true)
     const abortController = new AbortController()
 
     const resultDeleteAuthority = await deleteAuthority(
@@ -143,6 +145,7 @@ const Authority = () => {
     )
 
     if (resultDeleteAuthority.status === 200) {
+      setLoading(false)
       setSnackbarObject({
         open: true,
         severity: 'success',
@@ -152,6 +155,7 @@ const Authority = () => {
       getAuthorityListData(abortController.signal, auth.accessToken)
       setDialogDeleteAuthority(null)
     } else {
+      setLoading(false)
       setSnackbarObject({
         open: true,
         severity: 'error',
@@ -164,6 +168,7 @@ const Authority = () => {
 
   // GET AUTHORITY LIST
   const getAuthorityListData = async (inputSignal, inputToken) => {
+    setIsDataGridLoading(true)
     const queryParams = {
       page: pageNumber,
       size: pageSize,
@@ -186,9 +191,9 @@ const Authority = () => {
           }
         })
       )
-      setLoading(false)
+      setIsDataGridLoading(false)
     } else {
-      setLoading(false)
+      setIsDataGridLoading(false)
     }
   }
 
@@ -204,7 +209,6 @@ const Authority = () => {
 
   // REMOVE AUTHORITY LOCAL STORAGE DATA
   useEffect(() => {
-    setLoading(true)
     removeAuthorityFromLocalStorage()
   }, [])
 
@@ -259,6 +263,7 @@ const Authority = () => {
               setOrder={setOrder}
               orderBy={orderBy}
               setOrderBy={setOrderBy}
+              loading={isDataGridLoading}
             />
           </Stack>
 
