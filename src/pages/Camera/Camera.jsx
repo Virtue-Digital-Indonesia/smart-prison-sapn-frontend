@@ -50,7 +50,7 @@ import {
 const Camera = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setSnackbarObject, setLoading } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -143,6 +143,7 @@ const Camera = () => {
   const [search, setSearch] = useState('')
   const [dialogDeleteCamera, setDialogDeleteCamera] = useState(null)
   const [cameraTempData, setCameraTempData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   // HANDLE EDIT CAMERA
   const handleEditButtonClick = () => {
@@ -235,9 +236,9 @@ const Camera = () => {
           }
         })
       )
-      setLoading(false)
+      setIsLoading(false)
     } else {
-      setLoading(false)
+      setIsLoading(false)
     }
   }
 
@@ -253,7 +254,6 @@ const Camera = () => {
 
   // REMOVE CAMERA DATA FROM LOCAL STORAGE
   useEffect(() => {
-    setLoading(true)
     removeCameraDetailFromLocalStorage()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -309,6 +309,7 @@ const Camera = () => {
               setOrder={setOrder}
               orderBy={orderBy}
               setOrderBy={setOrderBy}
+              loading={isLoading}
             />
           </Stack>
 
