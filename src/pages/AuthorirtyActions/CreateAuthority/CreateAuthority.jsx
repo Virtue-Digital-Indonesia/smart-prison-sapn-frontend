@@ -35,13 +35,14 @@ const CreateAuthority = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const { id } = useParams()
-  const { auth, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setSnackbarObject, setLoading } = useContext(AllPagesContext)
 
   const [name, setName] = useState('')
   const [tempName, setTempName] = useState('')
 
   // HANDLE CREATE OR EDIT AUTHORITY
   const handleSaveButtonClick = async () => {
+    setLoading(true)
     const abortController = new AbortController()
 
     // HANDLE CREATE NEW AUTHORITY
@@ -58,6 +59,7 @@ const CreateAuthority = () => {
       )
 
       if (resultCreateNewAuthority.status === 201) {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'success',
@@ -66,6 +68,7 @@ const CreateAuthority = () => {
         })
         navigate('/authority')
       } else {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'error',
@@ -90,6 +93,7 @@ const CreateAuthority = () => {
       )
 
       if (resultEditAuthority.status === 200) {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'success',
@@ -98,6 +102,7 @@ const CreateAuthority = () => {
         })
         navigate('/authority')
       } else {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'error',

@@ -129,9 +129,11 @@ const User = () => {
   const [userTempData, setUserTempData] = useState(null)
   const [search, setSearch] = useState('')
   const [dialogDeleteValue, setDialogDeleteValue] = useState(null)
+  const [isDataGridLoading, setIsDataGridLoading] = useState(false)
 
   // HANDLE DELETE USER
   const handleDeleteUser = async () => {
+    setLoading(true)
     const abortController = new AbortController()
 
     const resultDeleteAuthority = await deleteUser(
@@ -141,6 +143,7 @@ const User = () => {
     )
 
     if (resultDeleteAuthority.status === 200) {
+      setLoading(false)
       setSnackbarObject({
         open: true,
         severity: 'success',
@@ -150,6 +153,7 @@ const User = () => {
       getAllUsers(abortController.signal)
       setDialogDeleteValue(null)
     } else {
+      setLoading(false)
       setSnackbarObject({
         open: true,
         severity: 'error',
@@ -162,6 +166,7 @@ const User = () => {
 
   // GET ALL USERS
   const getAllUsers = async (inputSignal) => {
+    setIsDataGridLoading(true)
     const queryParams = {
       page: pageNumber,
       size: pageSize,
@@ -184,9 +189,9 @@ const User = () => {
       })
       setTableData(newTableData)
       setTotalRow(resultData?.data?.totalElements)
-      setLoading(false)
+      setIsDataGridLoading(false)
     } else {
-      setLoading(false)
+      setIsDataGridLoading(false)
     }
   }
 
@@ -203,7 +208,6 @@ const User = () => {
   }, [pageNumber, pageSize, search])
 
   useEffect(() => {
-    setLoading(true)
     removeUserSettingFromLocalStorage()
   }, [])
 
@@ -262,6 +266,7 @@ const User = () => {
               setOrder={setOrder}
               orderBy={orderBy}
               setOrderBy={setOrderBy}
+              loading={isDataGridLoading}
             />
           </Stack>
 

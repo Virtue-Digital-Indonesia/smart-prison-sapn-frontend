@@ -84,7 +84,6 @@ const UserAction = () => {
   }
 
   const getAuthorityOptions = async () => {
-    setLoading(true)
     const abortController = new AbortController()
 
     const resultData = await getGroupRoleData(
@@ -103,15 +102,13 @@ const UserAction = () => {
         }
       })
       setAuthorityOptions(newData)
-      setLoading(false)
-    } else {
-      setLoading(false)
     }
 
     abortController.abort()
   }
 
   const handleSaveButtonClick = async () => {
+    setLoading(true)
     const abortController = new AbortController()
 
     const bodyParams = {
@@ -132,6 +129,7 @@ const UserAction = () => {
       )
 
       if (resultCreateNewUser.status === 201) {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'success',
@@ -140,6 +138,7 @@ const UserAction = () => {
         })
         navigate('/user')
       } else {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'error',
@@ -158,6 +157,7 @@ const UserAction = () => {
       )
 
       if (resultEditUser.status === 200) {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'success',
@@ -166,6 +166,7 @@ const UserAction = () => {
         })
         navigate('/user')
       } else {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'error',

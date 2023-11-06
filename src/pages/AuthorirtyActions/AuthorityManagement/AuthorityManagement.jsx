@@ -31,7 +31,7 @@ import { getTimeZoneOffset } from 'utilities/valueConverter'
 
 const AuthorityManagement = () => {
   const classes = useStyles()
-  const { auth, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setSnackbarObject, setLoading } = useContext(AllPagesContext)
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -61,6 +61,7 @@ const AuthorityManagement = () => {
 
   // GET USER ACCESS DATA
   const getUserAccesData = async (inputSignal, inputToken) => {
+    setLoading(true)
     const resultData = await getUserAccess(inputSignal, inputToken, id)
 
     if (resultData.status === 200) {
@@ -85,11 +86,13 @@ const AuthorityManagement = () => {
       )
 
       setListTable(fileteredData)
-    }
+      setLoading(false)
+    } else setLoading(false)
   }
 
   // HANDLE UPDATE BUTTON
   const handleUpdateButton = async () => {
+    setLoading(true)
     const abortController = new AbortController()
 
     const resultUpdateUserAccess = await putManageUserAccess(
@@ -99,6 +102,7 @@ const AuthorityManagement = () => {
     )
 
     if (resultUpdateUserAccess.status === 200) {
+      setLoading(false)
       setSnackbarObject({
         open: true,
         severity: 'success',
@@ -107,6 +111,7 @@ const AuthorityManagement = () => {
       })
       navigate('/authority')
     } else {
+      setLoading(false)
       setSnackbarObject({
         open: true,
         severity: 'error',
