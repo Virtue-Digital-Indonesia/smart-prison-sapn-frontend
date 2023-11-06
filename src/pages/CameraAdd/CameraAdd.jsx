@@ -38,7 +38,7 @@ const CameraAdd = () => {
   const classes = useStyles()
   const navigate = useNavigate()
   const location = useLocation()
-  const { auth, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setSnackbarObject, setLoading } = useContext(AllPagesContext)
 
   const initialFormObject = {
     // BASIC DETAILS
@@ -100,6 +100,7 @@ const CameraAdd = () => {
 
   // HANDLE SAVE BUTTON
   const handleSaveButtonClick = async () => {
+    setLoading(true)
     const abortController = new AbortController()
     const { ip, port, treshold, type, title, cameraId, link } = formObject
 
@@ -122,6 +123,7 @@ const CameraAdd = () => {
       )
 
       if (resultAddCamera.status === 201) {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'success',
@@ -130,6 +132,7 @@ const CameraAdd = () => {
         })
         navigate('/camera')
       } else {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'error',
@@ -159,6 +162,7 @@ const CameraAdd = () => {
       )
 
       if (resultEditCamera.status === 200) {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'success',
@@ -167,6 +171,7 @@ const CameraAdd = () => {
         })
         navigate('/camera')
       } else {
+        setLoading(false)
         setSnackbarObject({
           open: true,
           severity: 'error',

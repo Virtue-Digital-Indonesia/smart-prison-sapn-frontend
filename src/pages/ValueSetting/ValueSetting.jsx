@@ -9,6 +9,7 @@ import {
   TextField,
   Menu,
   MenuItem,
+  CircularProgress,
 } from '@mui/material'
 
 // MUI ICONS
@@ -42,7 +43,7 @@ const ValueSetting = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const { auth, setLoading, setSnackbarObject } = useContext(AllPagesContext)
+  const { auth, setSnackbarObject } = useContext(AllPagesContext)
 
   const initialColumns = [
     {
@@ -203,6 +204,7 @@ const ValueSetting = () => {
   const [valueTempData, setValueTempData] = useState(null)
   const [search, setSearch] = useState('')
   const [dialogDeleteValue, setDialogDeleteValue] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   // HANDLE DELETE VALUE
   const handleDeleteValue = async () => {
@@ -236,6 +238,7 @@ const ValueSetting = () => {
 
   // GET ALL VALUE SETTINGS
   const getAllValueSettings = async (inputSignal) => {
+    setIsLoading(true)
     const queryParams = {
       page: pageNumber,
       size: pageSize,
@@ -257,9 +260,9 @@ const ValueSetting = () => {
       })
       setTableData(newTableData)
       setTotalRow(resultData?.data?.totalElements)
-      setLoading(false)
+      setIsLoading(false)
     } else {
-      setLoading(false)
+      setIsLoading(false)
     }
   }
 
@@ -276,7 +279,6 @@ const ValueSetting = () => {
   }, [pageNumber, pageSize, search])
 
   useEffect(() => {
-    setLoading(true)
     removeValueSettingFromLocalStorage()
   }, [])
 
@@ -313,7 +315,7 @@ const ValueSetting = () => {
           </Stack>
 
           {/* DATA GRID */}
-          <Stack padding='0px 30px 30px 30px' height='33vw'>
+          <Stack padding='0px 30px 30px 30px'>
             <DataGridTable
               // BASE
               initialColumns={initialColumns}
@@ -333,8 +335,11 @@ const ValueSetting = () => {
               setOrderBy={setOrderBy}
               // COLUMN GROUPING MODEL
               columnGroupingModel={columnGroupingModel}
+              loading={isLoading}
             />
           </Stack>
+
+          <Stack padding='0px 30px 30px 30px'></Stack>
 
           {/* MENU ITEM */}
           <Menu
@@ -371,7 +376,7 @@ const ValueSetting = () => {
               }}
               onClick={() => {
                 setValueSettingToLocalStorage(valueTempData)
-                valueTempData.id &&
+                valueTempData.id !== null &&
                   navigate(`/value-setting/edit/${valueTempData.id}`)
                 setAnchorOptionButton(null)
               }}
