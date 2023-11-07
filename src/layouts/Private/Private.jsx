@@ -32,7 +32,7 @@ import {
 
 const Private = ({ children }) => {
   const classes = useStyles()
-  const { auth, setAuth } = useContext(AllPagesContext)
+  const { auth, setAuth, setSnackbarObject } = useContext(AllPagesContext)
   const {
     setPrayingListNotificationCounts,
     setFightingListNotificationCounts,
@@ -55,6 +55,12 @@ const Private = ({ children }) => {
     else if (resultData.status === 401) {
       setAuth({})
       removeUserProfileFromLocalStorage()
+      setSnackbarObject({
+        open: true,
+        severity: 'info',
+        title: 'Sesi telah habis, silahkan login kembali.',
+        message: '',
+      })
     }
   }
 
