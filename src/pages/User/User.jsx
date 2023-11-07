@@ -244,11 +244,7 @@ const User = () => {
           </Stack>
 
           {/* DATA GRID */}
-          <Stack
-            minHeight={'34.7vw'}
-            height={tableData * 52 + 48}
-            padding='0px 30px 30px'
-          >
+          <Stack minHeight='55vh' maxHeight='65vh' padding='0px 30px 30px'>
             <DataGridTable
               // BASE
               initialColumns={initialColumns}
