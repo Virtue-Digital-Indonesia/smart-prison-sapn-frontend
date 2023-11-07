@@ -315,7 +315,7 @@ const ValueSetting = () => {
           </Stack>
 
           {/* DATA GRID */}
-          <Stack padding='0px 30px 30px 30px'>
+          <Stack padding='0px 30px 30px 30px' minHeight='55vh' maxHeight='65vh'>
             <DataGridTable
               // BASE
               initialColumns={initialColumns}
