@@ -81,6 +81,11 @@ const useStyles = makeStyles((theme) => ({
     width: 170,
     height: 170,
   },
+  logDetails: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    width: '11rem'
+  }
 }))
 
 export default useStyles
