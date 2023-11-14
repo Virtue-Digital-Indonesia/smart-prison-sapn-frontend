@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     height: '200px',
   },
   logListContainer: {
-    margin: '0 0 0 20px',
+    margin: '0',
     flexDirection: 'row',
     cursor: 'pointer',
   },
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logList: {
     width: 160,
-    margin: '0 20px 0 20px',
+    margin: '0 20px 20px 20px',
   },
   foto: {
     backgroundColor: 'GrayText',
@@ -81,6 +81,11 @@ const useStyles = makeStyles((theme) => ({
     width: 170,
     height: 170,
   },
+  logDetails: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    width: '11rem'
+  }
 }))
 
 export default useStyles
