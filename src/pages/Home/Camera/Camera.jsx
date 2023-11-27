@@ -14,6 +14,9 @@ import {
 } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/system'
 
+// COMPONENT
+import MsePlayer from 'components/MsePlayer/MsePlayer'
+
 // CONTEXTS
 import { AllPagesContext } from 'contexts/AllPagesContext'
 
@@ -100,7 +103,7 @@ const Camera = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  console.log(tempLiveStreamingUrl)
   return (
     <Stack>
       <Stack direction='row' spacing={4} padding='20px 40px'>
@@ -147,41 +150,46 @@ const Camera = (props) => {
                       </Typography>
                     </Stack>
                     <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
-                    <Stack className={classes.cameraScreen}>
-                      {item.href_link.length > 1 && (
-                        <Box position='relative' height='100%' width='100%'>
+                    {/* HIDE THE VIDEO PLAYER WHEN BACKDROP IS OPENED */}
+                    {tempLiveStreamingUrl === null && (
+                      <Stack className={classes.cameraScreen}>
+                        {item.href_link.length > 1 && (
                           <Box
-                            name={item.title}
-                            title={item.title}
-                            component='iframe'
-                            src={item?.href_link}
-                            width='100%'
+                            position='relative'
                             height='100%'
-                            style={{ border: 'none' }}
-                          />
-
-                          {/* IFRAME INSIDE ACTION CLICK */}
-                          <Stack
-                            position='absolute'
-                            top={0}
-                            left={0}
-                            padding='6px 0px'
-                            sx={{ backgroundColor: 'transparent' }}
                             width='100%'
-                            height='80%'
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              setTempLiveStreamingUrl(item)
-                              setIsMediaPlayerActive(true)
-                            }}
-                          />
-                        </Box>
-                      )}
+                            overflow='hidden'
+                            display='flex'
+                          >
+                            <MsePlayer
+                              url={item.href_link}
+                              id={`camera${index}`}
+                              styles={{ width: '100%' }}
+                            />
 
-                      {item.href_link.length < 1 && (
-                        <Typography>Media not found</Typography>
-                      )}
-                    </Stack>
+                            {/* VIDEO INSIDE ACTION CLICK */}
+                            <Stack
+                              position='absolute'
+                              top={0}
+                              left={0}
+                              padding='6px 0px'
+                              sx={{ backgroundColor: 'transparent' }}
+                              width='100%'
+                              height='100%'
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setTempLiveStreamingUrl(item)
+                                setIsMediaPlayerActive(true)
+                              }}
+                            />
+                          </Box>
+                        )}
+
+                        {item.href_link.length < 1 && (
+                          <Typography>Media not found</Typography>
+                        )}
+                      </Stack>
+                    )}
                   </Stack>
                 </Grid>
               ))}
@@ -291,16 +299,13 @@ const Camera = (props) => {
             alignItems='center'
             height='100%'
             sx={{ backgroundColor: 'white' }}
+            overflow='hidden'
           >
             {tempLiveStreamingUrl?.href_link.length > 0 && (
-              <Box
-                name={tempLiveStreamingUrl?.title}
-                title={tempLiveStreamingUrl?.title}
-                component='iframe'
-                src={tempLiveStreamingUrl?.href_link}
-                width='100%'
-                height='100%'
-                style={{ border: 'none' }}
+              <MsePlayer
+                url={tempLiveStreamingUrl?.href_link}
+                id={tempLiveStreamingUrl.id}
+                styles={{ height: '100%' }}
               />
             )}
             {tempLiveStreamingUrl?.href_link.length < 1 && (
