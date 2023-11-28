@@ -103,7 +103,7 @@ const Camera = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log(tempLiveStreamingUrl)
+
   return (
     <Stack>
       <Stack direction='row' spacing={4} padding='20px 40px'>
@@ -276,9 +276,9 @@ const Camera = (props) => {
           setTempLiveStreamingUrl(null)
         }}
       >
-        <Stack direction='row' width='100%' height='80%' alignItems='center'>
+        <Stack direction='row' width='80%' height='80%' alignItems='center'>
           {/* PREVIOUS BUTTON */}
-          <IconButton
+          {/* <IconButton
             size='large'
             sx={{ margin: '0px 16px', height: '60px' }}
             onClick={(e) => {
@@ -290,7 +290,7 @@ const Camera = (props) => {
               fontSize='large'
               sx={{ color: 'white', rotate: '180deg' }}
             />
-          </IconButton>
+          </IconButton> */}
 
           {/* CONTENT */}
           <Stack
@@ -300,6 +300,7 @@ const Camera = (props) => {
             height='100%'
             sx={{ backgroundColor: 'white' }}
             overflow='hidden'
+            width='80%'
           >
             {tempLiveStreamingUrl?.href_link.length > 0 && (
               <MsePlayer
@@ -308,13 +309,10 @@ const Camera = (props) => {
                 styles={{ height: '100%' }}
               />
             )}
-            {tempLiveStreamingUrl?.href_link.length < 1 && (
-              <Typography sx={{ color: 'black' }}>Media not found</Typography>
-            )}
           </Stack>
 
           {/* NEXT BUTTON */}
-          <IconButton
+          {/* <IconButton
             size='large'
             sx={{ margin: '0px 16px', height: '60px' }}
             onClick={(e) => {
@@ -323,7 +321,7 @@ const Camera = (props) => {
             }}
           >
             <PlayArrowIcon fontSize='large' sx={{ color: 'white' }} />
-          </IconButton>
+          </IconButton> */}
         </Stack>
       </Backdrop>
     </Stack>

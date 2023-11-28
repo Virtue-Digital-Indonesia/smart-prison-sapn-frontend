@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     maxWidth: '1200px',
     width: '100%',
+    overflow: 'hidden',
   },
   logContainer: {
     margin: '40px',
@@ -84,8 +85,8 @@ const useStyles = makeStyles((theme) => ({
   logDetails: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    width: '11rem'
-  }
+    width: '11rem',
+  },
 }))
 
 export default useStyles

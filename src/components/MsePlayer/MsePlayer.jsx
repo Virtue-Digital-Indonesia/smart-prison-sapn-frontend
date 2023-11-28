@@ -8,7 +8,12 @@ const MsePlayer = (props) => {
     let element = document.getElementById(`${id}`)
     const player = new FlussonicMsePlayer(element, url)
 
-    player.play()
+    if (url.includes('ws')) {
+      player
+        .play()
+        .then((resolve) => console.log('Playing video'))
+        .catch((err) => console.log(err))
+    }
 
     return () => {
       player.stop()
