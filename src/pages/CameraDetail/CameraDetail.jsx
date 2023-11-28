@@ -10,6 +10,7 @@ import IconUnknown from 'assets/images/icons/unknown.png'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
+import MsePlayer from 'components/MsePlayer/MsePlayer'
 
 // CONTEXTS
 import { AllPagesContext } from 'contexts/AllPagesContext'
@@ -74,7 +75,6 @@ const CameraDetail = () => {
           date: `${moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')} (${
             item.sholat
           })`,
-          id_event: item.id_profil,
           id_camera: item.camera,
         }
       })
@@ -128,14 +128,10 @@ const CameraDetail = () => {
         <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
         <Stack className={classes.cameraContainer}>
           <Stack className={classes.camera}>
-            <Box
-              name={cameraDetail?.title}
-              title={cameraDetail?.title}
-              component='iframe'
-              src={cameraDetail?.href_link}
-              width='100%'
-              height='100%'
-              style={{ border: 'none' }}
+            <MsePlayer
+              url={cameraDetail?.href_link}
+              id={cameraDetail.id}
+              styles={{ height: '100%' }}
             />
           </Stack>
         </Stack>
@@ -189,12 +185,13 @@ const CameraDetail = () => {
                       }
                       className={classes.foto}
                     />
-                    <Typography marginTop='10px' fontWeight='bold'>
-                      {item.nama}
-                    </Typography>
-                    <Typography marginTop='10px'>{item.date}</Typography>
-                    <Typography marginTop='10px'>{item.id_event}</Typography>
-                    <Typography marginTop='10px'>{item.id_camera}</Typography>
+                    <Stack className={classes.logDetails}>
+                      <Typography noWrap marginTop='10px' fontWeight='bold'>
+                        {item.nama}
+                      </Typography>
+                      <Typography marginTop='10px'>{item.date}</Typography>
+                      <Typography marginTop='10px'>{item.IP}</Typography>
+                    </Stack>
                   </Stack>
                 ))}
               </Stack>
@@ -216,12 +213,13 @@ const CameraDetail = () => {
                         }
                         className={classes.foto}
                       />
-                      <Typography marginTop='10px' fontWeight='bold'>
-                        {item.nama}
-                      </Typography>
-                      <Typography marginTop='10px'>{item.date}</Typography>
-                      <Typography marginTop='10px'>{item.id_event}</Typography>
-                      <Typography marginTop='10px'>{item.id_camera}</Typography>
+                      <Stack className={classes.logDetails}>
+                        <Typography noWrap marginTop='10px' fontWeight='bold'>
+                          {item.nama}
+                        </Typography>
+                        <Typography marginTop='10px'>{item.date}</Typography>
+                        <Typography marginTop='10px'>{item.IP}</Typography>
+                      </Stack>
                     </Stack>
                   ))}
                 </Stack>

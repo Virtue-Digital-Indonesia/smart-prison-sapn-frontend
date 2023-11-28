@@ -5,6 +5,7 @@ import { AllPagesContext } from 'contexts/AllPagesContext'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
+import MsePlayer from 'components/MsePlayer/MsePlayer'
 
 // MUIS
 import {
@@ -147,15 +148,16 @@ const AllCamera = () => {
                       />
                       <Stack className={classes.cameraScreen}>
                         {item.href_link.length > 1 && (
-                          <Box position='relative' height='100%' width='100%'>
-                            <Box
-                              name={item.title}
-                              title={item.title}
-                              component='iframe'
-                              src={item?.href_link}
-                              width='100%'
-                              height='100%'
-                              style={{ border: 'none' }}
+                          <Box
+                            position='relative'
+                            height='100%'
+                            width='100%'
+                            display='flex'
+                          >
+                            <MsePlayer
+                              url={item.href_link}
+                              id={`camera${index}`}
+                              styles={{ width: '100%' }}
                             />
 
                             {/* IFRAME INSIDE ACTION CLICK */}
@@ -199,11 +201,12 @@ const AllCamera = () => {
         onClick={(e) => {
           e.stopPropagation()
           setIsMediaPlayerActive(false)
+          setTempLiveStreamingUrl(null)
         }}
       >
-        <Stack direction='row' width='100%' height='80%' alignItems='center'>
+        <Stack direction='row' width='80%' height='80%' alignItems='center'>
           {/* PREVIOUS BUTTON */}
-          <IconButton
+          {/* <IconButton
             size='large'
             sx={{ margin: '0px 16px', height: '60px' }}
             onClick={(e) => {
@@ -215,7 +218,7 @@ const AllCamera = () => {
               fontSize='large'
               sx={{ color: 'white', rotate: '180deg' }}
             />
-          </IconButton>
+          </IconButton> */}
 
           {/* CONTENT */}
           <Stack
@@ -224,25 +227,20 @@ const AllCamera = () => {
             alignItems='center'
             height='100%'
             sx={{ backgroundColor: 'white' }}
+            overflow='hidden'
+            width='80%'
           >
             {tempLiveStreamingUrl?.href_link.length > 0 && (
-              <Box
-                name={tempLiveStreamingUrl?.title}
-                title={tempLiveStreamingUrl?.title}
-                component='iframe'
-                src={tempLiveStreamingUrl?.href_link}
-                width='100%'
-                height='100%'
-                style={{ border: 'none' }}
+              <MsePlayer
+                url={tempLiveStreamingUrl?.href_link}
+                id={tempLiveStreamingUrl.id}
+                styles={{ height: '100%' }}
               />
-            )}
-            {tempLiveStreamingUrl?.href_link.length < 1 && (
-              <Typography sx={{ color: 'black' }}>Media not found</Typography>
             )}
           </Stack>
 
           {/* NEXT BUTTON */}
-          <IconButton
+          {/* <IconButton
             size='large'
             sx={{ margin: '0px 16px', height: '60px' }}
             onClick={(e) => {
@@ -251,7 +249,7 @@ const AllCamera = () => {
             }}
           >
             <PlayArrowIcon fontSize='large' sx={{ color: 'white' }} />
-          </IconButton>
+          </IconButton> */}
         </Stack>
       </Backdrop>
     </Stack>

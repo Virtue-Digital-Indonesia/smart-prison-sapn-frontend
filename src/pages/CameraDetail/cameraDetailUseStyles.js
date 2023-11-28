@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     maxWidth: '1200px',
     width: '100%',
+    overflow: 'hidden',
   },
   logContainer: {
     margin: '40px',
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     height: '200px',
   },
   logListContainer: {
-    margin: '0 0 0 20px',
+    margin: '0',
     flexDirection: 'row',
     cursor: 'pointer',
   },
@@ -73,13 +74,18 @@ const useStyles = makeStyles((theme) => ({
   },
   logList: {
     width: 160,
-    margin: '0 20px 0 20px',
+    margin: '0 20px 20px 20px',
   },
   foto: {
     backgroundColor: 'GrayText',
     objectFit: 'cover',
     width: 170,
     height: 170,
+  },
+  logDetails: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    width: '11rem',
   },
 }))
 
