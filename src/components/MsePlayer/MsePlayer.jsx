@@ -8,15 +8,22 @@ const MsePlayer = (props) => {
     let element = document.getElementById(`${id}`)
     const player = new FlussonicMsePlayer(element, url)
 
-    if (url.includes('ws')) {
-      player
-        .play()
-        .then((resolve) => console.log('Playing video'))
-        .catch((err) => console.log(err))
+    const initializePlayer = async () => {
+      if (url.includes('ws')) {
+        try {
+          await player.play()
+          console.log('Playing video')
+        } catch (err) {
+          console.log(err)
+        }
+      }
     }
 
+    initializePlayer()
+
     return () => {
-      player.stop()
+      // eslint-disable-next-line no-undef
+      if (player.playing) player.stop()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, url])
