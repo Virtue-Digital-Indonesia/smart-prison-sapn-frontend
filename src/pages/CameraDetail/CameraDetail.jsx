@@ -10,7 +10,7 @@ import IconUnknown from 'assets/images/icons/unknown.png'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
-import MsePlayer from 'components/MsePlayer/MsePlayer'
+import VideoPlayer from 'components/VideoPlayer/VideoPlayer'
 
 // CONTEXTS
 import { AllPagesContext } from 'contexts/AllPagesContext'
@@ -128,9 +128,8 @@ const CameraDetail = () => {
         <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
         <Stack className={classes.cameraContainer}>
           <Stack className={classes.camera}>
-            <MsePlayer
-              url={cameraDetail?.href_link}
-              id={cameraDetail.id}
+            <VideoPlayer
+              src={cameraDetail?.href_link}
               styles={{ height: '100%' }}
             />
           </Stack>

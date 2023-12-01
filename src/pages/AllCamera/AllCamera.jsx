@@ -5,7 +5,7 @@ import { AllPagesContext } from 'contexts/AllPagesContext'
 
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
-import MsePlayer from 'components/MsePlayer/MsePlayer'
+import VideoPlayer from 'components/VideoPlayer/VideoPlayer'
 
 // MUIS
 import {
@@ -146,42 +146,43 @@ const AllCamera = () => {
                         variant='fullWidth'
                         sx={{ color: '#0000001f' }}
                       />
-                      <Stack className={classes.cameraScreen}>
-                        {item.href_link.length > 1 && (
-                          <Box
-                            position='relative'
-                            height='100%'
-                            width='100%'
-                            display='flex'
-                          >
-                            <MsePlayer
-                              url={item.href_link}
-                              id={`camera${index}`}
-                              styles={{ width: '100%' }}
-                            />
-
-                            {/* IFRAME INSIDE ACTION CLICK */}
-                            <Stack
-                              position='absolute'
-                              top={0}
-                              left={0}
-                              padding='6px 0px'
-                              sx={{ backgroundColor: 'transparent' }}
+                      {tempLiveStreamingUrl === null && (
+                        <Stack className={classes.cameraScreen}>
+                          {item.href_link.length > 1 && (
+                            <Box
+                              position='relative'
+                              height='100%'
                               width='100%'
-                              height='80%'
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                setTempLiveStreamingUrl(item)
-                                setIsMediaPlayerActive(true)
-                              }}
-                            />
-                          </Box>
-                        )}
+                              display='flex'
+                            >
+                              <VideoPlayer
+                                src={item.href_link}
+                                styles={{ width: '100%' }}
+                              />
 
-                        {item.href_link.length < 1 && (
-                          <Typography>Media not found</Typography>
-                        )}
-                      </Stack>
+                              {/* IFRAME INSIDE ACTION CLICK */}
+                              <Stack
+                                position='absolute'
+                                top={0}
+                                left={0}
+                                padding='6px 0px'
+                                sx={{ backgroundColor: 'transparent' }}
+                                width='100%'
+                                height='80%'
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setTempLiveStreamingUrl(item)
+                                  setIsMediaPlayerActive(true)
+                                }}
+                              />
+                            </Box>
+                          )}
+
+                          {item.href_link.length < 1 && (
+                            <Typography>Media not found</Typography>
+                          )}
+                        </Stack>
+                      )}
                     </Stack>
                   </Grid>
                 ))}
@@ -231,9 +232,8 @@ const AllCamera = () => {
             width='80%'
           >
             {tempLiveStreamingUrl?.href_link.length > 0 && (
-              <MsePlayer
-                url={tempLiveStreamingUrl?.href_link}
-                id={tempLiveStreamingUrl.id}
+              <VideoPlayer
+                src={tempLiveStreamingUrl?.href_link}
                 styles={{ height: '100%' }}
               />
             )}

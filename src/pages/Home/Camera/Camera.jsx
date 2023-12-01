@@ -15,7 +15,7 @@ import {
 import { ThemeProvider, createTheme } from '@mui/system'
 
 // COMPONENT
-import MsePlayer from 'components/MsePlayer/MsePlayer'
+import VideoPlayer from 'components/VideoPlayer/VideoPlayer'
 
 // CONTEXTS
 import { AllPagesContext } from 'contexts/AllPagesContext'
@@ -161,9 +161,8 @@ const Camera = (props) => {
                             overflow='hidden'
                             display='flex'
                           >
-                            <MsePlayer
-                              url={item.href_link}
-                              id={`camera${index}`}
+                            <VideoPlayer
+                              src={item.href_link}
                               styles={{ width: '100%' }}
                             />
 
@@ -303,9 +302,8 @@ const Camera = (props) => {
             width='80%'
           >
             {tempLiveStreamingUrl?.href_link.length > 0 && (
-              <MsePlayer
-                url={tempLiveStreamingUrl?.href_link}
-                id={tempLiveStreamingUrl.id}
+              <VideoPlayer
+                src={tempLiveStreamingUrl?.href_link}
                 styles={{ height: '100%' }}
               />
             )}
