@@ -14,8 +14,9 @@ import {
 } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/system'
 
-// COMPONENT
+// COMPONENTS
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer'
+import BackdropVideoPlayer from 'components/BackdropVideoPlayer/BackdropVideoPlayer'
 
 // CONTEXTS
 import { AllPagesContext } from 'contexts/AllPagesContext'
@@ -302,10 +303,7 @@ const Camera = (props) => {
             width='80%'
           >
             {tempLiveStreamingUrl?.href_link.length > 0 && (
-              <VideoPlayer
-                src={tempLiveStreamingUrl?.href_link}
-                styles={{ height: '100%' }}
-              />
+              <BackdropVideoPlayer src={tempLiveStreamingUrl?.href_link} />
             )}
           </Stack>
 
