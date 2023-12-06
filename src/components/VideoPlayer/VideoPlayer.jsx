@@ -26,7 +26,7 @@ const VideoPlayer = ({ src, styles }) => {
         <Stack
           position='absolute'
           top={styles.width !== undefined ? '45%' : '50%'}
-          left={styles.width !== undefined ? '30%' : '45%'}
+          left={styles.width !== undefined ? '40%' : '45%'}
         >
           <Typography variant='h6' color='black' textAlign='center'>
             Loading...

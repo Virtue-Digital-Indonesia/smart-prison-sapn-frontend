@@ -6,6 +6,7 @@ import { AllPagesContext } from 'contexts/AllPagesContext'
 //COMPONENTS
 import Footer from 'components/Footer/Footer'
 import VideoPlayer from 'components/VideoPlayer/VideoPlayer'
+import BackdropVideoPlayer from 'components/BackdropVideoPlayer/BackdropVideoPlayer'
 
 // MUIS
 import {
@@ -232,10 +233,7 @@ const AllCamera = () => {
             width='80%'
           >
             {tempLiveStreamingUrl?.href_link.length > 0 && (
-              <VideoPlayer
-                src={tempLiveStreamingUrl?.href_link}
-                styles={{ height: '100%' }}
-              />
+              <BackdropVideoPlayer src={tempLiveStreamingUrl?.href_link} />
             )}
           </Stack>
 
