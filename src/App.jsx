@@ -39,6 +39,30 @@ function App() {
     appleTouchIconElement.href = SapnAppleTouchLogo
   }, [])
 
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    const socket = new SockJS(`${process.env.REACT_APP_API_BASE_URL}/ws`)
+    // eslint-disable-next-line no-undef
+    const stompClient = Stomp.over(socket)
+
+    stompClient.connect({}, (frame) => {
+      stompClient.subscribe('smart-prison-notification', (message) => {
+        const convertedMessage = JSON.parse(message.body)
+        if (convertedMessage.type === 'FIGHT') {
+          setSnackbarObject({
+            open: true,
+            severity: 'error',
+            title: 'Telah terjadi perkelahian!',
+            message: '',
+            action: () => console.log(convertedMessage),
+          })
+        }
+      })
+    })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       <Routes>
@@ -58,6 +82,7 @@ function App() {
         severity={snackbarObject.severity}
         title={snackbarObject.title}
         message={snackbarObject.message}
+        action={snackbarObject.action}
       />
 
       <LoadingSpinner loading={loading} />

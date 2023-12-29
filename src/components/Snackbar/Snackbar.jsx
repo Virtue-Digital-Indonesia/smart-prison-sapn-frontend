@@ -6,7 +6,7 @@ import AlertTitle from '@mui/material/AlertTitle'
 import MuiSnackbar from '@mui/material/Snackbar'
 
 const Snackbar = (props) => {
-  const { open, setToast, severity, title, message } = props
+  const { open, setToast, severity, title, message, action } = props
 
   const handleToastClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -29,6 +29,7 @@ const Snackbar = (props) => {
         vertical: 'top',
         horizontal: 'right',
       }}
+      onClick={action}
     >
       <Alert elevation={6} onClose={handleToastClose} severity={severity}>
         {/* TITLE */}
@@ -46,6 +47,7 @@ Snackbar.defaultProps = {
   severity: 'success',
   title: '',
   message: '',
+  action: () => {},
 }
 
 Snackbar.propTypes = {
@@ -54,6 +56,7 @@ Snackbar.propTypes = {
   severity: PropTypes.oneOf(['error', 'warning', 'info', 'success']).isRequired,
   title: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
+  action: PropTypes.func,
 }
 
 export default Snackbar
