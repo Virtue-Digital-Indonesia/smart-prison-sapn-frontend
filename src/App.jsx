@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 // ASSETS
 import SapnFavIconLogo from 'assets/images/logos/FavIconLogo.svg'
@@ -18,7 +18,10 @@ import PrivateRoute from 'components/Routes/PrivateRoute'
 import Snackbar from 'components/Snackbar/Snackbar'
 
 function App() {
-  const { snackbarObject, setSnackbarObject } = useContext(AllPagesContext)
+  const { snackbarObject, setSnackbarObject, auth } =
+    useContext(AllPagesContext)
+
+  const navigate = useNavigate()
 
   const { loading } = useContext(AllPagesContext)
 
@@ -41,7 +44,10 @@ function App() {
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
-    const socket = new SockJS(`${process.env.REACT_APP_API_BASE_URL}/ws`)
+    const socket = new SockJS(
+      `${process.env.REACT_APP_API_BASE_URL}/ws?token=${auth.accessToken}`
+    )
+
     // eslint-disable-next-line no-undef
     const stompClient = Stomp.over(socket)
 
@@ -54,7 +60,10 @@ function App() {
             severity: 'error',
             title: 'Telah terjadi perkelahian!',
             message: '',
-            action: () => console.log(convertedMessage),
+            action: () =>
+              navigate(
+                `/notification/detail/fighting-${convertedMessage?.payload?.id}`
+              ),
           })
         }
       })

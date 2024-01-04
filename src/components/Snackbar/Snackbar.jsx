@@ -31,7 +31,12 @@ const Snackbar = (props) => {
       }}
       onClick={action}
     >
-      <Alert elevation={6} onClose={handleToastClose} severity={severity}>
+      <Alert
+        elevation={6}
+        onClose={handleToastClose}
+        severity={severity}
+        sx={{ cursor: 'pointer' }}
+      >
         {/* TITLE */}
         {title !== '' && <AlertTitle>{title}</AlertTitle>}
 
