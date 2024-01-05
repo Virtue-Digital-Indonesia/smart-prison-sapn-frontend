@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 // ASSETS
 import SapnFavIconLogo from 'assets/images/logos/FavIconLogo.svg'
@@ -18,7 +18,10 @@ import PrivateRoute from 'components/Routes/PrivateRoute'
 import Snackbar from 'components/Snackbar/Snackbar'
 
 function App() {
-  const { snackbarObject, setSnackbarObject } = useContext(AllPagesContext)
+  const { snackbarObject, setSnackbarObject, auth } =
+    useContext(AllPagesContext)
+
+  const navigate = useNavigate()
 
   const { loading } = useContext(AllPagesContext)
 
@@ -37,6 +40,36 @@ function App() {
 
     const appleTouchIconElement = document.getElementById('apple-touch-icon')
     appleTouchIconElement.href = SapnAppleTouchLogo
+  }, [])
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    const socket = new SockJS(
+      `${process.env.REACT_APP_API_BASE_URL}/ws?token=${auth.accessToken}`
+    )
+
+    // eslint-disable-next-line no-undef
+    const stompClient = Stomp.over(socket)
+
+    stompClient.connect({}, (frame) => {
+      stompClient.subscribe('smart-prison-notification', (message) => {
+        const convertedMessage = JSON.parse(message.body)
+        if (convertedMessage.type === 'FIGHT') {
+          setSnackbarObject({
+            open: true,
+            severity: 'error',
+            title: 'Telah terjadi perkelahian!',
+            message: '',
+            action: () =>
+              navigate(
+                `/notification/detail/fighting-${convertedMessage?.payload?.id}`
+              ),
+          })
+        }
+      })
+    })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -58,6 +91,7 @@ function App() {
         severity={snackbarObject.severity}
         title={snackbarObject.title}
         message={snackbarObject.message}
+        action={snackbarObject.action}
       />
 
       <LoadingSpinner loading={loading} />
