@@ -274,11 +274,17 @@ const AppBar = () => {
                           <MosqueIcon className={classes.sholat} />
                           <Stack paddingLeft={'7px'} margin={'6px 0'}>
                             <Typography>Shalat</Typography>
-                            <Typography>
-                              Waktu:{' '}
-                              {moment(item.waktu).format('YYYY-MM-DD HH:mm:ss')}{' '}
-                              {`(${item.sholat})`}
-                            </Typography>
+                            {item.tgl_log ? (
+                              <Typography>
+                                Waktu:{' '}
+                                {moment(item.tgl_log).format(
+                                  'YYYY-MM-DD HH:mm:ss'
+                                )}{' '}
+                                {`(${item.sholat})`}
+                              </Typography>
+                            ) : (
+                              <Typography>Waktu: -</Typography>
+                            )}
                             <Typography>Nama: {item.nama}</Typography>
                             <Typography>Camera: {item.camera}</Typography>
                           </Stack>
@@ -356,7 +362,7 @@ const AppBar = () => {
                               <Typography>Perkelahian</Typography>
                               <Typography>
                                 Waktu:{' '}
-                                {moment(item.waktu).format(
+                                {moment(item.tgl_log).format(
                                   'YYYY-MM-DD HH:mm:ss'
                                 )}
                               </Typography>

@@ -92,59 +92,103 @@ const NotificationDetail = () => {
 
   return (
     <Stack className={classes.root}>
-      {/* CAMERA */}
-      <Stack className={classes.container}>
-        <Stack className={classes.notificationTitle}>
-          <Stack direction='row' width='100%' alignItems='flex-start'>
-            <Typography className={classes.title}>Informasi</Typography>
-          </Stack>
-          <Stack
-            direction='row'
-            alignItems='flex-end'
-            justifyContent='center'
-            padding='20px 40px'
-          >
-            <Button
-              variant='contained'
-              className={classes.button}
-              disableElevation
-              onClick={() => handleButtonClick()}
+      {/* MAIN CONTENT */}
+      <Stack>
+        {/* CAMERA */}
+        <Stack className={classes.container}>
+          <Stack className={classes.notificationTitle}>
+            <Stack direction='row' width='100%' alignItems='flex-start'>
+              <Typography className={classes.title}>Informasi</Typography>
+            </Stack>
+            <Stack
+              direction='row'
+              alignItems='flex-end'
+              justifyContent='center'
+              padding='20px 40px'
             >
-              Kembali
-            </Button>
+              <Button
+                variant='contained'
+                className={classes.button}
+                disableElevation
+                onClick={() => handleButtonClick()}
+              >
+                Kembali
+              </Button>
+            </Stack>
+          </Stack>
+
+          <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
+
+          <Stack className={classes.detailContainer}>
+            {/* PHOTO */}
+            <Stack width='100%'>
+              <Box
+                component='img'
+                src={`data:image/jpeg;base64,${detailNotifications?.foto}`}
+                alt={id.includes('praying') ? 'shalat' : 'perkelahian'}
+                className={classes.foto}
+              />
+            </Stack>
+            <Stack marginTop={'30px'} direction={'row'}>
+              <Stack>
+                <Typography marginBottom={'20px'} fontWeight={'bold'}>
+                  Waktu
+                </Typography>
+                <Typography fontWeight={'bold'}>Camera</Typography>
+              </Stack>
+              <Stack marginLeft={'200px'}>
+                <Typography marginBottom={'20px'}>
+                  :{' '}
+                  {moment(detailNotifications?.tgl_log).format(
+                    'YYYY-MM-DD HH:mm:ss'
+                  )}
+                </Typography>
+                <Typography>: {detailNotifications?.ip}</Typography>
+              </Stack>
+            </Stack>
           </Stack>
         </Stack>
 
-        <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
+        {/* FIGHTING DETAILS */}
+        {id.includes('fighting') && detailNotifications?.people?.length > 0 && (
+          <stack className={classes.container}>
+            <Stack className={classes.notificationTitle}>
+              <Stack direction='row' width='100%' alignItems='flex-start'>
+                <Typography className={classes.title}>
+                  Detail Perkelahian
+                </Typography>
+              </Stack>
+            </Stack>
 
-        <Stack className={classes.detailContainer}>
-          {/* PHOTO */}
-          <Stack width='100%'>
-            <Box
-              component='img'
-              src={`data:image/jpeg;base64,${detailNotifications?.foto}`}
-              alt={id.includes('praying') ? 'shalat' : 'perkelahian'}
-              className={classes.foto}
-            />
-          </Stack>
-          <Stack marginTop={'30px'} direction={'row'}>
-            <Stack>
-              <Typography marginBottom={'20px'} fontWeight={'bold'}>
-                Waktu
-              </Typography>
-              <Typography fontWeight={'bold'}>Camera</Typography>
+            <Divider variant='fullWidth' sx={{ color: '#0000001f' }} />
+
+            <Stack margin='40px' direction='row' flexWrap='wrap'>
+              {detailNotifications?.people?.map((item, index) => (
+                <Stack maxWidth='200px' marginBottom='16px' marginRight='16px'>
+                  {/* IMAGE */}
+                  <Stack
+                    key={index}
+                    width='200px'
+                    height='230px'
+                    sx={{ backgroundColor: '#a3afb7' }}
+                    border='1px solid gray'
+                  >
+                    <Box
+                      component='img'
+                      src={`data:image/jpeg;base64,${item.foto}`}
+                      height='230px'
+                      sx={{ objectFit: 'contain' }}
+                      alt='perkelahian'
+                    />
+                  </Stack>
+
+                  {/* NAME */}
+                  <Typography marginTop='10px'>{item.nama}</Typography>
+                </Stack>
+              ))}
             </Stack>
-            <Stack marginLeft={'200px'}>
-              <Typography marginBottom={'20px'}>
-                :{' '}
-                {moment(detailNotifications?.waktu).format(
-                  'YYYY-MM-DD HH:mm:ss'
-                )}
-              </Typography>
-              <Typography>: {detailNotifications?.nama}</Typography>
-            </Stack>
-          </Stack>
-        </Stack>
+          </stack>
+        )}
       </Stack>
 
       {/* FOOTER */}
