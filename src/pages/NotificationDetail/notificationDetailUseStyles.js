@@ -39,8 +39,11 @@ const useStyles = makeStyles((theme) => ({
     margin: '40px',
   },
   foto: {
-    width: '40%',
-    border: '1px solid black',
+    width: '350px',
+    height: '420px',
+    border: '1px solid gray',
+    backgroundColor: '#a3afb7',
+    objectFit: 'contain',
   },
 }))
 
